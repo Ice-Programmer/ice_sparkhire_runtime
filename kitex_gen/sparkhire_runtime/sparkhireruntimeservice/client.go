@@ -37,6 +37,7 @@ type Client interface {
 	ListGeo(ctx context.Context, req *sparkhire_runtime.ListGeoRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.ListGeoResponse, err error)
 	CreateCompany(ctx context.Context, req *sparkhire_runtime.CreateCompanyRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.CreateCompanyResponse, err error)
 	EditCompany(ctx context.Context, req *sparkhire_runtime.EditCompanyRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditCompanyResponse, err error)
+	DeleteCompany(ctx context.Context, req *sparkhire_runtime.DeleteCompanyRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.DeleteCompanyResponse, err error)
 	SendVerifyCode(ctx context.Context, req *sparkhire_runtime.SendVerifyCodeRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.SendVerifyCodeResponse, err error)
 	UploadFile(ctx context.Context, req *sparkhire_runtime.UploadFileRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.UploadFileResponse, err error)
 }
@@ -198,6 +199,11 @@ func (p *kSparkhireRuntimeServiceClient) CreateCompany(ctx context.Context, req 
 func (p *kSparkhireRuntimeServiceClient) EditCompany(ctx context.Context, req *sparkhire_runtime.EditCompanyRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditCompanyResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.EditCompany(ctx, req)
+}
+
+func (p *kSparkhireRuntimeServiceClient) DeleteCompany(ctx context.Context, req *sparkhire_runtime.DeleteCompanyRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.DeleteCompanyResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DeleteCompany(ctx, req)
 }
 
 func (p *kSparkhireRuntimeServiceClient) SendVerifyCode(ctx context.Context, req *sparkhire_runtime.SendVerifyCodeRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.SendVerifyCodeResponse, err error) {

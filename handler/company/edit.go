@@ -6,6 +6,7 @@ import (
 	"ice_sparkhire_runtime/handler"
 	sparkruntime "ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
 	"ice_sparkhire_runtime/model/db"
+	"ice_sparkhire_runtime/utils"
 )
 
 func EditCompany(ctx context.Context, req *sparkruntime.EditCompanyRequest) (*sparkruntime.EditCompanyResponse, error) {
@@ -16,6 +17,15 @@ func EditCompany(ctx context.Context, req *sparkruntime.EditCompanyRequest) (*sp
 	company, err := db.FindCompanyById(ctx, db.DB, req.Id)
 	if err != nil {
 		return nil, err
+	}
+
+	userId, err := utils.GetCurrentUserId(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	if company.CreateUserId != userId {
+		return nil, fmt.Errorf("only creator can edit company")
 	}
 
 	companyLogo := company.Logo

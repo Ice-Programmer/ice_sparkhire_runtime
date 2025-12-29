@@ -476,6 +476,15 @@ struct EditCompanyResponse {
 	255: required base.BaseResp BaseResp
 }
 
+struct DeleteCompanyRequest {
+	1:   required i64       id
+	255: required base.Base Base
+}
+
+struct DeleteCompanyResponse {
+	255: required base.BaseResp BaseResp
+}
+
 service SparkhireRuntimeService {
     PingResponse Ping(1: PingRequest req) (api.post="/api/v1/ice/sparkhire/runtime/ping", api.serializer="json")
 
@@ -517,6 +526,7 @@ service SparkhireRuntimeService {
     // =============================================== company ===============================================
     CreateCompanyResponse CreateCompany(1: CreateCompanyRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/hr/company/create", api.serializer="json")
     EditCompanyResponse EditCompany(1: EditCompanyRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/hr/company/edit", api.serializer="json")
+    DeleteCompanyResponse DeleteCompany(1: DeleteCompanyRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/hr/company/delete", api.serializer="json")
 
     // =============================================== biz ===============================================
     SendVerifyCodeResponse SendVerifyCode(1: SendVerifyCodeRequest req) (api.post="/api/v1/ice/sparkhire/runtime/verify/code/send", api.serializer="json")

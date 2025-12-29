@@ -195,6 +195,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
+	"DeleteCompany": kitex.NewMethodInfo(
+		deleteCompanyHandler,
+		newSparkhireRuntimeServiceDeleteCompanyArgs,
+		newSparkhireRuntimeServiceDeleteCompanyResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
 	"SendVerifyCode": kitex.NewMethodInfo(
 		sendVerifyCodeHandler,
 		newSparkhireRuntimeServiceSendVerifyCodeArgs,
@@ -743,6 +750,24 @@ func newSparkhireRuntimeServiceEditCompanyResult() interface{} {
 	return sparkhire_runtime.NewSparkhireRuntimeServiceEditCompanyResult()
 }
 
+func deleteCompanyHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*sparkhire_runtime.SparkhireRuntimeServiceDeleteCompanyArgs)
+	realResult := result.(*sparkhire_runtime.SparkhireRuntimeServiceDeleteCompanyResult)
+	success, err := handler.(sparkhire_runtime.SparkhireRuntimeService).DeleteCompany(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newSparkhireRuntimeServiceDeleteCompanyArgs() interface{} {
+	return sparkhire_runtime.NewSparkhireRuntimeServiceDeleteCompanyArgs()
+}
+
+func newSparkhireRuntimeServiceDeleteCompanyResult() interface{} {
+	return sparkhire_runtime.NewSparkhireRuntimeServiceDeleteCompanyResult()
+}
+
 func sendVerifyCodeHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	realArg := arg.(*sparkhire_runtime.SparkhireRuntimeServiceSendVerifyCodeArgs)
 	realResult := result.(*sparkhire_runtime.SparkhireRuntimeServiceSendVerifyCodeResult)
@@ -1044,6 +1069,16 @@ func (p *kClient) EditCompany(ctx context.Context, req *sparkhire_runtime.EditCo
 	_args.Req = req
 	var _result sparkhire_runtime.SparkhireRuntimeServiceEditCompanyResult
 	if err = p.c.Call(ctx, "EditCompany", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) DeleteCompany(ctx context.Context, req *sparkhire_runtime.DeleteCompanyRequest) (r *sparkhire_runtime.DeleteCompanyResponse, err error) {
+	var _args sparkhire_runtime.SparkhireRuntimeServiceDeleteCompanyArgs
+	_args.Req = req
+	var _result sparkhire_runtime.SparkhireRuntimeServiceDeleteCompanyResult
+	if err = p.c.Call(ctx, "DeleteCompany", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

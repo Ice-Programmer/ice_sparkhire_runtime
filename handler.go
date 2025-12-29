@@ -348,6 +348,18 @@ func (s *SparkhireRuntimeServiceImpl) EditCompany(ctx context.Context, req *spar
 	return resp, nil
 }
 
+// DeleteCompany implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) DeleteCompany(ctx context.Context, req *sparkhire_runtime.DeleteCompanyRequest) (resp *sparkhire_runtime.DeleteCompanyResponse, err error) {
+	resp, err = company.DeleteCompany(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "delete company failed: %v", err)
+		resp = &sparkhire_runtime.DeleteCompanyResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
 // =============================================== biz ===============================================
 
 // SendVerifyCode implements the SparkhireRuntimeServiceImpl interface.

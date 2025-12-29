@@ -89,3 +89,14 @@ func UpdateCompany(ctx context.Context, db *gorm.DB, id int64, modifyCompany *Co
 	}
 	return nil
 }
+
+func DeleteCompany(ctx context.Context, db *gorm.DB, id int64) error {
+	err := db.WithContext(ctx).
+		Where("id = ?", id).
+		Delete(&Company{}).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[db] delete company err: %v", err)
+		return err
+	}
+	return nil
+}

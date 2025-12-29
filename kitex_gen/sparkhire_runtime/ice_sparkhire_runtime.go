@@ -4126,6 +4126,91 @@ var fieldIDToName_EditCompanyResponse = map[int16]string{
 	255: "BaseResp",
 }
 
+type DeleteCompanyRequest struct {
+	Id   int64      `thrift:"id,1,required" frugal:"1,required,i64" json:"id"`
+	Base *base.Base `thrift:"Base,255,required" frugal:"255,required,base.Base" json:"Base"`
+}
+
+func NewDeleteCompanyRequest() *DeleteCompanyRequest {
+	return &DeleteCompanyRequest{}
+}
+
+func (p *DeleteCompanyRequest) InitDefault() {
+}
+
+func (p *DeleteCompanyRequest) GetId() (v int64) {
+	return p.Id
+}
+
+var DeleteCompanyRequest_Base_DEFAULT *base.Base
+
+func (p *DeleteCompanyRequest) GetBase() (v *base.Base) {
+	if !p.IsSetBase() {
+		return DeleteCompanyRequest_Base_DEFAULT
+	}
+	return p.Base
+}
+func (p *DeleteCompanyRequest) SetId(val int64) {
+	p.Id = val
+}
+func (p *DeleteCompanyRequest) SetBase(val *base.Base) {
+	p.Base = val
+}
+
+func (p *DeleteCompanyRequest) IsSetBase() bool {
+	return p.Base != nil
+}
+
+func (p *DeleteCompanyRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("DeleteCompanyRequest(%+v)", *p)
+}
+
+var fieldIDToName_DeleteCompanyRequest = map[int16]string{
+	1:   "id",
+	255: "Base",
+}
+
+type DeleteCompanyResponse struct {
+	BaseResp *base.BaseResp `thrift:"BaseResp,255,required" frugal:"255,required,base.BaseResp" json:"BaseResp"`
+}
+
+func NewDeleteCompanyResponse() *DeleteCompanyResponse {
+	return &DeleteCompanyResponse{}
+}
+
+func (p *DeleteCompanyResponse) InitDefault() {
+}
+
+var DeleteCompanyResponse_BaseResp_DEFAULT *base.BaseResp
+
+func (p *DeleteCompanyResponse) GetBaseResp() (v *base.BaseResp) {
+	if !p.IsSetBaseResp() {
+		return DeleteCompanyResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+func (p *DeleteCompanyResponse) SetBaseResp(val *base.BaseResp) {
+	p.BaseResp = val
+}
+
+func (p *DeleteCompanyResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *DeleteCompanyResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("DeleteCompanyResponse(%+v)", *p)
+}
+
+var fieldIDToName_DeleteCompanyResponse = map[int16]string{
+	255: "BaseResp",
+}
+
 type SparkhireRuntimeService interface {
 	Ping(ctx context.Context, req *PingRequest) (r *PingResponse, err error)
 
@@ -4178,6 +4263,8 @@ type SparkhireRuntimeService interface {
 	CreateCompany(ctx context.Context, req *CreateCompanyRequest) (r *CreateCompanyResponse, err error)
 
 	EditCompany(ctx context.Context, req *EditCompanyRequest) (r *EditCompanyResponse, err error)
+
+	DeleteCompany(ctx context.Context, req *DeleteCompanyRequest) (r *DeleteCompanyResponse, err error)
 
 	SendVerifyCode(ctx context.Context, req *SendVerifyCodeRequest) (r *SendVerifyCodeResponse, err error)
 
@@ -6157,6 +6244,82 @@ func (p *SparkhireRuntimeServiceEditCompanyResult) String() string {
 }
 
 var fieldIDToName_SparkhireRuntimeServiceEditCompanyResult = map[int16]string{
+	0: "success",
+}
+
+type SparkhireRuntimeServiceDeleteCompanyArgs struct {
+	Req *DeleteCompanyRequest `thrift:"req,1" frugal:"1,default,DeleteCompanyRequest" json:"req"`
+}
+
+func NewSparkhireRuntimeServiceDeleteCompanyArgs() *SparkhireRuntimeServiceDeleteCompanyArgs {
+	return &SparkhireRuntimeServiceDeleteCompanyArgs{}
+}
+
+func (p *SparkhireRuntimeServiceDeleteCompanyArgs) InitDefault() {
+}
+
+var SparkhireRuntimeServiceDeleteCompanyArgs_Req_DEFAULT *DeleteCompanyRequest
+
+func (p *SparkhireRuntimeServiceDeleteCompanyArgs) GetReq() (v *DeleteCompanyRequest) {
+	if !p.IsSetReq() {
+		return SparkhireRuntimeServiceDeleteCompanyArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+func (p *SparkhireRuntimeServiceDeleteCompanyArgs) SetReq(val *DeleteCompanyRequest) {
+	p.Req = val
+}
+
+func (p *SparkhireRuntimeServiceDeleteCompanyArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *SparkhireRuntimeServiceDeleteCompanyArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SparkhireRuntimeServiceDeleteCompanyArgs(%+v)", *p)
+}
+
+var fieldIDToName_SparkhireRuntimeServiceDeleteCompanyArgs = map[int16]string{
+	1: "req",
+}
+
+type SparkhireRuntimeServiceDeleteCompanyResult struct {
+	Success *DeleteCompanyResponse `thrift:"success,0,optional" frugal:"0,optional,DeleteCompanyResponse" json:"success,omitempty"`
+}
+
+func NewSparkhireRuntimeServiceDeleteCompanyResult() *SparkhireRuntimeServiceDeleteCompanyResult {
+	return &SparkhireRuntimeServiceDeleteCompanyResult{}
+}
+
+func (p *SparkhireRuntimeServiceDeleteCompanyResult) InitDefault() {
+}
+
+var SparkhireRuntimeServiceDeleteCompanyResult_Success_DEFAULT *DeleteCompanyResponse
+
+func (p *SparkhireRuntimeServiceDeleteCompanyResult) GetSuccess() (v *DeleteCompanyResponse) {
+	if !p.IsSetSuccess() {
+		return SparkhireRuntimeServiceDeleteCompanyResult_Success_DEFAULT
+	}
+	return p.Success
+}
+func (p *SparkhireRuntimeServiceDeleteCompanyResult) SetSuccess(x interface{}) {
+	p.Success = x.(*DeleteCompanyResponse)
+}
+
+func (p *SparkhireRuntimeServiceDeleteCompanyResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *SparkhireRuntimeServiceDeleteCompanyResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SparkhireRuntimeServiceDeleteCompanyResult(%+v)", *p)
+}
+
+var fieldIDToName_SparkhireRuntimeServiceDeleteCompanyResult = map[int16]string{
 	0: "success",
 }
 
