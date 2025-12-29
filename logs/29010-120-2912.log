@@ -1,0 +1,26 @@
+{"level":"info","msg":"start init db","time":"2025-12-29T22:02:04+08:00"}
+{"level":"info","msg":"init db successfully!","time":"2025-12-29T22:02:04+08:00"}
+{"level":"info","msg":"start init redis","time":"2025-12-29T22:02:04+08:00"}
+{"level":"info","msg":"init redis successfully!","time":"2025-12-29T22:02:04+08:00"}
+{"level":"info","msg":"start init id generator","time":"2025-12-29T22:02:04+08:00"}
+{"level":"info","msg":"init id generator successfully!","time":"2025-12-29T22:02:04+08:00"}
+{"level":"info","msg":"start init mail","time":"2025-12-29T22:02:04+08:00"}
+{"level":"info","msg":"init mail dialer successfully!","time":"2025-12-29T22:02:04+08:00"}
+{"level":"info","msg":"init mail successfully!","time":"2025-12-29T22:02:04+08:00"}
+{"level":"info","msg":"start init tos","time":"2025-12-29T22:02:04+08:00"}
+{"level":"info","msg":"init tos successfully!","time":"2025-12-29T22:02:04+08:00"}
+{"level":"info","msg":"KITEX: server listen at addr=[::]:8888","time":"2025-12-29T22:02:04+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown starts","time":"2025-12-29T22:02:43+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown ends","time":"2025-12-29T22:02:43+08:00"}
+{"level":"info","msg":"start init db","time":"2025-12-29T22:02:50+08:00"}
+{"level":"info","msg":"init db successfully!","time":"2025-12-29T22:02:50+08:00"}
+{"level":"info","msg":"start init redis","time":"2025-12-29T22:02:50+08:00"}
+{"level":"info","msg":"init redis successfully!","time":"2025-12-29T22:02:50+08:00"}
+{"level":"info","msg":"start init id generator","time":"2025-12-29T22:02:50+08:00"}
+{"level":"info","msg":"init id generator successfully!","time":"2025-12-29T22:02:50+08:00"}
+{"level":"info","msg":"start init mail","time":"2025-12-29T22:02:50+08:00"}
+{"level":"info","msg":"init mail dialer successfully!","time":"2025-12-29T22:02:50+08:00"}
+{"level":"info","msg":"init mail successfully!","time":"2025-12-29T22:02:50+08:00"}
+{"level":"info","msg":"start init tos","time":"2025-12-29T22:02:50+08:00"}
+{"level":"info","msg":"init tos successfully!","time":"2025-12-29T22:02:50+08:00"}
+{"level":"info","msg":"KITEX: server listen at addr=[::]:8888","time":"2025-12-29T22:02:50+08:00"}

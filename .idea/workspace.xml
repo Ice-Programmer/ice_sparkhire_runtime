@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="49594cbd-b8fc-4bc7-80a6-569710fd1f2d" name="Changes" comment="feat(Company): edit company" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" url="file://$USER_HOME$/sdk/go1.24.2" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="375iWR5P0M7tsFqi7fCz8Yw12Im" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "Go Build.go build ice_sparkhire_runtime.executor": "Debug",
+    "Go Test.TestGenerateAvatar in ice_sparkhire_runtime/utils.executor": "Debug",
+    "Go Test.TestSendMail in ice_sparkhire_runtime/service/mail.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "git-widget-placeholder": "main",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "/Users/chenjiahan/project/Graduation Project/ice_sparkhire_runtime/.conf/font",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/.conf/font" />
+      <recent name="$PROJECT_DIR$/utils" />
+      <recent name="$PROJECT_DIR$/gateway" />
+      <recent name="$PROJECT_DIR$/model" />
+      <recent name="$PROJECT_DIR$/consts" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/model/db" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Go Build.go build ice_sparkhire_runtime">
+    <configuration name="go build ice_sparkhire_runtime" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="ice_sparkhire_runtime" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="ice_sparkhire_runtime" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGenerateAvatar in ice_sparkhire_runtime/utils" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="ice_sparkhire_runtime" />
+      <working_directory value="$PROJECT_DIR$/utils" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="ice_sparkhire_runtime/utils" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestGenerateAvatar\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestSendMail in ice_sparkhire_runtime/service/mail" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="ice_sparkhire_runtime" />
+      <working_directory value="$PROJECT_DIR$/service/mail" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="ice_sparkhire_runtime/service/mail" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestSendMail\E$" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Build.go build ice_sparkhire_runtime" />
+        <item itemvalue="Go Test.TestGenerateAvatar in ice_sparkhire_runtime/utils" />
+        <item itemvalue="Go Test.TestSendMail in ice_sparkhire_runtime/service/mail" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-gosdk-d297c17c1fbd-57c114c3cede-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-243.26053.20" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-GO-243.26053.20" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="send verify code" />
+    <MESSAGE value="feat(User): user login &amp; register&#10;1. user login&#10;2. user register by email&#10;3. fetch current user" />
+    <MESSAGE value="feat(Major): list major" />
+    <MESSAGE value="feat(Tag): add tag" />
+    <MESSAGE value="feat(Candidate): add candidate" />
+    <MESSAGE value="feat(Candidate): edit candidate" />
+    <MESSAGE value="feat(Candidate): get current candidate" />
+    <MESSAGE value="feat(Tag): bind tag list" />
+    <MESSAGE value="feat(Tag): unbind tag list" />
+    <MESSAGE value="feat(EducationExp): create education exp" />
+    <MESSAGE value="feat(EducationExp): edit education exp" />
+    <MESSAGE value="feat(EducationExp): delete education exp" />
+    <MESSAGE value="feat(EducationExp): get current user education experience" />
+    <MESSAGE value="feat(CareerExp): create career experience record" />
+    <MESSAGE value="feat(CareerExp): edit career experience record" />
+    <MESSAGE value="feat(CareerExp): delete career experience record" />
+    <MESSAGE value="feat(Company): edit company" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(Company): edit company" />
+    <option name="NON_MODAL_COMMIT_POSTPONE_SLOW_CHECKS" value="false" />
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>

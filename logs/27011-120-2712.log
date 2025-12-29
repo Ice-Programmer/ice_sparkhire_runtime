@@ -1,0 +1,42 @@
+{"level":"info","msg":"start init db","time":"2025-12-27T11:03:26+08:00"}
+{"level":"info","msg":"init db successfully!","time":"2025-12-27T11:03:26+08:00"}
+{"level":"info","msg":"start init redis","time":"2025-12-27T11:03:26+08:00"}
+{"level":"info","msg":"init redis successfully!","time":"2025-12-27T11:03:26+08:00"}
+{"level":"info","msg":"start init id generator","time":"2025-12-27T11:03:26+08:00"}
+{"level":"info","msg":"init id generator successfully!","time":"2025-12-27T11:03:26+08:00"}
+{"level":"info","msg":"init mail dialer successfully!","time":"2025-12-27T11:03:26+08:00"}
+{"level":"info","msg":"KITEX: server listen at addr=[::]:8888","time":"2025-12-27T11:03:26+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown starts","time":"2025-12-27T11:04:17+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown ends","time":"2025-12-27T11:04:17+08:00"}
+{"level":"info","msg":"start init db","time":"2025-12-27T11:04:21+08:00"}
+{"level":"info","msg":"init db successfully!","time":"2025-12-27T11:04:21+08:00"}
+{"level":"info","msg":"start init redis","time":"2025-12-27T11:04:21+08:00"}
+{"level":"info","msg":"init redis successfully!","time":"2025-12-27T11:04:21+08:00"}
+{"level":"info","msg":"start init id generator","time":"2025-12-27T11:04:21+08:00"}
+{"level":"info","msg":"init id generator successfully!","time":"2025-12-27T11:04:21+08:00"}
+{"level":"info","msg":"init mail dialer successfully!","time":"2025-12-27T11:04:21+08:00"}
+{"level":"info","msg":"KITEX: server listen at addr=[::]:8888","time":"2025-12-27T11:04:21+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown starts","time":"2025-12-27T11:04:33+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown ends","time":"2025-12-27T11:04:33+08:00"}
+{"level":"info","msg":"start init db","time":"2025-12-27T11:04:50+08:00"}
+{"level":"info","msg":"init db successfully!","time":"2025-12-27T11:04:50+08:00"}
+{"level":"info","msg":"start init redis","time":"2025-12-27T11:04:50+08:00"}
+{"level":"info","msg":"init redis successfully!","time":"2025-12-27T11:04:50+08:00"}
+{"level":"info","msg":"start init id generator","time":"2025-12-27T11:04:50+08:00"}
+{"level":"info","msg":"init id generator successfully!","time":"2025-12-27T11:04:50+08:00"}
+{"level":"info","msg":"init mail dialer successfully!","time":"2025-12-27T11:04:50+08:00"}
+{"level":"info","msg":"KITEX: server listen at addr=[::]:8888","time":"2025-12-27T11:04:50+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown starts","time":"2025-12-27T11:08:14+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown ends","time":"2025-12-27T11:08:14+08:00"}
+{"level":"info","msg":"start init db","time":"2025-12-27T11:22:49+08:00"}
+{"level":"info","msg":"init db successfully!","time":"2025-12-27T11:22:49+08:00"}
+{"level":"info","msg":"start init redis","time":"2025-12-27T11:22:49+08:00"}
+{"level":"info","msg":"init redis successfully!","time":"2025-12-27T11:22:49+08:00"}
+{"level":"info","msg":"start init id generator","time":"2025-12-27T11:22:49+08:00"}
+{"level":"info","msg":"init id generator successfully!","time":"2025-12-27T11:22:49+08:00"}
+{"level":"info","msg":"init mail dialer successfully!","time":"2025-12-27T11:22:49+08:00"}
+{"level":"info","msg":"KITEX: server listen at addr=[::]:8888","time":"2025-12-27T11:22:49+08:00"}
+{"level":"error","msg":"[DB] Find EducationExperience error: record not found","time":"2025-12-27T11:23:58+08:00"}
+{"level":"error","msg":"education exp failed: find EducationExperience error: record not found","time":"2025-12-27T11:23:58+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown starts","time":"2025-12-27T13:02:24+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown ends","time":"2025-12-27T13:02:24+08:00"}

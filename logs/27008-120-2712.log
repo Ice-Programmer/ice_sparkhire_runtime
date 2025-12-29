@@ -1,0 +1,43 @@
+{"level":"info","msg":"start init db","time":"2025-12-27T20:05:30+08:00"}
+{"level":"info","msg":"init db successfully!","time":"2025-12-27T20:05:30+08:00"}
+{"level":"info","msg":"start init redis","time":"2025-12-27T20:05:30+08:00"}
+{"level":"info","msg":"init redis successfully!","time":"2025-12-27T20:05:30+08:00"}
+{"level":"info","msg":"start init id generator","time":"2025-12-27T20:05:30+08:00"}
+{"level":"info","msg":"init id generator successfully!","time":"2025-12-27T20:05:30+08:00"}
+{"level":"info","msg":"init mail dialer successfully!","time":"2025-12-27T20:05:30+08:00"}
+{"level":"info","msg":"KITEX: server listen at addr=[::]:8888","time":"2025-12-27T20:05:30+08:00"}
+{"level":"error","msg":"token parse error: token is malformed: token contains an invalid number of segments","time":"2025-12-27T20:07:46+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown starts","time":"2025-12-27T20:10:02+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown ends","time":"2025-12-27T20:10:02+08:00"}
+{"level":"info","msg":"start init db","time":"2025-12-27T20:10:05+08:00"}
+{"level":"info","msg":"init db successfully!","time":"2025-12-27T20:10:05+08:00"}
+{"level":"info","msg":"start init redis","time":"2025-12-27T20:10:05+08:00"}
+{"level":"info","msg":"init redis successfully!","time":"2025-12-27T20:10:05+08:00"}
+{"level":"info","msg":"start init id generator","time":"2025-12-27T20:10:05+08:00"}
+{"level":"info","msg":"init id generator successfully!","time":"2025-12-27T20:10:05+08:00"}
+{"level":"info","msg":"init mail dialer successfully!","time":"2025-12-27T20:10:05+08:00"}
+{"level":"info","msg":"KITEX: server listen at addr=[::]:8888","time":"2025-12-27T20:10:05+08:00"}
+{"level":"error","msg":"token parse error: token is malformed: token contains an invalid number of segments","time":"2025-12-27T20:10:23+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown starts","time":"2025-12-27T20:11:34+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown ends","time":"2025-12-27T20:11:34+08:00"}
+{"level":"info","msg":"start init db","time":"2025-12-27T20:11:37+08:00"}
+{"level":"info","msg":"init db successfully!","time":"2025-12-27T20:11:37+08:00"}
+{"level":"info","msg":"start init redis","time":"2025-12-27T20:11:37+08:00"}
+{"level":"info","msg":"init redis successfully!","time":"2025-12-27T20:11:37+08:00"}
+{"level":"info","msg":"start init id generator","time":"2025-12-27T20:11:37+08:00"}
+{"level":"info","msg":"init id generator successfully!","time":"2025-12-27T20:11:37+08:00"}
+{"level":"info","msg":"init mail dialer successfully!","time":"2025-12-27T20:11:37+08:00"}
+{"level":"info","msg":"KITEX: server listen at addr=[::]:8888","time":"2025-12-27T20:11:37+08:00"}
+{"level":"error","msg":"token parse error: token is malformed: token contains an invalid number of segments","time":"2025-12-27T20:11:46+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown starts","time":"2025-12-27T20:27:30+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown ends","time":"2025-12-27T20:27:30+08:00"}
+{"level":"info","msg":"start init db","time":"2025-12-27T20:33:32+08:00"}
+{"level":"info","msg":"init db successfully!","time":"2025-12-27T20:33:32+08:00"}
+{"level":"info","msg":"start init redis","time":"2025-12-27T20:33:32+08:00"}
+{"level":"info","msg":"init redis successfully!","time":"2025-12-27T20:33:32+08:00"}
+{"level":"info","msg":"start init id generator","time":"2025-12-27T20:33:32+08:00"}
+{"level":"info","msg":"init id generator successfully!","time":"2025-12-27T20:33:32+08:00"}
+{"level":"info","msg":"init mail dialer successfully!","time":"2025-12-27T20:33:32+08:00"}
+{"level":"info","msg":"KITEX: server listen at addr=[::]:8888","time":"2025-12-27T20:33:32+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown starts","time":"2025-12-27T20:36:06+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown ends","time":"2025-12-27T20:36:06+08:00"}

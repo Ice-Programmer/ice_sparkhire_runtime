@@ -1,0 +1,37 @@
+{"level":"info","msg":"start init db","time":"2025-12-21T21:40:06+08:00"}
+{"level":"info","msg":"init db successfully!","time":"2025-12-21T21:40:06+08:00"}
+{"level":"info","msg":"start init redis","time":"2025-12-21T21:40:06+08:00"}
+{"level":"info","msg":"init redis successfully!","time":"2025-12-21T21:40:06+08:00"}
+{"level":"info","msg":"start init id generator","time":"2025-12-21T21:40:06+08:00"}
+{"level":"info","msg":"init id generator successfully!","time":"2025-12-21T21:40:06+08:00"}
+{"level":"info","msg":"init mail dialer successfully!","time":"2025-12-21T21:40:06+08:00"}
+{"level":"info","msg":"KITEX: server listen at addr=[::]:8888","time":"2025-12-21T21:40:06+08:00"}
+{"level":"error","msg":"KITEX: processing request error, remoteService=, remoteAddr=127.0.0.1:60642, error=*sparkhire_runtime.SparkhireRuntimeServiceAddCandidateArgs read field 1 'req' error: *sparkhire_runtime.AddCandidateRequest read field 1 'candidateInfo' error: required field age is not set","time":"2025-12-21T21:42:04+08:00"}
+{"level":"error","msg":"KITEX: processing request error, remoteService=, remoteAddr=127.0.0.1:60647, error=*sparkhire_runtime.SparkhireRuntimeServiceAddCandidateArgs read field 1 'req' error: *sparkhire_runtime.AddCandidateRequest read field 1 'candidateInfo' error: required field age is not set","time":"2025-12-21T21:42:17+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown starts","time":"2025-12-21T21:56:04+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown ends","time":"2025-12-21T21:56:04+08:00"}
+{"level":"info","msg":"start init db","time":"2025-12-21T21:56:06+08:00"}
+{"level":"info","msg":"init db successfully!","time":"2025-12-21T21:56:06+08:00"}
+{"level":"info","msg":"start init redis","time":"2025-12-21T21:56:06+08:00"}
+{"level":"info","msg":"init redis successfully!","time":"2025-12-21T21:56:06+08:00"}
+{"level":"info","msg":"start init id generator","time":"2025-12-21T21:56:06+08:00"}
+{"level":"info","msg":"init id generator successfully!","time":"2025-12-21T21:56:06+08:00"}
+{"level":"info","msg":"init mail dialer successfully!","time":"2025-12-21T21:56:06+08:00"}
+{"level":"info","msg":"KITEX: server listen at addr=[::]:8888","time":"2025-12-21T21:56:06+08:00"}
+{"level":"error","msg":"switch user role failed: only can switch HR or Candidate Role","time":"2025-12-21T21:57:00+08:00"}
+{"level":"error","msg":"switch user role failed: only can switch HR or Candidate Role","time":"2025-12-21T21:57:04+08:00"}
+{"level":"error","msg":"switch user role failed: only can switch HR or Candidate Role","time":"2025-12-21T21:57:07+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown starts","time":"2025-12-21T21:57:32+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown ends","time":"2025-12-21T21:57:32+08:00"}
+{"level":"info","msg":"start init db","time":"2025-12-21T21:57:39+08:00"}
+{"level":"info","msg":"init db successfully!","time":"2025-12-21T21:57:39+08:00"}
+{"level":"info","msg":"start init redis","time":"2025-12-21T21:57:39+08:00"}
+{"level":"info","msg":"init redis successfully!","time":"2025-12-21T21:57:39+08:00"}
+{"level":"info","msg":"start init id generator","time":"2025-12-21T21:57:39+08:00"}
+{"level":"info","msg":"init id generator successfully!","time":"2025-12-21T21:57:39+08:00"}
+{"level":"info","msg":"init mail dialer successfully!","time":"2025-12-21T21:57:39+08:00"}
+{"level":"info","msg":"KITEX: server listen at addr=[::]:8888","time":"2025-12-21T21:57:39+08:00"}
+{"level":"error","msg":"switch user role failed: only can switch HR or Candidate Role","time":"2025-12-21T21:57:41+08:00"}
+{"level":"error","msg":"switch user role failed: only can switch HR or Candidate Role","time":"2025-12-21T21:57:48+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown starts","time":"2025-12-21T22:05:55+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown ends","time":"2025-12-21T22:05:55+08:00"}

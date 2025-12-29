@@ -1,0 +1,14 @@
+{"level":"info","msg":"start init db","time":"2025-12-21T12:26:23+08:00"}
+{"level":"info","msg":"init db successfully!","time":"2025-12-21T12:26:23+08:00"}
+{"level":"info","msg":"start init redis","time":"2025-12-21T12:26:23+08:00"}
+{"level":"info","msg":"init redis successfully!","time":"2025-12-21T12:26:23+08:00"}
+{"level":"info","msg":"start init id generator","time":"2025-12-21T12:26:23+08:00"}
+{"level":"info","msg":"init id generator successfully!","time":"2025-12-21T12:26:23+08:00"}
+{"level":"info","msg":"init mail dialer successfully!","time":"2025-12-21T12:26:23+08:00"}
+{"level":"info","msg":"KITEX: server listen at addr=[::]:8888","time":"2025-12-21T12:26:23+08:00"}
+{"level":"info","msg":"check if key exists: %!s(int64=0)","time":"2025-12-21T12:26:58+08:00"}
+{"level":"info","msg":"send verify code with verify code: 319864","time":"2025-12-21T12:26:58+08:00"}
+{"level":"info","msg":"[Mail Sender] send mail content: 尊敬的【用户】：\n您好！本次操作的验证码为：\n【 319864 】\n验证码有效期【有效期：5 分钟】，请尽快完成操作。\n如非本人操作，请忽略此邮件。\n感谢您使用【SparkHire】！\n【Ice Man】团队\n, from: 2473159069@qq.com, to: 13706531210@163.com","time":"2025-12-21T12:26:58+08:00"}
+{"level":"info","msg":"check if key exists: %!s(int64=1)","time":"2025-12-21T12:27:15+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown starts","time":"2025-12-21T13:04:46+08:00"}
+{"level":"info","msg":"KITEX: gRPC GracefulShutdown ends","time":"2025-12-21T13:04:46+08:00"}
