@@ -48,24 +48,17 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
-	"AddCandidate": kitex.NewMethodInfo(
-		addCandidateHandler,
-		newSparkhireRuntimeServiceAddCandidateArgs,
-		newSparkhireRuntimeServiceAddCandidateResult,
-		false,
-		kitex.WithStreamingMode(kitex.StreamingNone),
-	),
-	"EditCandidate": kitex.NewMethodInfo(
-		editCandidateHandler,
-		newSparkhireRuntimeServiceEditCandidateArgs,
-		newSparkhireRuntimeServiceEditCandidateResult,
-		false,
-		kitex.WithStreamingMode(kitex.StreamingNone),
-	),
 	"GetCurrentCandidate": kitex.NewMethodInfo(
 		getCurrentCandidateHandler,
 		newSparkhireRuntimeServiceGetCurrentCandidateArgs,
 		newSparkhireRuntimeServiceGetCurrentCandidateResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
+	"EditCandidateContractInfo": kitex.NewMethodInfo(
+		editCandidateContractInfoHandler,
+		newSparkhireRuntimeServiceEditCandidateContractInfoArgs,
+		newSparkhireRuntimeServiceEditCandidateContractInfoResult,
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
@@ -372,42 +365,6 @@ func newSparkhireRuntimeServiceSwitchUserRoleResult() interface{} {
 	return sparkhire_runtime.NewSparkhireRuntimeServiceSwitchUserRoleResult()
 }
 
-func addCandidateHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*sparkhire_runtime.SparkhireRuntimeServiceAddCandidateArgs)
-	realResult := result.(*sparkhire_runtime.SparkhireRuntimeServiceAddCandidateResult)
-	success, err := handler.(sparkhire_runtime.SparkhireRuntimeService).AddCandidate(ctx, realArg.Req)
-	if err != nil {
-		return err
-	}
-	realResult.Success = success
-	return nil
-}
-func newSparkhireRuntimeServiceAddCandidateArgs() interface{} {
-	return sparkhire_runtime.NewSparkhireRuntimeServiceAddCandidateArgs()
-}
-
-func newSparkhireRuntimeServiceAddCandidateResult() interface{} {
-	return sparkhire_runtime.NewSparkhireRuntimeServiceAddCandidateResult()
-}
-
-func editCandidateHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*sparkhire_runtime.SparkhireRuntimeServiceEditCandidateArgs)
-	realResult := result.(*sparkhire_runtime.SparkhireRuntimeServiceEditCandidateResult)
-	success, err := handler.(sparkhire_runtime.SparkhireRuntimeService).EditCandidate(ctx, realArg.Req)
-	if err != nil {
-		return err
-	}
-	realResult.Success = success
-	return nil
-}
-func newSparkhireRuntimeServiceEditCandidateArgs() interface{} {
-	return sparkhire_runtime.NewSparkhireRuntimeServiceEditCandidateArgs()
-}
-
-func newSparkhireRuntimeServiceEditCandidateResult() interface{} {
-	return sparkhire_runtime.NewSparkhireRuntimeServiceEditCandidateResult()
-}
-
 func getCurrentCandidateHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	realArg := arg.(*sparkhire_runtime.SparkhireRuntimeServiceGetCurrentCandidateArgs)
 	realResult := result.(*sparkhire_runtime.SparkhireRuntimeServiceGetCurrentCandidateResult)
@@ -424,6 +381,24 @@ func newSparkhireRuntimeServiceGetCurrentCandidateArgs() interface{} {
 
 func newSparkhireRuntimeServiceGetCurrentCandidateResult() interface{} {
 	return sparkhire_runtime.NewSparkhireRuntimeServiceGetCurrentCandidateResult()
+}
+
+func editCandidateContractInfoHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*sparkhire_runtime.SparkhireRuntimeServiceEditCandidateContractInfoArgs)
+	realResult := result.(*sparkhire_runtime.SparkhireRuntimeServiceEditCandidateContractInfoResult)
+	success, err := handler.(sparkhire_runtime.SparkhireRuntimeService).EditCandidateContractInfo(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newSparkhireRuntimeServiceEditCandidateContractInfoArgs() interface{} {
+	return sparkhire_runtime.NewSparkhireRuntimeServiceEditCandidateContractInfoArgs()
+}
+
+func newSparkhireRuntimeServiceEditCandidateContractInfoResult() interface{} {
+	return sparkhire_runtime.NewSparkhireRuntimeServiceEditCandidateContractInfoResult()
 }
 
 func queryTagHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
@@ -864,31 +839,21 @@ func (p *kClient) SwitchUserRole(ctx context.Context, req *sparkhire_runtime.Swi
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) AddCandidate(ctx context.Context, req *sparkhire_runtime.AddCandidateRequest) (r *sparkhire_runtime.AddCandidateResponse, err error) {
-	var _args sparkhire_runtime.SparkhireRuntimeServiceAddCandidateArgs
-	_args.Req = req
-	var _result sparkhire_runtime.SparkhireRuntimeServiceAddCandidateResult
-	if err = p.c.Call(ctx, "AddCandidate", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) EditCandidate(ctx context.Context, req *sparkhire_runtime.EditCandidateRequest) (r *sparkhire_runtime.EditCandidateResponse, err error) {
-	var _args sparkhire_runtime.SparkhireRuntimeServiceEditCandidateArgs
-	_args.Req = req
-	var _result sparkhire_runtime.SparkhireRuntimeServiceEditCandidateResult
-	if err = p.c.Call(ctx, "EditCandidate", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
 func (p *kClient) GetCurrentCandidate(ctx context.Context, req *sparkhire_runtime.GetCurrentCandidateRequest) (r *sparkhire_runtime.GetCurrentCandidateResponse, err error) {
 	var _args sparkhire_runtime.SparkhireRuntimeServiceGetCurrentCandidateArgs
 	_args.Req = req
 	var _result sparkhire_runtime.SparkhireRuntimeServiceGetCurrentCandidateResult
 	if err = p.c.Call(ctx, "GetCurrentCandidate", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) EditCandidateContractInfo(ctx context.Context, req *sparkhire_runtime.EditCandidateContractInfoRequest) (r *sparkhire_runtime.EditCandidateContractInfoResponse, err error) {
+	var _args sparkhire_runtime.SparkhireRuntimeServiceEditCandidateContractInfoArgs
+	_args.Req = req
+	var _result sparkhire_runtime.SparkhireRuntimeServiceEditCandidateContractInfoResult
+	if err = p.c.Call(ctx, "EditCandidateContractInfo", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

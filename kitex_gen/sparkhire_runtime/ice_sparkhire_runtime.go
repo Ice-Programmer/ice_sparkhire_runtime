@@ -1163,15 +1163,70 @@ var fieldIDToName_GeoModifyInfo = map[int16]string{
 	7: "longitude",
 }
 
+type ContractInfo struct {
+	Phone   string         `thrift:"phone,1,required" frugal:"1,required,string" json:"phone"`
+	Email   string         `thrift:"email,2,required" frugal:"2,required,string" json:"email"`
+	GeoInfo *GeoDetailInfo `thrift:"geoInfo,3,required" frugal:"3,required,GeoDetailInfo" json:"geoInfo"`
+}
+
+func NewContractInfo() *ContractInfo {
+	return &ContractInfo{}
+}
+
+func (p *ContractInfo) InitDefault() {
+}
+
+func (p *ContractInfo) GetPhone() (v string) {
+	return p.Phone
+}
+
+func (p *ContractInfo) GetEmail() (v string) {
+	return p.Email
+}
+
+var ContractInfo_GeoInfo_DEFAULT *GeoDetailInfo
+
+func (p *ContractInfo) GetGeoInfo() (v *GeoDetailInfo) {
+	if !p.IsSetGeoInfo() {
+		return ContractInfo_GeoInfo_DEFAULT
+	}
+	return p.GeoInfo
+}
+func (p *ContractInfo) SetPhone(val string) {
+	p.Phone = val
+}
+func (p *ContractInfo) SetEmail(val string) {
+	p.Email = val
+}
+func (p *ContractInfo) SetGeoInfo(val *GeoDetailInfo) {
+	p.GeoInfo = val
+}
+
+func (p *ContractInfo) IsSetGeoInfo() bool {
+	return p.GeoInfo != nil
+}
+
+func (p *ContractInfo) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("ContractInfo(%+v)", *p)
+}
+
+var fieldIDToName_ContractInfo = map[int16]string{
+	1: "phone",
+	2: "email",
+	3: "geoInfo",
+}
+
 type CandidateInfo struct {
-	Age               int32           `thrift:"age,1,required" frugal:"1,required,i32" json:"age"`
-	QualificationList []string        `thrift:"qualificationList,2,optional" frugal:"2,optional,list<string>" json:"qualificationList,omitempty"`
-	JobStatus         JobStatus       `thrift:"jobStatus,3,required" frugal:"3,required,JobStatus" json:"jobStatus"`
-	GeoDetail         *GeoDetailInfo  `thrift:"geoDetail,4,required" frugal:"4,required,GeoDetailInfo" json:"geoDetail"`
-	GraduationYear    int32           `thrift:"graduationYear,5,required" frugal:"5,required,i32" json:"graduationYear"`
-	EducationStatus   EducationStatus `thrift:"educationStatus,6,required" frugal:"6,required,EducationStatus" json:"educationStatus"`
-	Id                *int64          `thrift:"id,7,optional" frugal:"7,optional,i64" json:"id,omitempty"`
-	TagList           []*TagInfo      `thrift:"tagList,8,optional" frugal:"8,optional,list<TagInfo>" json:"tagList,omitempty"`
+	Age             int32           `thrift:"age,1,required" frugal:"1,required,i32" json:"age"`
+	JobStatus       JobStatus       `thrift:"jobStatus,3,required" frugal:"3,required,JobStatus" json:"jobStatus"`
+	ContractInfo    *ContractInfo   `thrift:"ContractInfo,4,required" frugal:"4,required,ContractInfo" json:"ContractInfo"`
+	GraduationYear  int32           `thrift:"graduationYear,5,required" frugal:"5,required,i32" json:"graduationYear"`
+	EducationStatus EducationStatus `thrift:"educationStatus,6,required" frugal:"6,required,EducationStatus" json:"educationStatus"`
+	Id              *int64          `thrift:"id,7,optional" frugal:"7,optional,i64" json:"id,omitempty"`
+	TagList         []*TagInfo      `thrift:"tagList,8,optional" frugal:"8,optional,list<TagInfo>" json:"tagList,omitempty"`
 }
 
 func NewCandidateInfo() *CandidateInfo {
@@ -1185,26 +1240,17 @@ func (p *CandidateInfo) GetAge() (v int32) {
 	return p.Age
 }
 
-var CandidateInfo_QualificationList_DEFAULT []string
-
-func (p *CandidateInfo) GetQualificationList() (v []string) {
-	if !p.IsSetQualificationList() {
-		return CandidateInfo_QualificationList_DEFAULT
-	}
-	return p.QualificationList
-}
-
 func (p *CandidateInfo) GetJobStatus() (v JobStatus) {
 	return p.JobStatus
 }
 
-var CandidateInfo_GeoDetail_DEFAULT *GeoDetailInfo
+var CandidateInfo_ContractInfo_DEFAULT *ContractInfo
 
-func (p *CandidateInfo) GetGeoDetail() (v *GeoDetailInfo) {
-	if !p.IsSetGeoDetail() {
-		return CandidateInfo_GeoDetail_DEFAULT
+func (p *CandidateInfo) GetContractInfo() (v *ContractInfo) {
+	if !p.IsSetContractInfo() {
+		return CandidateInfo_ContractInfo_DEFAULT
 	}
-	return p.GeoDetail
+	return p.ContractInfo
 }
 
 func (p *CandidateInfo) GetGraduationYear() (v int32) {
@@ -1235,14 +1281,11 @@ func (p *CandidateInfo) GetTagList() (v []*TagInfo) {
 func (p *CandidateInfo) SetAge(val int32) {
 	p.Age = val
 }
-func (p *CandidateInfo) SetQualificationList(val []string) {
-	p.QualificationList = val
-}
 func (p *CandidateInfo) SetJobStatus(val JobStatus) {
 	p.JobStatus = val
 }
-func (p *CandidateInfo) SetGeoDetail(val *GeoDetailInfo) {
-	p.GeoDetail = val
+func (p *CandidateInfo) SetContractInfo(val *ContractInfo) {
+	p.ContractInfo = val
 }
 func (p *CandidateInfo) SetGraduationYear(val int32) {
 	p.GraduationYear = val
@@ -1257,12 +1300,8 @@ func (p *CandidateInfo) SetTagList(val []*TagInfo) {
 	p.TagList = val
 }
 
-func (p *CandidateInfo) IsSetQualificationList() bool {
-	return p.QualificationList != nil
-}
-
-func (p *CandidateInfo) IsSetGeoDetail() bool {
-	return p.GeoDetail != nil
+func (p *CandidateInfo) IsSetContractInfo() bool {
+	return p.ContractInfo != nil
 }
 
 func (p *CandidateInfo) IsSetId() bool {
@@ -1282,209 +1321,123 @@ func (p *CandidateInfo) String() string {
 
 var fieldIDToName_CandidateInfo = map[int16]string{
 	1: "age",
-	2: "qualificationList",
 	3: "jobStatus",
-	4: "geoDetail",
+	4: "ContractInfo",
 	5: "graduationYear",
 	6: "educationStatus",
 	7: "id",
 	8: "tagList",
 }
 
-type AddCandidateRequest struct {
-	CandidateInfo *CandidateInfo `thrift:"candidateInfo,1,required" frugal:"1,required,CandidateInfo" json:"candidateInfo"`
-	Base          *base.Base     `thrift:"Base,255,required" frugal:"255,required,base.Base" json:"Base"`
+type EditCandidateContractInfoRequest struct {
+	GeoInfo     *GeoModifyInfo `thrift:"geoInfo,1,required" frugal:"1,required,GeoModifyInfo" json:"geoInfo"`
+	PhoneNumber *string        `thrift:"phoneNumber,2,optional" frugal:"2,optional,string" json:"phoneNumber,omitempty"`
+	Base        *base.Base     `thrift:"Base,255,required" frugal:"255,required,base.Base" json:"Base"`
 }
 
-func NewAddCandidateRequest() *AddCandidateRequest {
-	return &AddCandidateRequest{}
+func NewEditCandidateContractInfoRequest() *EditCandidateContractInfoRequest {
+	return &EditCandidateContractInfoRequest{}
 }
 
-func (p *AddCandidateRequest) InitDefault() {
+func (p *EditCandidateContractInfoRequest) InitDefault() {
 }
 
-var AddCandidateRequest_CandidateInfo_DEFAULT *CandidateInfo
+var EditCandidateContractInfoRequest_GeoInfo_DEFAULT *GeoModifyInfo
 
-func (p *AddCandidateRequest) GetCandidateInfo() (v *CandidateInfo) {
-	if !p.IsSetCandidateInfo() {
-		return AddCandidateRequest_CandidateInfo_DEFAULT
+func (p *EditCandidateContractInfoRequest) GetGeoInfo() (v *GeoModifyInfo) {
+	if !p.IsSetGeoInfo() {
+		return EditCandidateContractInfoRequest_GeoInfo_DEFAULT
 	}
-	return p.CandidateInfo
+	return p.GeoInfo
 }
 
-var AddCandidateRequest_Base_DEFAULT *base.Base
+var EditCandidateContractInfoRequest_PhoneNumber_DEFAULT string
 
-func (p *AddCandidateRequest) GetBase() (v *base.Base) {
+func (p *EditCandidateContractInfoRequest) GetPhoneNumber() (v string) {
+	if !p.IsSetPhoneNumber() {
+		return EditCandidateContractInfoRequest_PhoneNumber_DEFAULT
+	}
+	return *p.PhoneNumber
+}
+
+var EditCandidateContractInfoRequest_Base_DEFAULT *base.Base
+
+func (p *EditCandidateContractInfoRequest) GetBase() (v *base.Base) {
 	if !p.IsSetBase() {
-		return AddCandidateRequest_Base_DEFAULT
+		return EditCandidateContractInfoRequest_Base_DEFAULT
 	}
 	return p.Base
 }
-func (p *AddCandidateRequest) SetCandidateInfo(val *CandidateInfo) {
-	p.CandidateInfo = val
+func (p *EditCandidateContractInfoRequest) SetGeoInfo(val *GeoModifyInfo) {
+	p.GeoInfo = val
 }
-func (p *AddCandidateRequest) SetBase(val *base.Base) {
+func (p *EditCandidateContractInfoRequest) SetPhoneNumber(val *string) {
+	p.PhoneNumber = val
+}
+func (p *EditCandidateContractInfoRequest) SetBase(val *base.Base) {
 	p.Base = val
 }
 
-func (p *AddCandidateRequest) IsSetCandidateInfo() bool {
-	return p.CandidateInfo != nil
+func (p *EditCandidateContractInfoRequest) IsSetGeoInfo() bool {
+	return p.GeoInfo != nil
 }
 
-func (p *AddCandidateRequest) IsSetBase() bool {
+func (p *EditCandidateContractInfoRequest) IsSetPhoneNumber() bool {
+	return p.PhoneNumber != nil
+}
+
+func (p *EditCandidateContractInfoRequest) IsSetBase() bool {
 	return p.Base != nil
 }
 
-func (p *AddCandidateRequest) String() string {
+func (p *EditCandidateContractInfoRequest) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("AddCandidateRequest(%+v)", *p)
+	return fmt.Sprintf("EditCandidateContractInfoRequest(%+v)", *p)
 }
 
-var fieldIDToName_AddCandidateRequest = map[int16]string{
-	1:   "candidateInfo",
+var fieldIDToName_EditCandidateContractInfoRequest = map[int16]string{
+	1:   "geoInfo",
+	2:   "phoneNumber",
 	255: "Base",
 }
 
-type AddCandidateResponse struct {
-	Id       int64          `thrift:"id,1" frugal:"1,default,i64" json:"id"`
+type EditCandidateContractInfoResponse struct {
 	BaseResp *base.BaseResp `thrift:"BaseResp,255,required" frugal:"255,required,base.BaseResp" json:"BaseResp"`
 }
 
-func NewAddCandidateResponse() *AddCandidateResponse {
-	return &AddCandidateResponse{}
+func NewEditCandidateContractInfoResponse() *EditCandidateContractInfoResponse {
+	return &EditCandidateContractInfoResponse{}
 }
 
-func (p *AddCandidateResponse) InitDefault() {
+func (p *EditCandidateContractInfoResponse) InitDefault() {
 }
 
-func (p *AddCandidateResponse) GetId() (v int64) {
-	return p.Id
-}
+var EditCandidateContractInfoResponse_BaseResp_DEFAULT *base.BaseResp
 
-var AddCandidateResponse_BaseResp_DEFAULT *base.BaseResp
-
-func (p *AddCandidateResponse) GetBaseResp() (v *base.BaseResp) {
+func (p *EditCandidateContractInfoResponse) GetBaseResp() (v *base.BaseResp) {
 	if !p.IsSetBaseResp() {
-		return AddCandidateResponse_BaseResp_DEFAULT
+		return EditCandidateContractInfoResponse_BaseResp_DEFAULT
 	}
 	return p.BaseResp
 }
-func (p *AddCandidateResponse) SetId(val int64) {
-	p.Id = val
-}
-func (p *AddCandidateResponse) SetBaseResp(val *base.BaseResp) {
+func (p *EditCandidateContractInfoResponse) SetBaseResp(val *base.BaseResp) {
 	p.BaseResp = val
 }
 
-func (p *AddCandidateResponse) IsSetBaseResp() bool {
+func (p *EditCandidateContractInfoResponse) IsSetBaseResp() bool {
 	return p.BaseResp != nil
 }
 
-func (p *AddCandidateResponse) String() string {
+func (p *EditCandidateContractInfoResponse) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("AddCandidateResponse(%+v)", *p)
+	return fmt.Sprintf("EditCandidateContractInfoResponse(%+v)", *p)
 }
 
-var fieldIDToName_AddCandidateResponse = map[int16]string{
-	1:   "id",
-	255: "BaseResp",
-}
-
-type EditCandidateRequest struct {
-	CandidateInfo *CandidateInfo `thrift:"candidateInfo,1,required" frugal:"1,required,CandidateInfo" json:"candidateInfo"`
-	Base          *base.Base     `thrift:"Base,255,required" frugal:"255,required,base.Base" json:"Base"`
-}
-
-func NewEditCandidateRequest() *EditCandidateRequest {
-	return &EditCandidateRequest{}
-}
-
-func (p *EditCandidateRequest) InitDefault() {
-}
-
-var EditCandidateRequest_CandidateInfo_DEFAULT *CandidateInfo
-
-func (p *EditCandidateRequest) GetCandidateInfo() (v *CandidateInfo) {
-	if !p.IsSetCandidateInfo() {
-		return EditCandidateRequest_CandidateInfo_DEFAULT
-	}
-	return p.CandidateInfo
-}
-
-var EditCandidateRequest_Base_DEFAULT *base.Base
-
-func (p *EditCandidateRequest) GetBase() (v *base.Base) {
-	if !p.IsSetBase() {
-		return EditCandidateRequest_Base_DEFAULT
-	}
-	return p.Base
-}
-func (p *EditCandidateRequest) SetCandidateInfo(val *CandidateInfo) {
-	p.CandidateInfo = val
-}
-func (p *EditCandidateRequest) SetBase(val *base.Base) {
-	p.Base = val
-}
-
-func (p *EditCandidateRequest) IsSetCandidateInfo() bool {
-	return p.CandidateInfo != nil
-}
-
-func (p *EditCandidateRequest) IsSetBase() bool {
-	return p.Base != nil
-}
-
-func (p *EditCandidateRequest) String() string {
-	if p == nil {
-		return "<nil>"
-	}
-	return fmt.Sprintf("EditCandidateRequest(%+v)", *p)
-}
-
-var fieldIDToName_EditCandidateRequest = map[int16]string{
-	1:   "candidateInfo",
-	255: "Base",
-}
-
-type EditCandidateResponse struct {
-	BaseResp *base.BaseResp `thrift:"BaseResp,255,required" frugal:"255,required,base.BaseResp" json:"BaseResp"`
-}
-
-func NewEditCandidateResponse() *EditCandidateResponse {
-	return &EditCandidateResponse{}
-}
-
-func (p *EditCandidateResponse) InitDefault() {
-}
-
-var EditCandidateResponse_BaseResp_DEFAULT *base.BaseResp
-
-func (p *EditCandidateResponse) GetBaseResp() (v *base.BaseResp) {
-	if !p.IsSetBaseResp() {
-		return EditCandidateResponse_BaseResp_DEFAULT
-	}
-	return p.BaseResp
-}
-func (p *EditCandidateResponse) SetBaseResp(val *base.BaseResp) {
-	p.BaseResp = val
-}
-
-func (p *EditCandidateResponse) IsSetBaseResp() bool {
-	return p.BaseResp != nil
-}
-
-func (p *EditCandidateResponse) String() string {
-	if p == nil {
-		return "<nil>"
-	}
-	return fmt.Sprintf("EditCandidateResponse(%+v)", *p)
-}
-
-var fieldIDToName_EditCandidateResponse = map[int16]string{
+var fieldIDToName_EditCandidateContractInfoResponse = map[int16]string{
 	255: "BaseResp",
 }
 
@@ -4222,11 +4175,9 @@ type SparkhireRuntimeService interface {
 
 	SwitchUserRole(ctx context.Context, req *SwitchUserRoleRequest) (r *SwitchUserRoleResponse, err error)
 
-	AddCandidate(ctx context.Context, req *AddCandidateRequest) (r *AddCandidateResponse, err error)
-
-	EditCandidate(ctx context.Context, req *EditCandidateRequest) (r *EditCandidateResponse, err error)
-
 	GetCurrentCandidate(ctx context.Context, req *GetCurrentCandidateRequest) (r *GetCurrentCandidateResponse, err error)
+
+	EditCandidateContractInfo(ctx context.Context, req *EditCandidateContractInfoRequest) (r *EditCandidateContractInfoResponse, err error)
 
 	QueryTag(ctx context.Context, req *QueryTagRequest) (r *QueryTagResponse, err error)
 
@@ -4651,158 +4602,6 @@ var fieldIDToName_SparkhireRuntimeServiceSwitchUserRoleResult = map[int16]string
 	0: "success",
 }
 
-type SparkhireRuntimeServiceAddCandidateArgs struct {
-	Req *AddCandidateRequest `thrift:"req,1" frugal:"1,default,AddCandidateRequest" json:"req"`
-}
-
-func NewSparkhireRuntimeServiceAddCandidateArgs() *SparkhireRuntimeServiceAddCandidateArgs {
-	return &SparkhireRuntimeServiceAddCandidateArgs{}
-}
-
-func (p *SparkhireRuntimeServiceAddCandidateArgs) InitDefault() {
-}
-
-var SparkhireRuntimeServiceAddCandidateArgs_Req_DEFAULT *AddCandidateRequest
-
-func (p *SparkhireRuntimeServiceAddCandidateArgs) GetReq() (v *AddCandidateRequest) {
-	if !p.IsSetReq() {
-		return SparkhireRuntimeServiceAddCandidateArgs_Req_DEFAULT
-	}
-	return p.Req
-}
-func (p *SparkhireRuntimeServiceAddCandidateArgs) SetReq(val *AddCandidateRequest) {
-	p.Req = val
-}
-
-func (p *SparkhireRuntimeServiceAddCandidateArgs) IsSetReq() bool {
-	return p.Req != nil
-}
-
-func (p *SparkhireRuntimeServiceAddCandidateArgs) String() string {
-	if p == nil {
-		return "<nil>"
-	}
-	return fmt.Sprintf("SparkhireRuntimeServiceAddCandidateArgs(%+v)", *p)
-}
-
-var fieldIDToName_SparkhireRuntimeServiceAddCandidateArgs = map[int16]string{
-	1: "req",
-}
-
-type SparkhireRuntimeServiceAddCandidateResult struct {
-	Success *AddCandidateResponse `thrift:"success,0,optional" frugal:"0,optional,AddCandidateResponse" json:"success,omitempty"`
-}
-
-func NewSparkhireRuntimeServiceAddCandidateResult() *SparkhireRuntimeServiceAddCandidateResult {
-	return &SparkhireRuntimeServiceAddCandidateResult{}
-}
-
-func (p *SparkhireRuntimeServiceAddCandidateResult) InitDefault() {
-}
-
-var SparkhireRuntimeServiceAddCandidateResult_Success_DEFAULT *AddCandidateResponse
-
-func (p *SparkhireRuntimeServiceAddCandidateResult) GetSuccess() (v *AddCandidateResponse) {
-	if !p.IsSetSuccess() {
-		return SparkhireRuntimeServiceAddCandidateResult_Success_DEFAULT
-	}
-	return p.Success
-}
-func (p *SparkhireRuntimeServiceAddCandidateResult) SetSuccess(x interface{}) {
-	p.Success = x.(*AddCandidateResponse)
-}
-
-func (p *SparkhireRuntimeServiceAddCandidateResult) IsSetSuccess() bool {
-	return p.Success != nil
-}
-
-func (p *SparkhireRuntimeServiceAddCandidateResult) String() string {
-	if p == nil {
-		return "<nil>"
-	}
-	return fmt.Sprintf("SparkhireRuntimeServiceAddCandidateResult(%+v)", *p)
-}
-
-var fieldIDToName_SparkhireRuntimeServiceAddCandidateResult = map[int16]string{
-	0: "success",
-}
-
-type SparkhireRuntimeServiceEditCandidateArgs struct {
-	Req *EditCandidateRequest `thrift:"req,1" frugal:"1,default,EditCandidateRequest" json:"req"`
-}
-
-func NewSparkhireRuntimeServiceEditCandidateArgs() *SparkhireRuntimeServiceEditCandidateArgs {
-	return &SparkhireRuntimeServiceEditCandidateArgs{}
-}
-
-func (p *SparkhireRuntimeServiceEditCandidateArgs) InitDefault() {
-}
-
-var SparkhireRuntimeServiceEditCandidateArgs_Req_DEFAULT *EditCandidateRequest
-
-func (p *SparkhireRuntimeServiceEditCandidateArgs) GetReq() (v *EditCandidateRequest) {
-	if !p.IsSetReq() {
-		return SparkhireRuntimeServiceEditCandidateArgs_Req_DEFAULT
-	}
-	return p.Req
-}
-func (p *SparkhireRuntimeServiceEditCandidateArgs) SetReq(val *EditCandidateRequest) {
-	p.Req = val
-}
-
-func (p *SparkhireRuntimeServiceEditCandidateArgs) IsSetReq() bool {
-	return p.Req != nil
-}
-
-func (p *SparkhireRuntimeServiceEditCandidateArgs) String() string {
-	if p == nil {
-		return "<nil>"
-	}
-	return fmt.Sprintf("SparkhireRuntimeServiceEditCandidateArgs(%+v)", *p)
-}
-
-var fieldIDToName_SparkhireRuntimeServiceEditCandidateArgs = map[int16]string{
-	1: "req",
-}
-
-type SparkhireRuntimeServiceEditCandidateResult struct {
-	Success *EditCandidateResponse `thrift:"success,0,optional" frugal:"0,optional,EditCandidateResponse" json:"success,omitempty"`
-}
-
-func NewSparkhireRuntimeServiceEditCandidateResult() *SparkhireRuntimeServiceEditCandidateResult {
-	return &SparkhireRuntimeServiceEditCandidateResult{}
-}
-
-func (p *SparkhireRuntimeServiceEditCandidateResult) InitDefault() {
-}
-
-var SparkhireRuntimeServiceEditCandidateResult_Success_DEFAULT *EditCandidateResponse
-
-func (p *SparkhireRuntimeServiceEditCandidateResult) GetSuccess() (v *EditCandidateResponse) {
-	if !p.IsSetSuccess() {
-		return SparkhireRuntimeServiceEditCandidateResult_Success_DEFAULT
-	}
-	return p.Success
-}
-func (p *SparkhireRuntimeServiceEditCandidateResult) SetSuccess(x interface{}) {
-	p.Success = x.(*EditCandidateResponse)
-}
-
-func (p *SparkhireRuntimeServiceEditCandidateResult) IsSetSuccess() bool {
-	return p.Success != nil
-}
-
-func (p *SparkhireRuntimeServiceEditCandidateResult) String() string {
-	if p == nil {
-		return "<nil>"
-	}
-	return fmt.Sprintf("SparkhireRuntimeServiceEditCandidateResult(%+v)", *p)
-}
-
-var fieldIDToName_SparkhireRuntimeServiceEditCandidateResult = map[int16]string{
-	0: "success",
-}
-
 type SparkhireRuntimeServiceGetCurrentCandidateArgs struct {
 	Req *GetCurrentCandidateRequest `thrift:"req,1" frugal:"1,default,GetCurrentCandidateRequest" json:"req"`
 }
@@ -4876,6 +4675,82 @@ func (p *SparkhireRuntimeServiceGetCurrentCandidateResult) String() string {
 }
 
 var fieldIDToName_SparkhireRuntimeServiceGetCurrentCandidateResult = map[int16]string{
+	0: "success",
+}
+
+type SparkhireRuntimeServiceEditCandidateContractInfoArgs struct {
+	Req *EditCandidateContractInfoRequest `thrift:"req,1" frugal:"1,default,EditCandidateContractInfoRequest" json:"req"`
+}
+
+func NewSparkhireRuntimeServiceEditCandidateContractInfoArgs() *SparkhireRuntimeServiceEditCandidateContractInfoArgs {
+	return &SparkhireRuntimeServiceEditCandidateContractInfoArgs{}
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateContractInfoArgs) InitDefault() {
+}
+
+var SparkhireRuntimeServiceEditCandidateContractInfoArgs_Req_DEFAULT *EditCandidateContractInfoRequest
+
+func (p *SparkhireRuntimeServiceEditCandidateContractInfoArgs) GetReq() (v *EditCandidateContractInfoRequest) {
+	if !p.IsSetReq() {
+		return SparkhireRuntimeServiceEditCandidateContractInfoArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+func (p *SparkhireRuntimeServiceEditCandidateContractInfoArgs) SetReq(val *EditCandidateContractInfoRequest) {
+	p.Req = val
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateContractInfoArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateContractInfoArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SparkhireRuntimeServiceEditCandidateContractInfoArgs(%+v)", *p)
+}
+
+var fieldIDToName_SparkhireRuntimeServiceEditCandidateContractInfoArgs = map[int16]string{
+	1: "req",
+}
+
+type SparkhireRuntimeServiceEditCandidateContractInfoResult struct {
+	Success *EditCandidateContractInfoResponse `thrift:"success,0,optional" frugal:"0,optional,EditCandidateContractInfoResponse" json:"success,omitempty"`
+}
+
+func NewSparkhireRuntimeServiceEditCandidateContractInfoResult() *SparkhireRuntimeServiceEditCandidateContractInfoResult {
+	return &SparkhireRuntimeServiceEditCandidateContractInfoResult{}
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateContractInfoResult) InitDefault() {
+}
+
+var SparkhireRuntimeServiceEditCandidateContractInfoResult_Success_DEFAULT *EditCandidateContractInfoResponse
+
+func (p *SparkhireRuntimeServiceEditCandidateContractInfoResult) GetSuccess() (v *EditCandidateContractInfoResponse) {
+	if !p.IsSetSuccess() {
+		return SparkhireRuntimeServiceEditCandidateContractInfoResult_Success_DEFAULT
+	}
+	return p.Success
+}
+func (p *SparkhireRuntimeServiceEditCandidateContractInfoResult) SetSuccess(x interface{}) {
+	p.Success = x.(*EditCandidateContractInfoResponse)
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateContractInfoResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateContractInfoResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SparkhireRuntimeServiceEditCandidateContractInfoResult(%+v)", *p)
+}
+
+var fieldIDToName_SparkhireRuntimeServiceEditCandidateContractInfoResult = map[int16]string{
 	0: "success",
 }
 

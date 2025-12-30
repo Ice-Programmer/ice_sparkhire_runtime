@@ -3,76 +3,15 @@ package candidate
 import (
 	"context"
 	"fmt"
-	"github.com/bytedance/sonic"
 	sparkruntime "ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
 	"ice_sparkhire_runtime/model/db"
 	"ice_sparkhire_runtime/service/geo"
+	"ice_sparkhire_runtime/service/user"
 	"ice_sparkhire_runtime/utils"
 )
 
-func ValidateCandidate(candidate *sparkruntime.CandidateInfo) error {
-	if candidate == nil {
-		return fmt.Errorf("candidate is nil")
-	}
-
-	if candidate.GetAge() <= 0 || candidate.GetAge() >= 99 {
-		return fmt.Errorf("invalid age")
-	}
-
-	if len(candidate.GetQualificationList()) > 20 {
-		return fmt.Errorf("qualification list is too long")
-	}
-
-	if utils.NotContains(sparkruntime.JobStatusList, candidate.JobStatus) {
-		return fmt.Errorf("job is invalide")
-	}
-
-	if utils.NotContains(sparkruntime.EducationStatusList, candidate.EducationStatus) {
-		return fmt.Errorf("education is invalide")
-	}
-
-	if err := utils.ValidateGeoDetail(candidate.GetGeoDetail()); err != nil {
-		return err
-	}
-
-	if err := utils.ValidateYear(candidate.GetGraduationYear()); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func BuildCandidateDB(ctx context.Context, candidateInfo *sparkruntime.CandidateInfo, id int64) (*db.Candidate, error) {
-	userId, err := utils.GetCurrentUserId(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	return &db.Candidate{
-		Id:               id,
-		UserId:           userId,
-		Age:              candidateInfo.GetAge(),
-		Qualifications:   utils.MarshalString(candidateInfo.QualificationList),
-		Education:        int32(candidateInfo.EducationStatus),
-		GraduationYear:   candidateInfo.GraduationYear,
-		JobStatus:        int8(candidateInfo.JobStatus),
-		FirstGeoLevelId:  candidateInfo.GeoDetail.GetFirstGeoLevelId(),
-		SecondGeoLevelId: candidateInfo.GeoDetail.GetSecondGeoLevelId(),
-		ThirdGeoLevelId:  candidateInfo.GeoDetail.GetThirdGeoLevelId(),
-		ForthGeoLevelId:  candidateInfo.GeoDetail.GetForthGeoLevelId(),
-		Address:          candidateInfo.GeoDetail.GetAddress(),
-		Latitude:         candidateInfo.GeoDetail.GetLatitude(),
-		Longitude:        candidateInfo.GeoDetail.GetLongitude(),
-	}, nil
-}
-
 func BuildCandidateInfo(ctx context.Context, candidate *db.Candidate) (*sparkruntime.CandidateInfo, error) {
-	qualificationList := make([]string, 0)
-	if err := sonic.Unmarshal([]byte(candidate.Qualifications), &qualificationList); err != nil {
-		return nil, err
-	}
-
-	geoDetailInfo, err := geo.BuildGeoDetailInfo(ctx, candidate.FirstGeoLevelId, candidate.SecondGeoLevelId, candidate.ThirdGeoLevelId, candidate.ForthGeoLevelId, candidate.Address)
+	geoInfo, err := geo.BuildGeoDetailInfo(ctx, candidate.FirstGeoLevelId, candidate.SecondGeoLevelId, candidate.ThirdGeoLevelId, candidate.ForthGeoLevelId, candidate.Address)
 	if err != nil {
 		return nil, err
 	}
@@ -89,15 +28,23 @@ func BuildCandidateInfo(ctx context.Context, candidate *db.Candidate) (*sparkrun
 		}
 	})
 
+	currentUser, err := user.GetCurrentUser(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return &sparkruntime.CandidateInfo{
-		Age:               candidate.Age,
-		QualificationList: qualificationList,
-		JobStatus:         sparkruntime.JobStatus(candidate.JobStatus),
-		GeoDetail:         geoDetailInfo,
-		GraduationYear:    candidate.GraduationYear,
-		EducationStatus:   sparkruntime.EducationStatus(candidate.Education),
-		Id:                utils.Int64Ptr(candidate.Id),
-		TagList:           tagInfoList,
+		Age:       candidate.Age,
+		JobStatus: sparkruntime.JobStatus(candidate.JobStatus),
+		ContractInfo: &sparkruntime.ContractInfo{
+			Phone:   candidate.Phone,
+			Email:   currentUser.Email,
+			GeoInfo: geoInfo,
+		},
+		GraduationYear:  candidate.GraduationYear,
+		EducationStatus: sparkruntime.EducationStatus(candidate.Education),
+		Id:              utils.Int64Ptr(candidate.Id),
+		TagList:         tagInfoList,
 	}, nil
 }
 

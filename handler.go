@@ -86,24 +86,12 @@ func (s *SparkhireRuntimeServiceImpl) SwitchUserRole(ctx context.Context, req *s
 
 // =============================================== candidate ===============================================
 
-// AddCandidate implements the SparkhireRuntimeServiceImpl interface.
-func (s *SparkhireRuntimeServiceImpl) AddCandidate(ctx context.Context, req *sparkhire_runtime.AddCandidateRequest) (resp *sparkhire_runtime.AddCandidateResponse, err error) {
-	resp, err = candidate.AddCandidate(ctx, req)
+// EditCandidateContractInfo implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) EditCandidateContractInfo(ctx context.Context, req *sparkhire_runtime.EditCandidateContractInfoRequest) (resp *sparkhire_runtime.EditCandidateContractInfoResponse, err error) {
+	resp, err = candidate.UpsertCandidateContractInfo(ctx, req)
 	if err != nil {
-		klog.CtxErrorf(ctx, "add candidate failed: %v", err)
-		resp = &sparkhire_runtime.AddCandidateResponse{
-			BaseResp: handler.GenErrorBaseResp(err.Error()),
-		}
-	}
-	return resp, nil
-}
-
-// EditCandidate implements the SparkhireRuntimeServiceImpl interface.
-func (s *SparkhireRuntimeServiceImpl) EditCandidate(ctx context.Context, req *sparkhire_runtime.EditCandidateRequest) (resp *sparkhire_runtime.EditCandidateResponse, err error) {
-	resp, err = candidate.EditCandidate(ctx, req)
-	if err != nil {
-		klog.CtxErrorf(ctx, "edit candidate failed: %v", err)
-		resp = &sparkhire_runtime.EditCandidateResponse{
+		klog.CtxErrorf(ctx, "upsert candidate contract info failed: %v", err)
+		resp = &sparkhire_runtime.EditCandidateContractInfoResponse{
 			BaseResp: handler.GenErrorBaseResp(err.Error()),
 		}
 	}

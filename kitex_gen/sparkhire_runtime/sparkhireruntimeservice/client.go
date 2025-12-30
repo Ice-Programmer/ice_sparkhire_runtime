@@ -16,9 +16,8 @@ type Client interface {
 	UserMailLogin(ctx context.Context, req *sparkhire_runtime.UserMailLoginRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.UserMailLoginResponse, err error)
 	FetchCurrentUser(ctx context.Context, req *sparkhire_runtime.FetchCurrentUserRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.FetchCurrentUserResponse, err error)
 	SwitchUserRole(ctx context.Context, req *sparkhire_runtime.SwitchUserRoleRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.SwitchUserRoleResponse, err error)
-	AddCandidate(ctx context.Context, req *sparkhire_runtime.AddCandidateRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.AddCandidateResponse, err error)
-	EditCandidate(ctx context.Context, req *sparkhire_runtime.EditCandidateRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditCandidateResponse, err error)
 	GetCurrentCandidate(ctx context.Context, req *sparkhire_runtime.GetCurrentCandidateRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.GetCurrentCandidateResponse, err error)
+	EditCandidateContractInfo(ctx context.Context, req *sparkhire_runtime.EditCandidateContractInfoRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditCandidateContractInfoResponse, err error)
 	QueryTag(ctx context.Context, req *sparkhire_runtime.QueryTagRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.QueryTagResponse, err error)
 	AddTag(ctx context.Context, req *sparkhire_runtime.AddTagRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.AddTagResponse, err error)
 	BindTags(ctx context.Context, req *sparkhire_runtime.BindTagsRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.BindTagsResponse, err error)
@@ -96,19 +95,14 @@ func (p *kSparkhireRuntimeServiceClient) SwitchUserRole(ctx context.Context, req
 	return p.kClient.SwitchUserRole(ctx, req)
 }
 
-func (p *kSparkhireRuntimeServiceClient) AddCandidate(ctx context.Context, req *sparkhire_runtime.AddCandidateRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.AddCandidateResponse, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.AddCandidate(ctx, req)
-}
-
-func (p *kSparkhireRuntimeServiceClient) EditCandidate(ctx context.Context, req *sparkhire_runtime.EditCandidateRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditCandidateResponse, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.EditCandidate(ctx, req)
-}
-
 func (p *kSparkhireRuntimeServiceClient) GetCurrentCandidate(ctx context.Context, req *sparkhire_runtime.GetCurrentCandidateRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.GetCurrentCandidateResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetCurrentCandidate(ctx, req)
+}
+
+func (p *kSparkhireRuntimeServiceClient) EditCandidateContractInfo(ctx context.Context, req *sparkhire_runtime.EditCandidateContractInfoRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditCandidateContractInfoResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.EditCandidateContractInfo(ctx, req)
 }
 
 func (p *kSparkhireRuntimeServiceClient) QueryTag(ctx context.Context, req *sparkhire_runtime.QueryTagRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.QueryTagResponse, err error) {

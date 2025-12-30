@@ -2,7 +2,6 @@ package candidate
 
 import (
 	"context"
-	"fmt"
 	"ice_sparkhire_runtime/handler"
 	sparkruntime "ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
 	"ice_sparkhire_runtime/model/db"
@@ -19,9 +18,6 @@ func GetCurrentCandidate(ctx context.Context, req *sparkruntime.GetCurrentCandid
 	originalCandidate, err := db.FindCandidateByUserId(ctx, db.DB, userId)
 	if err != nil {
 		return nil, err
-	}
-	if originalCandidate == nil {
-		return nil, fmt.Errorf("candidate not found")
 	}
 
 	candidateInfo, err := candidate.BuildCandidateInfo(ctx, originalCandidate)
