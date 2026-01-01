@@ -68,6 +68,7 @@ create table if not exists `candidate`
     `id`                  bigint                                 not null comment 'id' primary key,
     `user_id`             bigint                                 not null comment '用户id',
     `age`                 int          default 20                not null comment '年龄',
+    `profile`             text                                   null comment '简介',
     `education`           int          default 1                 not null comment '最高学历(1-本科 2-研究生 3-博士生 4-大专 5-高中 6-高中以下)',
     `phone`               varchar(128) default ''                not null comment '联系方式',
     `graduation_year`     int                                    not null comment '毕业年份',

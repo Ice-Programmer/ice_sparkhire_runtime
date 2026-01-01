@@ -35,6 +35,7 @@ func BuildCandidateInfo(ctx context.Context, candidate *db.Candidate) (*sparkrun
 
 	return &sparkruntime.CandidateInfo{
 		Age:       candidate.Age,
+		Profile:   candidate.Profile,
 		JobStatus: sparkruntime.JobStatus(candidate.JobStatus),
 		ContractInfo: &sparkruntime.ContractInfo{
 			Phone:   candidate.Phone,

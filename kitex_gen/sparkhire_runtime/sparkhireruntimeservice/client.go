@@ -18,6 +18,7 @@ type Client interface {
 	SwitchUserRole(ctx context.Context, req *sparkhire_runtime.SwitchUserRoleRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.SwitchUserRoleResponse, err error)
 	GetCurrentCandidate(ctx context.Context, req *sparkhire_runtime.GetCurrentCandidateRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.GetCurrentCandidateResponse, err error)
 	EditCandidateContractInfo(ctx context.Context, req *sparkhire_runtime.EditCandidateContractInfoRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditCandidateContractInfoResponse, err error)
+	EditCandidateProfile(ctx context.Context, req *sparkhire_runtime.EditCandidateProfileRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditCandidateProfileResponse, err error)
 	QueryTag(ctx context.Context, req *sparkhire_runtime.QueryTagRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.QueryTagResponse, err error)
 	AddTag(ctx context.Context, req *sparkhire_runtime.AddTagRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.AddTagResponse, err error)
 	BindTags(ctx context.Context, req *sparkhire_runtime.BindTagsRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.BindTagsResponse, err error)
@@ -103,6 +104,11 @@ func (p *kSparkhireRuntimeServiceClient) GetCurrentCandidate(ctx context.Context
 func (p *kSparkhireRuntimeServiceClient) EditCandidateContractInfo(ctx context.Context, req *sparkhire_runtime.EditCandidateContractInfoRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditCandidateContractInfoResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.EditCandidateContractInfo(ctx, req)
+}
+
+func (p *kSparkhireRuntimeServiceClient) EditCandidateProfile(ctx context.Context, req *sparkhire_runtime.EditCandidateProfileRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditCandidateProfileResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.EditCandidateProfile(ctx, req)
 }
 
 func (p *kSparkhireRuntimeServiceClient) QueryTag(ctx context.Context, req *sparkhire_runtime.QueryTagRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.QueryTagResponse, err error) {

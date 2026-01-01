@@ -62,6 +62,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
+	"EditCandidateProfile": kitex.NewMethodInfo(
+		editCandidateProfileHandler,
+		newSparkhireRuntimeServiceEditCandidateProfileArgs,
+		newSparkhireRuntimeServiceEditCandidateProfileResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
 	"QueryTag": kitex.NewMethodInfo(
 		queryTagHandler,
 		newSparkhireRuntimeServiceQueryTagArgs,
@@ -399,6 +406,24 @@ func newSparkhireRuntimeServiceEditCandidateContractInfoArgs() interface{} {
 
 func newSparkhireRuntimeServiceEditCandidateContractInfoResult() interface{} {
 	return sparkhire_runtime.NewSparkhireRuntimeServiceEditCandidateContractInfoResult()
+}
+
+func editCandidateProfileHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*sparkhire_runtime.SparkhireRuntimeServiceEditCandidateProfileArgs)
+	realResult := result.(*sparkhire_runtime.SparkhireRuntimeServiceEditCandidateProfileResult)
+	success, err := handler.(sparkhire_runtime.SparkhireRuntimeService).EditCandidateProfile(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newSparkhireRuntimeServiceEditCandidateProfileArgs() interface{} {
+	return sparkhire_runtime.NewSparkhireRuntimeServiceEditCandidateProfileArgs()
+}
+
+func newSparkhireRuntimeServiceEditCandidateProfileResult() interface{} {
+	return sparkhire_runtime.NewSparkhireRuntimeServiceEditCandidateProfileResult()
 }
 
 func queryTagHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
@@ -854,6 +879,16 @@ func (p *kClient) EditCandidateContractInfo(ctx context.Context, req *sparkhire_
 	_args.Req = req
 	var _result sparkhire_runtime.SparkhireRuntimeServiceEditCandidateContractInfoResult
 	if err = p.c.Call(ctx, "EditCandidateContractInfo", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) EditCandidateProfile(ctx context.Context, req *sparkhire_runtime.EditCandidateProfileRequest) (r *sparkhire_runtime.EditCandidateProfileResponse, err error) {
+	var _args sparkhire_runtime.SparkhireRuntimeServiceEditCandidateProfileArgs
+	_args.Req = req
+	var _result sparkhire_runtime.SparkhireRuntimeServiceEditCandidateProfileResult
+	if err = p.c.Call(ctx, "EditCandidateProfile", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

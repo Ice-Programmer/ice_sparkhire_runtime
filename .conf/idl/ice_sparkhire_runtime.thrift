@@ -141,32 +141,14 @@ struct ContractInfo {
 
 struct CandidateInfo {
 	1: required i32             age
+	2: required string          profile
 	3: required JobStatus       jobStatus
-	4: required ContractInfo    ContractInfo
+	4: required ContractInfo    contractInfo
 	5: required i32             graduationYear
 	6: required EducationStatus educationStatus
 	7: optional i64             id
 	8: optional list<TagInfo>   tagList
 }
-
-//struct AddCandidateRequest {
-//	1:   required CandidateInfo candidateInfo
-//	255: required base.Base     Base
-//}
-//
-//struct AddCandidateResponse {
-//	1:            i64           id
-//	255: required base.BaseResp BaseResp
-//}
-//
-//struct EditCandidateRequest {
-//	1:   required CandidateInfo candidateInfo
-//	255: required base.Base     Base
-//}
-//
-//struct EditCandidateResponse {
-//	255: required base.BaseResp BaseResp
-//}
 
 struct EditCandidateContractInfoRequest {
 	1:   required GeoModifyInfo geoInfo
@@ -184,6 +166,15 @@ struct GetCurrentCandidateRequest {
 
 struct GetCurrentCandidateResponse {
 	1:            CandidateInfo candidateInfo
+	255: required base.BaseResp BaseResp
+}
+
+struct EditCandidateProfileRequest {
+	1:   required string    profile
+	255: required base.Base Base
+}
+
+struct EditCandidateProfileResponse {
 	255: required base.BaseResp BaseResp
 }
 
@@ -510,10 +501,9 @@ service SparkhireRuntimeService {
     SwitchUserRoleResponse SwitchUserRole(1: SwitchUserRoleRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/role/switch", api.serializer="json")
 
     // =============================================== candidate ===============================================
-//    AddCandidateResponse AddCandidate(1: AddCandidateRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/candidate/add", api.serializer="json")
-//    EditCandidateResponse EditCandidate(1: EditCandidateRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/candidate/edit", api.serializer="json")
     GetCurrentCandidateResponse GetCurrentCandidate(1: GetCurrentCandidateRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/candidate/current/get", api.serializer="json")
     EditCandidateContractInfoResponse EditCandidateContractInfo(1: EditCandidateContractInfoRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/candidate/contract/edit", api.serializer="json")
+    EditCandidateProfileResponse EditCandidateProfile(1: EditCandidateProfileRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/candidate/profile/edit", api.serializer="json")
 
     // =============================================== tag ===============================================
     QueryTagResponse QueryTag(1: QueryTagRequest req) (api.post="/api/v1/ice/sparkhire/runtime/tag/query", api.serializer="json")

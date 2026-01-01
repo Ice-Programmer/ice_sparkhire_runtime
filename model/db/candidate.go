@@ -15,6 +15,7 @@ type Candidate struct {
 	Id               int64          `gorm:"column:id;type:bigint;comment:id;primaryKey;not null;" json:"id"`                                                // id
 	UserId           int64          `gorm:"column:user_id;type:bigint;comment:用户id;not null;" json:"user_id"`                                               // 用户id
 	Age              int32          `gorm:"column:age;type:int;comment:年龄;not null;default:20;" json:"age"`                                                 // 年龄
+	Profile          string         `gorm:"column:profile;type:text;comment:简历;not null;default:20;" json:"profile"`                                        // 年龄
 	Education        int32          `gorm:"column:education;type:int;comment:最高学历(1-本科 2-研究生 3-博士生 4-大专 5-高中 6-高中以下);not null;default:1;" json:"education"` // 最高学历(1-本科 2-研究生 3-博士生 4-大专 5-高中 6-高中以下)
 	Phone            string         `gorm:"column:phone;type:varchar(128);comment:联系方式;not null;" json:"phone"`
 	GraduationYear   int32          `gorm:"column:graduation_year;type:int;comment:毕业年份;not null;" json:"graduation_year"`                      // 毕业年份

@@ -1221,8 +1221,9 @@ var fieldIDToName_ContractInfo = map[int16]string{
 
 type CandidateInfo struct {
 	Age             int32           `thrift:"age,1,required" frugal:"1,required,i32" json:"age"`
+	Profile         string          `thrift:"profile,2,required" frugal:"2,required,string" json:"profile"`
 	JobStatus       JobStatus       `thrift:"jobStatus,3,required" frugal:"3,required,JobStatus" json:"jobStatus"`
-	ContractInfo    *ContractInfo   `thrift:"ContractInfo,4,required" frugal:"4,required,ContractInfo" json:"ContractInfo"`
+	ContractInfo    *ContractInfo   `thrift:"contractInfo,4,required" frugal:"4,required,ContractInfo" json:"contractInfo"`
 	GraduationYear  int32           `thrift:"graduationYear,5,required" frugal:"5,required,i32" json:"graduationYear"`
 	EducationStatus EducationStatus `thrift:"educationStatus,6,required" frugal:"6,required,EducationStatus" json:"educationStatus"`
 	Id              *int64          `thrift:"id,7,optional" frugal:"7,optional,i64" json:"id,omitempty"`
@@ -1238,6 +1239,10 @@ func (p *CandidateInfo) InitDefault() {
 
 func (p *CandidateInfo) GetAge() (v int32) {
 	return p.Age
+}
+
+func (p *CandidateInfo) GetProfile() (v string) {
+	return p.Profile
 }
 
 func (p *CandidateInfo) GetJobStatus() (v JobStatus) {
@@ -1281,6 +1286,9 @@ func (p *CandidateInfo) GetTagList() (v []*TagInfo) {
 func (p *CandidateInfo) SetAge(val int32) {
 	p.Age = val
 }
+func (p *CandidateInfo) SetProfile(val string) {
+	p.Profile = val
+}
 func (p *CandidateInfo) SetJobStatus(val JobStatus) {
 	p.JobStatus = val
 }
@@ -1321,8 +1329,9 @@ func (p *CandidateInfo) String() string {
 
 var fieldIDToName_CandidateInfo = map[int16]string{
 	1: "age",
+	2: "profile",
 	3: "jobStatus",
-	4: "ContractInfo",
+	4: "contractInfo",
 	5: "graduationYear",
 	6: "educationStatus",
 	7: "id",
@@ -1532,6 +1541,91 @@ func (p *GetCurrentCandidateResponse) String() string {
 
 var fieldIDToName_GetCurrentCandidateResponse = map[int16]string{
 	1:   "candidateInfo",
+	255: "BaseResp",
+}
+
+type EditCandidateProfileRequest struct {
+	Profile string     `thrift:"profile,1,required" frugal:"1,required,string" json:"profile"`
+	Base    *base.Base `thrift:"Base,255,required" frugal:"255,required,base.Base" json:"Base"`
+}
+
+func NewEditCandidateProfileRequest() *EditCandidateProfileRequest {
+	return &EditCandidateProfileRequest{}
+}
+
+func (p *EditCandidateProfileRequest) InitDefault() {
+}
+
+func (p *EditCandidateProfileRequest) GetProfile() (v string) {
+	return p.Profile
+}
+
+var EditCandidateProfileRequest_Base_DEFAULT *base.Base
+
+func (p *EditCandidateProfileRequest) GetBase() (v *base.Base) {
+	if !p.IsSetBase() {
+		return EditCandidateProfileRequest_Base_DEFAULT
+	}
+	return p.Base
+}
+func (p *EditCandidateProfileRequest) SetProfile(val string) {
+	p.Profile = val
+}
+func (p *EditCandidateProfileRequest) SetBase(val *base.Base) {
+	p.Base = val
+}
+
+func (p *EditCandidateProfileRequest) IsSetBase() bool {
+	return p.Base != nil
+}
+
+func (p *EditCandidateProfileRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("EditCandidateProfileRequest(%+v)", *p)
+}
+
+var fieldIDToName_EditCandidateProfileRequest = map[int16]string{
+	1:   "profile",
+	255: "Base",
+}
+
+type EditCandidateProfileResponse struct {
+	BaseResp *base.BaseResp `thrift:"BaseResp,255,required" frugal:"255,required,base.BaseResp" json:"BaseResp"`
+}
+
+func NewEditCandidateProfileResponse() *EditCandidateProfileResponse {
+	return &EditCandidateProfileResponse{}
+}
+
+func (p *EditCandidateProfileResponse) InitDefault() {
+}
+
+var EditCandidateProfileResponse_BaseResp_DEFAULT *base.BaseResp
+
+func (p *EditCandidateProfileResponse) GetBaseResp() (v *base.BaseResp) {
+	if !p.IsSetBaseResp() {
+		return EditCandidateProfileResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+func (p *EditCandidateProfileResponse) SetBaseResp(val *base.BaseResp) {
+	p.BaseResp = val
+}
+
+func (p *EditCandidateProfileResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *EditCandidateProfileResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("EditCandidateProfileResponse(%+v)", *p)
+}
+
+var fieldIDToName_EditCandidateProfileResponse = map[int16]string{
 	255: "BaseResp",
 }
 
@@ -4179,6 +4273,8 @@ type SparkhireRuntimeService interface {
 
 	EditCandidateContractInfo(ctx context.Context, req *EditCandidateContractInfoRequest) (r *EditCandidateContractInfoResponse, err error)
 
+	EditCandidateProfile(ctx context.Context, req *EditCandidateProfileRequest) (r *EditCandidateProfileResponse, err error)
+
 	QueryTag(ctx context.Context, req *QueryTagRequest) (r *QueryTagResponse, err error)
 
 	AddTag(ctx context.Context, req *AddTagRequest) (r *AddTagResponse, err error)
@@ -4751,6 +4847,82 @@ func (p *SparkhireRuntimeServiceEditCandidateContractInfoResult) String() string
 }
 
 var fieldIDToName_SparkhireRuntimeServiceEditCandidateContractInfoResult = map[int16]string{
+	0: "success",
+}
+
+type SparkhireRuntimeServiceEditCandidateProfileArgs struct {
+	Req *EditCandidateProfileRequest `thrift:"req,1" frugal:"1,default,EditCandidateProfileRequest" json:"req"`
+}
+
+func NewSparkhireRuntimeServiceEditCandidateProfileArgs() *SparkhireRuntimeServiceEditCandidateProfileArgs {
+	return &SparkhireRuntimeServiceEditCandidateProfileArgs{}
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateProfileArgs) InitDefault() {
+}
+
+var SparkhireRuntimeServiceEditCandidateProfileArgs_Req_DEFAULT *EditCandidateProfileRequest
+
+func (p *SparkhireRuntimeServiceEditCandidateProfileArgs) GetReq() (v *EditCandidateProfileRequest) {
+	if !p.IsSetReq() {
+		return SparkhireRuntimeServiceEditCandidateProfileArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+func (p *SparkhireRuntimeServiceEditCandidateProfileArgs) SetReq(val *EditCandidateProfileRequest) {
+	p.Req = val
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateProfileArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateProfileArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SparkhireRuntimeServiceEditCandidateProfileArgs(%+v)", *p)
+}
+
+var fieldIDToName_SparkhireRuntimeServiceEditCandidateProfileArgs = map[int16]string{
+	1: "req",
+}
+
+type SparkhireRuntimeServiceEditCandidateProfileResult struct {
+	Success *EditCandidateProfileResponse `thrift:"success,0,optional" frugal:"0,optional,EditCandidateProfileResponse" json:"success,omitempty"`
+}
+
+func NewSparkhireRuntimeServiceEditCandidateProfileResult() *SparkhireRuntimeServiceEditCandidateProfileResult {
+	return &SparkhireRuntimeServiceEditCandidateProfileResult{}
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateProfileResult) InitDefault() {
+}
+
+var SparkhireRuntimeServiceEditCandidateProfileResult_Success_DEFAULT *EditCandidateProfileResponse
+
+func (p *SparkhireRuntimeServiceEditCandidateProfileResult) GetSuccess() (v *EditCandidateProfileResponse) {
+	if !p.IsSetSuccess() {
+		return SparkhireRuntimeServiceEditCandidateProfileResult_Success_DEFAULT
+	}
+	return p.Success
+}
+func (p *SparkhireRuntimeServiceEditCandidateProfileResult) SetSuccess(x interface{}) {
+	p.Success = x.(*EditCandidateProfileResponse)
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateProfileResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateProfileResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SparkhireRuntimeServiceEditCandidateProfileResult(%+v)", *p)
+}
+
+var fieldIDToName_SparkhireRuntimeServiceEditCandidateProfileResult = map[int16]string{
 	0: "success",
 }
 
