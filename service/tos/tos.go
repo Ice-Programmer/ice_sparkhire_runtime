@@ -10,10 +10,14 @@ import (
 	"time"
 )
 
+const (
+	BucketName = "ice-spark-hire"
+)
+
 func UploadObject(ctx context.Context, fileKey string, fileBytes []byte) error {
 	if _, err := tosClient.PutObjectV2(ctx, &tos.PutObjectV2Input{
 		PutObjectBasicInput: tos.PutObjectBasicInput{
-			Bucket: "ice-spark-hire",
+			Bucket: BucketName,
 			Key:    fileKey,
 		},
 		Content: bytes.NewReader(fileBytes),
@@ -26,4 +30,8 @@ func UploadObject(ctx context.Context, fileKey string, fileBytes []byte) error {
 
 func BuildFileKey(fileName string, fileType sparkruntime.FileType) string {
 	return fmt.Sprintf("%s/%d_%s", sparkruntime.FileTypeMap[fileType], time.Now().Unix(), fileName)
+}
+
+func BuildFileURL(fileKey string) string {
+	return UrlPrefix + fileKey
 }

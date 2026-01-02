@@ -70,7 +70,7 @@ func BuildUserBasicInfo(user *db.User) *sparkruntime.UserBasicInfo {
 		Username:   user.Username,
 		Role:       sparkruntime.UserRole(user.UserRole),
 		UserAvatar: user.UserAvatar,
-		Gender:     user.Gender,
+		Gender:     sparkruntime.Gender(user.Gender),
 		Email:      user.Email,
 	}
 }

@@ -9,10 +9,9 @@ create table if not exists `user`
 (
     `id`          bigint                                   not null comment 'id' primary key,
     `username`    varchar(128)                             not null comment '用户昵称',
-    `user_avatar` varchar(128)                             not null comment '用户头像',
+    `user_avatar` varchar(256)                             not null comment '用户头像',
     `email`       varchar(256)                             not null comment '邮箱',
     `gender`      tinyint     default 1                    not null comment '0-女 1-男',
-    `profile`     text                                     null comment '自我评价',
     `user_role`   tinyint     default 0                    not null comment '用户角色（1-visitor 2-candidate 3-HR 4-admin）',
     `status`      tinyint     default 0                    not null comment '用户状态(0-正常 1-封禁)',
     `created_at`  datetime(3) default current_timestamp(3) not null comment '创建时间',

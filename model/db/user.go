@@ -15,7 +15,6 @@ type User struct {
 	UserAvatar string         `gorm:"column:user_avatar;type:varchar(128);comment:用户头像;not null;" json:"user_avatar"`
 	Email      string         `gorm:"column:email;type:varchar(256);comment:邮箱;not null;" json:"email"`
 	Gender     int8           `gorm:"column:gender;type:tinyint;comment:0-女 1-男;not null;default:1;" json:"gender"`
-	Profile    string         `gorm:"column:profile;type:text;comment:自我评价;" json:"profile"`
 	UserRole   int8           `gorm:"column:user_role;type:tinyint;comment:用户角色（1-visitor 2-candidate 3-HR 4-admin）;not null;default:0;" json:"user_role"`
 	Status     int8           `gorm:"column:status;type:tinyint;comment:用户状态(0-正常 1-封禁);not null;default:0;" json:"status"`
 	CreatedAt  time.Time      `gorm:"column:created_at;type:datetime(3);comment:创建时间" json:"created_at"`
@@ -71,6 +70,17 @@ func SaveUser(ctx context.Context, db *gorm.DB, user *User) error {
 	err := db.WithContext(ctx).Save(user).Error
 	if err != nil {
 		klog.CtxErrorf(ctx, "[DB] save user error: %v", err)
+		return err
+	}
+	return nil
+}
+
+func UpdateUserById(ctx context.Context, db *gorm.DB, id int64, updateMap map[string]interface{}) error {
+	err := db.WithContext(ctx).Model(&User{}).
+		Where("id = ?", id).
+		Updates(updateMap).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[DB] update user id %v error: %v", id, err)
 		return err
 	}
 	return nil

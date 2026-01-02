@@ -122,6 +122,18 @@ func (s *SparkhireRuntimeServiceImpl) EditCandidateProfile(ctx context.Context, 
 	return resp, nil
 }
 
+// EditCandidateBasicInfo implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) EditCandidateBasicInfo(ctx context.Context, req *sparkhire_runtime.EditCandidateBasicInfoRequest) (resp *sparkhire_runtime.EditCandidateBasicInfoResponse, err error) {
+	resp, err = candidate.EditCandidateBasicInfo(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "edit candidate basic info failed: %v", err)
+		resp = &sparkhire_runtime.EditCandidateBasicInfoResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
 // =============================================== tag ===============================================
 
 // QueryTag implements the SparkhireRuntimeServiceImpl interface.

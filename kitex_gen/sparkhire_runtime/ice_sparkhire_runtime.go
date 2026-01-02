@@ -36,6 +36,7 @@ var (
 
 	FileTypeMap = map[FileType]string{
 		FileType_CompanyAvatar: "company/avatar",
+		FileType_UserAvatar:    "user/avatar",
 	}
 )
 
@@ -85,6 +86,48 @@ func (p *UserRole) Scan(value interface{}) (err error) {
 }
 
 func (p *UserRole) Value() (driver.Value, error) {
+	if p == nil {
+		return nil, nil
+	}
+	return int64(*p), nil
+}
+
+type Gender int64
+
+const (
+	Gender_Female Gender = 0
+	Gender_Male   Gender = 1
+)
+
+func (p Gender) String() string {
+	switch p {
+	case Gender_Female:
+		return "Female"
+	case Gender_Male:
+		return "Male"
+	}
+	return "<UNSET>"
+}
+
+func GenderFromString(s string) (Gender, error) {
+	switch s {
+	case "Female":
+		return Gender_Female, nil
+	case "Male":
+		return Gender_Male, nil
+	}
+	return Gender(0), fmt.Errorf("not a valid Gender string")
+}
+
+func GenderPtr(v Gender) *Gender { return &v }
+func (p *Gender) Scan(value interface{}) (err error) {
+	var result sql.NullInt64
+	err = result.Scan(value)
+	*p = Gender(result.Int64)
+	return
+}
+
+func (p *Gender) Value() (driver.Value, error) {
 	if p == nil {
 		return nil, nil
 	}
@@ -303,12 +346,15 @@ type FileType int64
 
 const (
 	FileType_CompanyAvatar FileType = 1
+	FileType_UserAvatar    FileType = 2
 )
 
 func (p FileType) String() string {
 	switch p {
 	case FileType_CompanyAvatar:
 		return "CompanyAvatar"
+	case FileType_UserAvatar:
+		return "UserAvatar"
 	}
 	return "<UNSET>"
 }
@@ -317,6 +363,8 @@ func FileTypeFromString(s string) (FileType, error) {
 	switch s {
 	case "CompanyAvatar":
 		return FileType_CompanyAvatar, nil
+	case "UserAvatar":
+		return FileType_UserAvatar, nil
 	}
 	return FileType(0), fmt.Errorf("not a valid FileType string")
 }
@@ -547,7 +595,7 @@ type UserBasicInfo struct {
 	Username   string   `thrift:"username,2" frugal:"2,default,string" json:"username"`
 	Role       UserRole `thrift:"role,3" frugal:"3,default,UserRole" json:"role"`
 	UserAvatar string   `thrift:"userAvatar,4" frugal:"4,default,string" json:"userAvatar"`
-	Gender     int8     `thrift:"gender,5" frugal:"5,default,i8" json:"gender"`
+	Gender     Gender   `thrift:"gender,5" frugal:"5,default,Gender" json:"gender"`
 	Email      string   `thrift:"email,6" frugal:"6,default,string" json:"email"`
 }
 
@@ -574,7 +622,7 @@ func (p *UserBasicInfo) GetUserAvatar() (v string) {
 	return p.UserAvatar
 }
 
-func (p *UserBasicInfo) GetGender() (v int8) {
+func (p *UserBasicInfo) GetGender() (v Gender) {
 	return p.Gender
 }
 
@@ -593,7 +641,7 @@ func (p *UserBasicInfo) SetRole(val UserRole) {
 func (p *UserBasicInfo) SetUserAvatar(val string) {
 	p.UserAvatar = val
 }
-func (p *UserBasicInfo) SetGender(val int8) {
+func (p *UserBasicInfo) SetGender(val Gender) {
 	p.Gender = val
 }
 func (p *UserBasicInfo) SetEmail(val string) {
@@ -1626,6 +1674,118 @@ func (p *EditCandidateProfileResponse) String() string {
 }
 
 var fieldIDToName_EditCandidateProfileResponse = map[int16]string{
+	255: "BaseResp",
+}
+
+type EditCandidateBasicInfoRequest struct {
+	Username string     `thrift:"username,1,required" frugal:"1,required,string" json:"username"`
+	Avatar   string     `thrift:"avatar,2,required" frugal:"2,required,string" json:"avatar"`
+	Status   JobStatus  `thrift:"status,3,required" frugal:"3,required,JobStatus" json:"status"`
+	Gender   Gender     `thrift:"gender,4,required" frugal:"4,required,Gender" json:"gender"`
+	Base     *base.Base `thrift:"Base,255,required" frugal:"255,required,base.Base" json:"Base"`
+}
+
+func NewEditCandidateBasicInfoRequest() *EditCandidateBasicInfoRequest {
+	return &EditCandidateBasicInfoRequest{}
+}
+
+func (p *EditCandidateBasicInfoRequest) InitDefault() {
+}
+
+func (p *EditCandidateBasicInfoRequest) GetUsername() (v string) {
+	return p.Username
+}
+
+func (p *EditCandidateBasicInfoRequest) GetAvatar() (v string) {
+	return p.Avatar
+}
+
+func (p *EditCandidateBasicInfoRequest) GetStatus() (v JobStatus) {
+	return p.Status
+}
+
+func (p *EditCandidateBasicInfoRequest) GetGender() (v Gender) {
+	return p.Gender
+}
+
+var EditCandidateBasicInfoRequest_Base_DEFAULT *base.Base
+
+func (p *EditCandidateBasicInfoRequest) GetBase() (v *base.Base) {
+	if !p.IsSetBase() {
+		return EditCandidateBasicInfoRequest_Base_DEFAULT
+	}
+	return p.Base
+}
+func (p *EditCandidateBasicInfoRequest) SetUsername(val string) {
+	p.Username = val
+}
+func (p *EditCandidateBasicInfoRequest) SetAvatar(val string) {
+	p.Avatar = val
+}
+func (p *EditCandidateBasicInfoRequest) SetStatus(val JobStatus) {
+	p.Status = val
+}
+func (p *EditCandidateBasicInfoRequest) SetGender(val Gender) {
+	p.Gender = val
+}
+func (p *EditCandidateBasicInfoRequest) SetBase(val *base.Base) {
+	p.Base = val
+}
+
+func (p *EditCandidateBasicInfoRequest) IsSetBase() bool {
+	return p.Base != nil
+}
+
+func (p *EditCandidateBasicInfoRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("EditCandidateBasicInfoRequest(%+v)", *p)
+}
+
+var fieldIDToName_EditCandidateBasicInfoRequest = map[int16]string{
+	1:   "username",
+	2:   "avatar",
+	3:   "status",
+	4:   "gender",
+	255: "Base",
+}
+
+type EditCandidateBasicInfoResponse struct {
+	BaseResp *base.BaseResp `thrift:"BaseResp,255,required" frugal:"255,required,base.BaseResp" json:"BaseResp"`
+}
+
+func NewEditCandidateBasicInfoResponse() *EditCandidateBasicInfoResponse {
+	return &EditCandidateBasicInfoResponse{}
+}
+
+func (p *EditCandidateBasicInfoResponse) InitDefault() {
+}
+
+var EditCandidateBasicInfoResponse_BaseResp_DEFAULT *base.BaseResp
+
+func (p *EditCandidateBasicInfoResponse) GetBaseResp() (v *base.BaseResp) {
+	if !p.IsSetBaseResp() {
+		return EditCandidateBasicInfoResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+func (p *EditCandidateBasicInfoResponse) SetBaseResp(val *base.BaseResp) {
+	p.BaseResp = val
+}
+
+func (p *EditCandidateBasicInfoResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *EditCandidateBasicInfoResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("EditCandidateBasicInfoResponse(%+v)", *p)
+}
+
+var fieldIDToName_EditCandidateBasicInfoResponse = map[int16]string{
 	255: "BaseResp",
 }
 
@@ -3793,8 +3953,10 @@ var fieldIDToName_SendVerifyCodeResponse = map[int16]string{
 }
 
 type UploadFileRequest struct {
-	File []byte     `thrift:"file,1,required" frugal:"1,required,binary" json:"file"`
-	Base *base.Base `thrift:"Base,255,required" frugal:"255,required,base.Base" json:"Base"`
+	File     []byte     `thrift:"file,1,required" frugal:"1,required,binary" json:"file"`
+	FileType FileType   `thrift:"fileType,2,required" frugal:"2,required,FileType" json:"fileType"`
+	Filename string     `thrift:"filename,3,required" frugal:"3,required,string" json:"filename"`
+	Base     *base.Base `thrift:"Base,255,required" frugal:"255,required,base.Base" json:"Base"`
 }
 
 func NewUploadFileRequest() *UploadFileRequest {
@@ -3808,6 +3970,14 @@ func (p *UploadFileRequest) GetFile() (v []byte) {
 	return p.File
 }
 
+func (p *UploadFileRequest) GetFileType() (v FileType) {
+	return p.FileType
+}
+
+func (p *UploadFileRequest) GetFilename() (v string) {
+	return p.Filename
+}
+
 var UploadFileRequest_Base_DEFAULT *base.Base
 
 func (p *UploadFileRequest) GetBase() (v *base.Base) {
@@ -3818,6 +3988,12 @@ func (p *UploadFileRequest) GetBase() (v *base.Base) {
 }
 func (p *UploadFileRequest) SetFile(val []byte) {
 	p.File = val
+}
+func (p *UploadFileRequest) SetFileType(val FileType) {
+	p.FileType = val
+}
+func (p *UploadFileRequest) SetFilename(val string) {
+	p.Filename = val
 }
 func (p *UploadFileRequest) SetBase(val *base.Base) {
 	p.Base = val
@@ -3836,11 +4012,13 @@ func (p *UploadFileRequest) String() string {
 
 var fieldIDToName_UploadFileRequest = map[int16]string{
 	1:   "file",
+	2:   "fileType",
+	3:   "filename",
 	255: "Base",
 }
 
 type UploadFileResponse struct {
-	FileKey  string         `thrift:"fileKey,1" frugal:"1,default,string" json:"fileKey"`
+	FileLink string         `thrift:"fileLink,1" frugal:"1,default,string" json:"fileLink"`
 	BaseResp *base.BaseResp `thrift:"BaseResp,255,required" frugal:"255,required,base.BaseResp" json:"BaseResp"`
 }
 
@@ -3851,8 +4029,8 @@ func NewUploadFileResponse() *UploadFileResponse {
 func (p *UploadFileResponse) InitDefault() {
 }
 
-func (p *UploadFileResponse) GetFileKey() (v string) {
-	return p.FileKey
+func (p *UploadFileResponse) GetFileLink() (v string) {
+	return p.FileLink
 }
 
 var UploadFileResponse_BaseResp_DEFAULT *base.BaseResp
@@ -3863,8 +4041,8 @@ func (p *UploadFileResponse) GetBaseResp() (v *base.BaseResp) {
 	}
 	return p.BaseResp
 }
-func (p *UploadFileResponse) SetFileKey(val string) {
-	p.FileKey = val
+func (p *UploadFileResponse) SetFileLink(val string) {
+	p.FileLink = val
 }
 func (p *UploadFileResponse) SetBaseResp(val *base.BaseResp) {
 	p.BaseResp = val
@@ -3882,7 +4060,7 @@ func (p *UploadFileResponse) String() string {
 }
 
 var fieldIDToName_UploadFileResponse = map[int16]string{
-	1:   "fileKey",
+	1:   "fileLink",
 	255: "BaseResp",
 }
 
@@ -4274,6 +4452,8 @@ type SparkhireRuntimeService interface {
 	EditCandidateContractInfo(ctx context.Context, req *EditCandidateContractInfoRequest) (r *EditCandidateContractInfoResponse, err error)
 
 	EditCandidateProfile(ctx context.Context, req *EditCandidateProfileRequest) (r *EditCandidateProfileResponse, err error)
+
+	EditCandidateBasicInfo(ctx context.Context, req *EditCandidateBasicInfoRequest) (r *EditCandidateBasicInfoResponse, err error)
 
 	QueryTag(ctx context.Context, req *QueryTagRequest) (r *QueryTagResponse, err error)
 
@@ -4923,6 +5103,82 @@ func (p *SparkhireRuntimeServiceEditCandidateProfileResult) String() string {
 }
 
 var fieldIDToName_SparkhireRuntimeServiceEditCandidateProfileResult = map[int16]string{
+	0: "success",
+}
+
+type SparkhireRuntimeServiceEditCandidateBasicInfoArgs struct {
+	Req *EditCandidateBasicInfoRequest `thrift:"req,1" frugal:"1,default,EditCandidateBasicInfoRequest" json:"req"`
+}
+
+func NewSparkhireRuntimeServiceEditCandidateBasicInfoArgs() *SparkhireRuntimeServiceEditCandidateBasicInfoArgs {
+	return &SparkhireRuntimeServiceEditCandidateBasicInfoArgs{}
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateBasicInfoArgs) InitDefault() {
+}
+
+var SparkhireRuntimeServiceEditCandidateBasicInfoArgs_Req_DEFAULT *EditCandidateBasicInfoRequest
+
+func (p *SparkhireRuntimeServiceEditCandidateBasicInfoArgs) GetReq() (v *EditCandidateBasicInfoRequest) {
+	if !p.IsSetReq() {
+		return SparkhireRuntimeServiceEditCandidateBasicInfoArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+func (p *SparkhireRuntimeServiceEditCandidateBasicInfoArgs) SetReq(val *EditCandidateBasicInfoRequest) {
+	p.Req = val
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateBasicInfoArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateBasicInfoArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SparkhireRuntimeServiceEditCandidateBasicInfoArgs(%+v)", *p)
+}
+
+var fieldIDToName_SparkhireRuntimeServiceEditCandidateBasicInfoArgs = map[int16]string{
+	1: "req",
+}
+
+type SparkhireRuntimeServiceEditCandidateBasicInfoResult struct {
+	Success *EditCandidateBasicInfoResponse `thrift:"success,0,optional" frugal:"0,optional,EditCandidateBasicInfoResponse" json:"success,omitempty"`
+}
+
+func NewSparkhireRuntimeServiceEditCandidateBasicInfoResult() *SparkhireRuntimeServiceEditCandidateBasicInfoResult {
+	return &SparkhireRuntimeServiceEditCandidateBasicInfoResult{}
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateBasicInfoResult) InitDefault() {
+}
+
+var SparkhireRuntimeServiceEditCandidateBasicInfoResult_Success_DEFAULT *EditCandidateBasicInfoResponse
+
+func (p *SparkhireRuntimeServiceEditCandidateBasicInfoResult) GetSuccess() (v *EditCandidateBasicInfoResponse) {
+	if !p.IsSetSuccess() {
+		return SparkhireRuntimeServiceEditCandidateBasicInfoResult_Success_DEFAULT
+	}
+	return p.Success
+}
+func (p *SparkhireRuntimeServiceEditCandidateBasicInfoResult) SetSuccess(x interface{}) {
+	p.Success = x.(*EditCandidateBasicInfoResponse)
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateBasicInfoResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *SparkhireRuntimeServiceEditCandidateBasicInfoResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SparkhireRuntimeServiceEditCandidateBasicInfoResult(%+v)", *p)
+}
+
+var fieldIDToName_SparkhireRuntimeServiceEditCandidateBasicInfoResult = map[int16]string{
 	0: "success",
 }
 

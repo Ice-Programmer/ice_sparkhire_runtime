@@ -29,6 +29,11 @@ enum UserRole {
 	Admin     = 4
 }
 
+enum Gender {
+	Female = 0
+	Male   = 1
+}
+
 struct RegisterUserRequest {
 	1:   required string    email
 	2:   required string    verifyCode
@@ -45,7 +50,7 @@ struct UserBasicInfo {
 	2:  string   username
 	3:  UserRole role
 	4:  string   userAvatar
-	5:  i8       gender
+	5:  Gender   gender
 	6:  string   email
 }
 
@@ -175,6 +180,18 @@ struct EditCandidateProfileRequest {
 }
 
 struct EditCandidateProfileResponse {
+	255: required base.BaseResp BaseResp
+}
+
+struct EditCandidateBasicInfoRequest {
+	1:   required string    username
+	2:   required string    avatar
+	3:   required JobStatus status
+	4:   required Gender    gender
+	255: required base.Base Base
+}
+
+struct EditCandidateBasicInfoResponse {
 	255: required base.BaseResp BaseResp
 }
 
@@ -437,19 +454,23 @@ struct SendVerifyCodeResponse {
 
 enum FileType {
 	CompanyAvatar = 1
+	UserAvatar    = 2
 }
 
 const map<FileType, string> FileTypeMap = {
     FileType.CompanyAvatar: "company/avatar",
+    FileType.UserAvatar:    "user/avatar",
 }
 
 struct UploadFileRequest {
 	1:   required binary    file
+	2:   required FileType  fileType
+	3:   required string    filename
 	255: required base.Base Base
 }
 
 struct UploadFileResponse {
-	1:            string        fileKey
+	1:            string        fileLink
 	255: required base.BaseResp BaseResp
 }
 
@@ -504,6 +525,7 @@ service SparkhireRuntimeService {
     GetCurrentCandidateResponse GetCurrentCandidate(1: GetCurrentCandidateRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/candidate/current/get", api.serializer="json")
     EditCandidateContractInfoResponse EditCandidateContractInfo(1: EditCandidateContractInfoRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/candidate/contract/edit", api.serializer="json")
     EditCandidateProfileResponse EditCandidateProfile(1: EditCandidateProfileRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/candidate/profile/edit", api.serializer="json")
+    EditCandidateBasicInfoResponse EditCandidateBasicInfo(1: EditCandidateBasicInfoRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/candidate/basic/edit", api.serializer="json")
 
     // =============================================== tag ===============================================
     QueryTagResponse QueryTag(1: QueryTagRequest req) (api.post="/api/v1/ice/sparkhire/runtime/tag/query", api.serializer="json")
