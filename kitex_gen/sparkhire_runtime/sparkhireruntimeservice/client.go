@@ -30,6 +30,7 @@ type Client interface {
 	GetCurrentEducationExp(ctx context.Context, req *sparkhire_runtime.GetCurrentUserEducationExpRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.GetCurrentUserEducationExpResponse, err error)
 	CreateWishCareer(ctx context.Context, req *sparkhire_runtime.CreateWishCareerRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.CreateWishCareerResponse, err error)
 	EditWishCareer(ctx context.Context, req *sparkhire_runtime.EditWishCareerRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditWishCareerResponse, err error)
+	GetCurrentWishCareer(ctx context.Context, req *sparkhire_runtime.GetCurrentWishCareerRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.GetCurrentWishCareerResponse, err error)
 	CreateCareerExperience(ctx context.Context, req *sparkhire_runtime.CreateCareerExperienceRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.CreateCareerExperienceResponse, err error)
 	EditCareerExperience(ctx context.Context, req *sparkhire_runtime.EditCareerExperienceRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditCareerExperienceResponse, err error)
 	GetCurrentUserCareerExperience(ctx context.Context, req *sparkhire_runtime.GetCurrentUserCareerExperienceRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.GetCurrentUserCareerExperienceResponse, err error)
@@ -168,6 +169,11 @@ func (p *kSparkhireRuntimeServiceClient) CreateWishCareer(ctx context.Context, r
 func (p *kSparkhireRuntimeServiceClient) EditWishCareer(ctx context.Context, req *sparkhire_runtime.EditWishCareerRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditWishCareerResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.EditWishCareer(ctx, req)
+}
+
+func (p *kSparkhireRuntimeServiceClient) GetCurrentWishCareer(ctx context.Context, req *sparkhire_runtime.GetCurrentWishCareerRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.GetCurrentWishCareerResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetCurrentWishCareer(ctx, req)
 }
 
 func (p *kSparkhireRuntimeServiceClient) CreateCareerExperience(ctx context.Context, req *sparkhire_runtime.CreateCareerExperienceRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.CreateCareerExperienceResponse, err error) {

@@ -146,6 +146,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
+	"GetCurrentWishCareer": kitex.NewMethodInfo(
+		getCurrentWishCareerHandler,
+		newSparkhireRuntimeServiceGetCurrentWishCareerArgs,
+		newSparkhireRuntimeServiceGetCurrentWishCareerResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
 	"CreateCareerExperience": kitex.NewMethodInfo(
 		createCareerExperienceHandler,
 		newSparkhireRuntimeServiceCreateCareerExperienceArgs,
@@ -652,6 +659,24 @@ func newSparkhireRuntimeServiceEditWishCareerResult() interface{} {
 	return sparkhire_runtime.NewSparkhireRuntimeServiceEditWishCareerResult()
 }
 
+func getCurrentWishCareerHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*sparkhire_runtime.SparkhireRuntimeServiceGetCurrentWishCareerArgs)
+	realResult := result.(*sparkhire_runtime.SparkhireRuntimeServiceGetCurrentWishCareerResult)
+	success, err := handler.(sparkhire_runtime.SparkhireRuntimeService).GetCurrentWishCareer(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newSparkhireRuntimeServiceGetCurrentWishCareerArgs() interface{} {
+	return sparkhire_runtime.NewSparkhireRuntimeServiceGetCurrentWishCareerArgs()
+}
+
+func newSparkhireRuntimeServiceGetCurrentWishCareerResult() interface{} {
+	return sparkhire_runtime.NewSparkhireRuntimeServiceGetCurrentWishCareerResult()
+}
+
 func createCareerExperienceHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	realArg := arg.(*sparkhire_runtime.SparkhireRuntimeServiceCreateCareerExperienceArgs)
 	realResult := result.(*sparkhire_runtime.SparkhireRuntimeServiceCreateCareerExperienceResult)
@@ -1099,6 +1124,16 @@ func (p *kClient) EditWishCareer(ctx context.Context, req *sparkhire_runtime.Edi
 	_args.Req = req
 	var _result sparkhire_runtime.SparkhireRuntimeServiceEditWishCareerResult
 	if err = p.c.Call(ctx, "EditWishCareer", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetCurrentWishCareer(ctx context.Context, req *sparkhire_runtime.GetCurrentWishCareerRequest) (r *sparkhire_runtime.GetCurrentWishCareerResponse, err error) {
+	var _args sparkhire_runtime.SparkhireRuntimeServiceGetCurrentWishCareerArgs
+	_args.Req = req
+	var _result sparkhire_runtime.SparkhireRuntimeServiceGetCurrentWishCareerResult
+	if err = p.c.Call(ctx, "GetCurrentWishCareer", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

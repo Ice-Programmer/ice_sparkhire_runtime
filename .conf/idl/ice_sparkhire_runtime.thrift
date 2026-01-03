@@ -329,10 +329,11 @@ struct ListGeoResponse {
 }
 
 struct CareerInfo {
-	1:  i64    id
-	2:  string careerName
-	3:  string careerTypeName
-	4:  i64    careerTypeId
+	1:          i64    id
+	2:          string careerName
+	3: optional string careerTypeName
+	4: optional i64    careerTypeId
+	5:          string careerIcon
 }
 
 struct ListCareerInfoRequest {
@@ -449,6 +450,23 @@ struct EditWishCareerResponse {
 	255: required base.BaseResp BaseResp
 }
 
+struct WishCareerInfo {
+	1:  i64                 id
+	2:  CareerInfo          careerInfo
+	3:  i32                 salaryUpper
+	4:  i32                 salaryLower
+	5:  SalaryCurrencyType  currencyType
+	6:  SalaryFrequencyType frequencyType
+}
+
+struct GetCurrentWishCareerRequest {
+	255: required base.Base Base
+}
+
+struct GetCurrentWishCareerResponse {
+	1:            list<WishCareerInfo> wishCareerList
+	255: required base.BaseResp        BaseResp
+}
 
 // =============================================== career experience ===============================================
 
@@ -607,6 +625,7 @@ service SparkhireRuntimeService {
     // =============================================== wish career ===============================================
     CreateWishCareerResponse CreateWishCareer(1: CreateWishCareerRequest req) (api.post="/api/v1/ice/sparkhire/runtime/wish/career/create", api.serializer="json")
     EditWishCareerResponse EditWishCareer(1: EditWishCareerRequest req) (api.post="/api/v1/ice/sparkhire/runtime/wish/career/edit", api.serializer="json")
+    GetCurrentWishCareerResponse GetCurrentWishCareer(1: GetCurrentWishCareerRequest req) (api.post="/api/v1/ice/sparkhire/runtime/wish/career/current", api.serializer="json")
 
     // =============================================== career experience ===============================================
     CreateCareerExperienceResponse CreateCareerExperience(1: CreateCareerExperienceRequest req) (api.post="/api/v1/ice/sparkhire/runtime/career/exp/create", api.serializer="json")

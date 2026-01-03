@@ -1,0 +1,65 @@
+package wish_career
+
+import (
+	"context"
+	"ice_sparkhire_runtime/handler"
+	sparkruntime "ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
+	"ice_sparkhire_runtime/model/db"
+	"ice_sparkhire_runtime/utils"
+)
+
+func GetCurrentWishCareer(ctx context.Context, req *sparkruntime.GetCurrentWishCareerRequest) (*sparkruntime.GetCurrentWishCareerResponse, error) {
+	currentUserId, err := utils.GetCurrentUserId(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	wishCareerList, err := db.FindWishCareerByUserId(ctx, db.DB, currentUserId)
+	if err != nil {
+		return nil, err
+	}
+
+	wishCareerInfoList, err := buildWishCareerInfoList(ctx, wishCareerList)
+	if err != nil {
+		return nil, err
+	}
+
+	return &sparkruntime.GetCurrentWishCareerResponse{
+		WishCareerList: wishCareerInfoList,
+		BaseResp:       handler.ConstructSuccessResp(),
+	}, nil
+}
+
+func buildWishCareerInfoList(ctx context.Context, wishCareerList []*db.CandidateWishCareer) ([]*sparkruntime.WishCareerInfo, error) {
+	careerIdList := utils.MapStructList(wishCareerList, func(wishCareer *db.CandidateWishCareer) int64 {
+		return wishCareer.CareerId
+	})
+
+	careerList, err := db.FindCareerByIds(ctx, db.DB, careerIdList)
+	if err != nil {
+		return nil, err
+	}
+
+	careerMap := utils.ToMap(careerList,
+		func(career *db.Career) int64 { return career.Id },
+		func(career *db.Career) *db.Career { return career },
+	)
+
+	wishCareerInfoList := make([]*sparkruntime.WishCareerInfo, 0, len(wishCareerList))
+	for _, wishCareer := range wishCareerList {
+		wishCareerInfoList = append(wishCareerInfoList, &sparkruntime.WishCareerInfo{
+			Id: wishCareer.Id,
+			CareerInfo: &sparkruntime.CareerInfo{
+				Id:         wishCareer.CareerId,
+				CareerName: careerMap[wishCareer.CareerId].CareerName,
+				CareerIcon: careerMap[wishCareer.CareerId].CareerIcon,
+			},
+			SalaryLower:   wishCareer.SalaryLower,
+			SalaryUpper:   wishCareer.SalaryUpper,
+			CurrencyType:  sparkruntime.SalaryCurrencyType(wishCareer.CurrencyType),
+			FrequencyType: sparkruntime.SalaryFrequencyType(wishCareer.FrequencyType),
+		})
+	}
+
+	return wishCareerInfoList, nil
+}

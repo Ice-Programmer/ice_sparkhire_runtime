@@ -70,3 +70,15 @@ func UpdateWishCareerById(ctx context.Context, db *gorm.DB, id int64, updateMap 
 	}
 	return nil
 }
+
+func FindWishCareerByUserId(ctx context.Context, db *gorm.DB, userId int64) ([]*CandidateWishCareer, error) {
+	var wishCareers []*CandidateWishCareer
+	err := db.WithContext(ctx).Model(&CandidateWishCareer{}).
+		Where("user_id = ?", userId).
+		Find(&wishCareers).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[DB] find wish careers fail, %v", err)
+		return nil, err
+	}
+	return wishCareers, nil
+}

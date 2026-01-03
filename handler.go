@@ -258,6 +258,18 @@ func (s *SparkhireRuntimeServiceImpl) EditWishCareer(ctx context.Context, req *s
 	return resp, nil
 }
 
+// GetCurrentWishCareer implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) GetCurrentWishCareer(ctx context.Context, req *sparkhire_runtime.GetCurrentWishCareerRequest) (resp *sparkhire_runtime.GetCurrentWishCareerResponse, err error) {
+	resp, err = wish_career.GetCurrentWishCareer(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "get current wish career failed: %v", err)
+		resp = &sparkhire_runtime.GetCurrentWishCareerResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
 // =============================================== career experience ===============================================
 
 // CreateCareerExperience implements the SparkhireRuntimeServiceImpl interface.

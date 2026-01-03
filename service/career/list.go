@@ -27,8 +27,9 @@ func ListCareer(ctx context.Context) ([]*sparkruntime.CareerInfo, error) {
 		return &sparkruntime.CareerInfo{
 			Id:             careerDB.Id,
 			CareerName:     careerDB.CareerName,
-			CareerTypeName: careerTypeNameMap[careerDB.CareerType],
-			CareerTypeId:   careerDB.CareerType,
+			CareerTypeName: utils.StringPtr(careerTypeNameMap[careerDB.CareerType]),
+			CareerTypeId:   utils.Int64Ptr(careerDB.CareerType),
+			CareerIcon:     careerDB.CareerIcon,
 		}
 	})
 

@@ -67,3 +67,15 @@ func FindCareerById(ctx context.Context, db *gorm.DB, id int64) (*Career, error)
 	}
 	return &career, nil
 }
+
+func FindCareerByIds(ctx context.Context, db *gorm.DB, ids []int64) ([]*Career, error) {
+	var careers []*Career
+	err := db.WithContext(ctx).Model(&Career{}).
+		Where("id IN (?)", ids).
+		Find(&careers).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[DB] find careers err: %v", err)
+		return nil, err
+	}
+	return careers, nil
+}

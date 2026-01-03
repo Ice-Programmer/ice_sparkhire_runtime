@@ -2968,10 +2968,11 @@ var fieldIDToName_ListGeoResponse = map[int16]string{
 }
 
 type CareerInfo struct {
-	Id             int64  `thrift:"id,1" frugal:"1,default,i64" json:"id"`
-	CareerName     string `thrift:"careerName,2" frugal:"2,default,string" json:"careerName"`
-	CareerTypeName string `thrift:"careerTypeName,3" frugal:"3,default,string" json:"careerTypeName"`
-	CareerTypeId   int64  `thrift:"careerTypeId,4" frugal:"4,default,i64" json:"careerTypeId"`
+	Id             int64   `thrift:"id,1" frugal:"1,default,i64" json:"id"`
+	CareerName     string  `thrift:"careerName,2" frugal:"2,default,string" json:"careerName"`
+	CareerTypeName *string `thrift:"careerTypeName,3,optional" frugal:"3,optional,string" json:"careerTypeName,omitempty"`
+	CareerTypeId   *int64  `thrift:"careerTypeId,4,optional" frugal:"4,optional,i64" json:"careerTypeId,omitempty"`
+	CareerIcon     string  `thrift:"careerIcon,5" frugal:"5,default,string" json:"careerIcon"`
 }
 
 func NewCareerInfo() *CareerInfo {
@@ -2989,12 +2990,26 @@ func (p *CareerInfo) GetCareerName() (v string) {
 	return p.CareerName
 }
 
+var CareerInfo_CareerTypeName_DEFAULT string
+
 func (p *CareerInfo) GetCareerTypeName() (v string) {
-	return p.CareerTypeName
+	if !p.IsSetCareerTypeName() {
+		return CareerInfo_CareerTypeName_DEFAULT
+	}
+	return *p.CareerTypeName
 }
 
+var CareerInfo_CareerTypeId_DEFAULT int64
+
 func (p *CareerInfo) GetCareerTypeId() (v int64) {
-	return p.CareerTypeId
+	if !p.IsSetCareerTypeId() {
+		return CareerInfo_CareerTypeId_DEFAULT
+	}
+	return *p.CareerTypeId
+}
+
+func (p *CareerInfo) GetCareerIcon() (v string) {
+	return p.CareerIcon
 }
 func (p *CareerInfo) SetId(val int64) {
 	p.Id = val
@@ -3002,11 +3017,22 @@ func (p *CareerInfo) SetId(val int64) {
 func (p *CareerInfo) SetCareerName(val string) {
 	p.CareerName = val
 }
-func (p *CareerInfo) SetCareerTypeName(val string) {
+func (p *CareerInfo) SetCareerTypeName(val *string) {
 	p.CareerTypeName = val
 }
-func (p *CareerInfo) SetCareerTypeId(val int64) {
+func (p *CareerInfo) SetCareerTypeId(val *int64) {
 	p.CareerTypeId = val
+}
+func (p *CareerInfo) SetCareerIcon(val string) {
+	p.CareerIcon = val
+}
+
+func (p *CareerInfo) IsSetCareerTypeName() bool {
+	return p.CareerTypeName != nil
+}
+
+func (p *CareerInfo) IsSetCareerTypeId() bool {
+	return p.CareerTypeId != nil
 }
 
 func (p *CareerInfo) String() string {
@@ -3021,6 +3047,7 @@ var fieldIDToName_CareerInfo = map[int16]string{
 	2: "careerName",
 	3: "careerTypeName",
 	4: "careerTypeId",
+	5: "careerIcon",
 }
 
 type ListCareerInfoRequest struct {
@@ -3914,6 +3941,174 @@ func (p *EditWishCareerResponse) String() string {
 }
 
 var fieldIDToName_EditWishCareerResponse = map[int16]string{
+	255: "BaseResp",
+}
+
+type WishCareerInfo struct {
+	Id            int64               `thrift:"id,1" frugal:"1,default,i64" json:"id"`
+	CareerInfo    *CareerInfo         `thrift:"careerInfo,2" frugal:"2,default,CareerInfo" json:"careerInfo"`
+	SalaryUpper   int32               `thrift:"salaryUpper,3" frugal:"3,default,i32" json:"salaryUpper"`
+	SalaryLower   int32               `thrift:"salaryLower,4" frugal:"4,default,i32" json:"salaryLower"`
+	CurrencyType  SalaryCurrencyType  `thrift:"currencyType,5" frugal:"5,default,SalaryCurrencyType" json:"currencyType"`
+	FrequencyType SalaryFrequencyType `thrift:"frequencyType,6" frugal:"6,default,SalaryFrequencyType" json:"frequencyType"`
+}
+
+func NewWishCareerInfo() *WishCareerInfo {
+	return &WishCareerInfo{}
+}
+
+func (p *WishCareerInfo) InitDefault() {
+}
+
+func (p *WishCareerInfo) GetId() (v int64) {
+	return p.Id
+}
+
+var WishCareerInfo_CareerInfo_DEFAULT *CareerInfo
+
+func (p *WishCareerInfo) GetCareerInfo() (v *CareerInfo) {
+	if !p.IsSetCareerInfo() {
+		return WishCareerInfo_CareerInfo_DEFAULT
+	}
+	return p.CareerInfo
+}
+
+func (p *WishCareerInfo) GetSalaryUpper() (v int32) {
+	return p.SalaryUpper
+}
+
+func (p *WishCareerInfo) GetSalaryLower() (v int32) {
+	return p.SalaryLower
+}
+
+func (p *WishCareerInfo) GetCurrencyType() (v SalaryCurrencyType) {
+	return p.CurrencyType
+}
+
+func (p *WishCareerInfo) GetFrequencyType() (v SalaryFrequencyType) {
+	return p.FrequencyType
+}
+func (p *WishCareerInfo) SetId(val int64) {
+	p.Id = val
+}
+func (p *WishCareerInfo) SetCareerInfo(val *CareerInfo) {
+	p.CareerInfo = val
+}
+func (p *WishCareerInfo) SetSalaryUpper(val int32) {
+	p.SalaryUpper = val
+}
+func (p *WishCareerInfo) SetSalaryLower(val int32) {
+	p.SalaryLower = val
+}
+func (p *WishCareerInfo) SetCurrencyType(val SalaryCurrencyType) {
+	p.CurrencyType = val
+}
+func (p *WishCareerInfo) SetFrequencyType(val SalaryFrequencyType) {
+	p.FrequencyType = val
+}
+
+func (p *WishCareerInfo) IsSetCareerInfo() bool {
+	return p.CareerInfo != nil
+}
+
+func (p *WishCareerInfo) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("WishCareerInfo(%+v)", *p)
+}
+
+var fieldIDToName_WishCareerInfo = map[int16]string{
+	1: "id",
+	2: "careerInfo",
+	3: "salaryUpper",
+	4: "salaryLower",
+	5: "currencyType",
+	6: "frequencyType",
+}
+
+type GetCurrentWishCareerRequest struct {
+	Base *base.Base `thrift:"Base,255,required" frugal:"255,required,base.Base" json:"Base"`
+}
+
+func NewGetCurrentWishCareerRequest() *GetCurrentWishCareerRequest {
+	return &GetCurrentWishCareerRequest{}
+}
+
+func (p *GetCurrentWishCareerRequest) InitDefault() {
+}
+
+var GetCurrentWishCareerRequest_Base_DEFAULT *base.Base
+
+func (p *GetCurrentWishCareerRequest) GetBase() (v *base.Base) {
+	if !p.IsSetBase() {
+		return GetCurrentWishCareerRequest_Base_DEFAULT
+	}
+	return p.Base
+}
+func (p *GetCurrentWishCareerRequest) SetBase(val *base.Base) {
+	p.Base = val
+}
+
+func (p *GetCurrentWishCareerRequest) IsSetBase() bool {
+	return p.Base != nil
+}
+
+func (p *GetCurrentWishCareerRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetCurrentWishCareerRequest(%+v)", *p)
+}
+
+var fieldIDToName_GetCurrentWishCareerRequest = map[int16]string{
+	255: "Base",
+}
+
+type GetCurrentWishCareerResponse struct {
+	WishCareerList []*WishCareerInfo `thrift:"wishCareerList,1" frugal:"1,default,list<WishCareerInfo>" json:"wishCareerList"`
+	BaseResp       *base.BaseResp    `thrift:"BaseResp,255,required" frugal:"255,required,base.BaseResp" json:"BaseResp"`
+}
+
+func NewGetCurrentWishCareerResponse() *GetCurrentWishCareerResponse {
+	return &GetCurrentWishCareerResponse{}
+}
+
+func (p *GetCurrentWishCareerResponse) InitDefault() {
+}
+
+func (p *GetCurrentWishCareerResponse) GetWishCareerList() (v []*WishCareerInfo) {
+	return p.WishCareerList
+}
+
+var GetCurrentWishCareerResponse_BaseResp_DEFAULT *base.BaseResp
+
+func (p *GetCurrentWishCareerResponse) GetBaseResp() (v *base.BaseResp) {
+	if !p.IsSetBaseResp() {
+		return GetCurrentWishCareerResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+func (p *GetCurrentWishCareerResponse) SetWishCareerList(val []*WishCareerInfo) {
+	p.WishCareerList = val
+}
+func (p *GetCurrentWishCareerResponse) SetBaseResp(val *base.BaseResp) {
+	p.BaseResp = val
+}
+
+func (p *GetCurrentWishCareerResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *GetCurrentWishCareerResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetCurrentWishCareerResponse(%+v)", *p)
+}
+
+var fieldIDToName_GetCurrentWishCareerResponse = map[int16]string{
+	1:   "wishCareerList",
 	255: "BaseResp",
 }
 
@@ -5019,6 +5214,8 @@ type SparkhireRuntimeService interface {
 	CreateWishCareer(ctx context.Context, req *CreateWishCareerRequest) (r *CreateWishCareerResponse, err error)
 
 	EditWishCareer(ctx context.Context, req *EditWishCareerRequest) (r *EditWishCareerResponse, err error)
+
+	GetCurrentWishCareer(ctx context.Context, req *GetCurrentWishCareerRequest) (r *GetCurrentWishCareerResponse, err error)
 
 	CreateCareerExperience(ctx context.Context, req *CreateCareerExperienceRequest) (r *CreateCareerExperienceResponse, err error)
 
@@ -6490,6 +6687,82 @@ func (p *SparkhireRuntimeServiceEditWishCareerResult) String() string {
 }
 
 var fieldIDToName_SparkhireRuntimeServiceEditWishCareerResult = map[int16]string{
+	0: "success",
+}
+
+type SparkhireRuntimeServiceGetCurrentWishCareerArgs struct {
+	Req *GetCurrentWishCareerRequest `thrift:"req,1" frugal:"1,default,GetCurrentWishCareerRequest" json:"req"`
+}
+
+func NewSparkhireRuntimeServiceGetCurrentWishCareerArgs() *SparkhireRuntimeServiceGetCurrentWishCareerArgs {
+	return &SparkhireRuntimeServiceGetCurrentWishCareerArgs{}
+}
+
+func (p *SparkhireRuntimeServiceGetCurrentWishCareerArgs) InitDefault() {
+}
+
+var SparkhireRuntimeServiceGetCurrentWishCareerArgs_Req_DEFAULT *GetCurrentWishCareerRequest
+
+func (p *SparkhireRuntimeServiceGetCurrentWishCareerArgs) GetReq() (v *GetCurrentWishCareerRequest) {
+	if !p.IsSetReq() {
+		return SparkhireRuntimeServiceGetCurrentWishCareerArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+func (p *SparkhireRuntimeServiceGetCurrentWishCareerArgs) SetReq(val *GetCurrentWishCareerRequest) {
+	p.Req = val
+}
+
+func (p *SparkhireRuntimeServiceGetCurrentWishCareerArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *SparkhireRuntimeServiceGetCurrentWishCareerArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SparkhireRuntimeServiceGetCurrentWishCareerArgs(%+v)", *p)
+}
+
+var fieldIDToName_SparkhireRuntimeServiceGetCurrentWishCareerArgs = map[int16]string{
+	1: "req",
+}
+
+type SparkhireRuntimeServiceGetCurrentWishCareerResult struct {
+	Success *GetCurrentWishCareerResponse `thrift:"success,0,optional" frugal:"0,optional,GetCurrentWishCareerResponse" json:"success,omitempty"`
+}
+
+func NewSparkhireRuntimeServiceGetCurrentWishCareerResult() *SparkhireRuntimeServiceGetCurrentWishCareerResult {
+	return &SparkhireRuntimeServiceGetCurrentWishCareerResult{}
+}
+
+func (p *SparkhireRuntimeServiceGetCurrentWishCareerResult) InitDefault() {
+}
+
+var SparkhireRuntimeServiceGetCurrentWishCareerResult_Success_DEFAULT *GetCurrentWishCareerResponse
+
+func (p *SparkhireRuntimeServiceGetCurrentWishCareerResult) GetSuccess() (v *GetCurrentWishCareerResponse) {
+	if !p.IsSetSuccess() {
+		return SparkhireRuntimeServiceGetCurrentWishCareerResult_Success_DEFAULT
+	}
+	return p.Success
+}
+func (p *SparkhireRuntimeServiceGetCurrentWishCareerResult) SetSuccess(x interface{}) {
+	p.Success = x.(*GetCurrentWishCareerResponse)
+}
+
+func (p *SparkhireRuntimeServiceGetCurrentWishCareerResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *SparkhireRuntimeServiceGetCurrentWishCareerResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SparkhireRuntimeServiceGetCurrentWishCareerResult(%+v)", *p)
+}
+
+var fieldIDToName_SparkhireRuntimeServiceGetCurrentWishCareerResult = map[int16]string{
 	0: "success",
 }
 
