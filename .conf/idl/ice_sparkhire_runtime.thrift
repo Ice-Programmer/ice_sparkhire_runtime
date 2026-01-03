@@ -328,6 +328,23 @@ struct ListGeoResponse {
 	255: required base.BaseResp BaseResp
 }
 
+struct CareerInfo {
+	1:  i64    id
+	2:  string careerName
+	3:  string careerTypeName
+	4:  i64    careerTypeId
+}
+
+struct ListCareerInfoRequest {
+	255: required base.Base Base
+}
+
+struct ListCareerInfoResponse {
+	1:            list<CareerInfo> careerList
+	255: required base.BaseResp    BaseResp
+}
+
+
 // =============================================== education experience ===============================================
 
 struct CreateEducationExpRequest {
@@ -384,6 +401,54 @@ struct GetCurrentUserEducationExpResponse {
 	1:            list<EducationExpInfo> educationExpList
 	255: required base.BaseResp          BaseResp
 }
+
+// =============================================== wish career ===============================================
+
+enum SalaryCurrencyType {
+	Dollar = 1
+	CNY    = 2
+	JPY    = 3
+}
+
+const list<SalaryCurrencyType> SalaryCurrencyTypeList = [SalaryCurrencyType.Dollar, SalaryCurrencyType.CNY, SalaryCurrencyType.JPY]
+
+enum SalaryFrequencyType {
+	Monthly = 1
+	Yearly  = 2
+	Weekly  = 3
+	Daily   = 4
+	Hourly  = 5
+}
+
+const list<SalaryFrequencyType> SalaryFrequencyTypeList = [SalaryFrequencyType.Monthly, SalaryFrequencyType.Yearly, SalaryFrequencyType.Daily, SalaryFrequencyType.Hourly]
+
+struct CreateWishCareerRequest {
+	1:   required i64                 careerId
+	2:   optional i32                 salaryUpper
+	3:   optional i32                 salaryLower
+	4:   required SalaryCurrencyType  currencyType
+	5:   required SalaryFrequencyType frequencyType
+	255: required base.Base           Base
+}
+
+struct CreateWishCareerResponse {
+	255: required base.BaseResp BaseResp
+}
+
+struct EditWishCareerRequest {
+	1:   required i64                 id
+	2:   required i64                 careerId
+	3:   optional i32                 salaryUpper
+	4:   optional i32                 salaryLower
+	5:   required SalaryCurrencyType  currencyType
+	6:   required SalaryFrequencyType frequencyType
+	255: required base.Base           Base
+}
+
+struct EditWishCareerResponse {
+	255: required base.BaseResp BaseResp
+}
+
 
 // =============================================== career experience ===============================================
 
@@ -539,6 +604,10 @@ service SparkhireRuntimeService {
     DeleteEducationExpResponse DeleteEducationExp(1: DeleteEducationExpRequest req) (api.post="/api/v1/ice/sparkhire/runtime/education/exp/delete", api.serializer="json")
     GetCurrentUserEducationExpResponse GetCurrentEducationExp(1: GetCurrentUserEducationExpRequest req) (api.post="/api/v1/ice/sparkhire/runtime/education/exp/current", api.serializer="json")
 
+    // =============================================== wish career ===============================================
+    CreateWishCareerResponse CreateWishCareer(1: CreateWishCareerRequest req) (api.post="/api/v1/ice/sparkhire/runtime/wish/career/create", api.serializer="json")
+    EditWishCareerResponse EditWishCareer(1: EditWishCareerRequest req) (api.post="/api/v1/ice/sparkhire/runtime/wish/career/edit", api.serializer="json")
+
     // =============================================== career experience ===============================================
     CreateCareerExperienceResponse CreateCareerExperience(1: CreateCareerExperienceRequest req) (api.post="/api/v1/ice/sparkhire/runtime/career/exp/create", api.serializer="json")
     EditCareerExperienceResponse EditCareerExperience(1: EditCareerExperienceRequest req) (api.post="/api/v1/ice/sparkhire/runtime/career/exp/edit", api.serializer="json")
@@ -550,6 +619,7 @@ service SparkhireRuntimeService {
     ListIndustryResponse ListIndustry(1: ListIndustryRequest req) (api.post="/api/v1/ice/sparkhire/runtime/industry/list", api.serializer="json")
     ListSchoolResponse ListSchool(1: ListSchoolRequest req) (api.post="/api/v1/ice/sparkhire/runtime/school/list", api.serializer="json")
     ListGeoResponse ListGeo(1: ListGeoRequest req) (api.post="/api/v1/ice/sparkhire/runtime/geo/list", api.serializer="json")
+    ListCareerInfoResponse ListCareer(1: ListCareerInfoRequest req) (api.post="/api/v1/ice/sparkhire/runtime/career/list", api.serializer="json")
 
     // =============================================== company ===============================================
     CreateCompanyResponse CreateCompany(1: CreateCompanyRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/hr/company/create", api.serializer="json")

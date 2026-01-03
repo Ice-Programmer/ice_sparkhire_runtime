@@ -9,13 +9,11 @@ import (
 	"ice_sparkhire_runtime/handler/career_exp"
 	"ice_sparkhire_runtime/handler/company"
 	"ice_sparkhire_runtime/handler/education_exp"
-	"ice_sparkhire_runtime/handler/geo"
-	"ice_sparkhire_runtime/handler/industry"
-	"ice_sparkhire_runtime/handler/major"
+	"ice_sparkhire_runtime/handler/information"
 	"ice_sparkhire_runtime/handler/ping"
-	"ice_sparkhire_runtime/handler/school"
 	"ice_sparkhire_runtime/handler/tag"
 	"ice_sparkhire_runtime/handler/user"
+	"ice_sparkhire_runtime/handler/wish_career"
 	"ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
 )
 
@@ -234,6 +232,32 @@ func (s *SparkhireRuntimeServiceImpl) GetCurrentEducationExp(ctx context.Context
 	return resp, nil
 }
 
+// =============================================== wish career ===============================================
+
+// CreateWishCareer implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) CreateWishCareer(ctx context.Context, req *sparkhire_runtime.CreateWishCareerRequest) (resp *sparkhire_runtime.CreateWishCareerResponse, err error) {
+	resp, err = wish_career.CreateWishCareer(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "create wish career failed: %v", err)
+		resp = &sparkhire_runtime.CreateWishCareerResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
+// EditWishCareer implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) EditWishCareer(ctx context.Context, req *sparkhire_runtime.EditWishCareerRequest) (resp *sparkhire_runtime.EditWishCareerResponse, err error) {
+	resp, err = wish_career.EditWishCareer(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "edit wish career failed: %v", err)
+		resp = &sparkhire_runtime.EditWishCareerResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
 // =============================================== career experience ===============================================
 
 // CreateCareerExperience implements the SparkhireRuntimeServiceImpl interface.
@@ -288,7 +312,7 @@ func (s *SparkhireRuntimeServiceImpl) DeleteCareerExperience(ctx context.Context
 
 // ListMajor implements the SparkhireRuntimeServiceImpl interface.
 func (s *SparkhireRuntimeServiceImpl) ListMajor(ctx context.Context, req *sparkhire_runtime.ListMajorRequest) (resp *sparkhire_runtime.ListMajorResponse, err error) {
-	resp, err = major.ListMajor(ctx, req)
+	resp, err = information.ListMajor(ctx, req)
 	if err != nil {
 		klog.CtxErrorf(ctx, "list major failed: %v", err)
 		resp = &sparkhire_runtime.ListMajorResponse{
@@ -300,7 +324,7 @@ func (s *SparkhireRuntimeServiceImpl) ListMajor(ctx context.Context, req *sparkh
 
 // ListIndustry implements the SparkhireRuntimeServiceImpl interface.
 func (s *SparkhireRuntimeServiceImpl) ListIndustry(ctx context.Context, req *sparkhire_runtime.ListIndustryRequest) (resp *sparkhire_runtime.ListIndustryResponse, err error) {
-	resp, err = industry.ListIndustry(ctx, req)
+	resp, err = information.ListIndustry(ctx, req)
 	if err != nil {
 		klog.CtxErrorf(ctx, "list industry failed: %v", err)
 		resp = &sparkhire_runtime.ListIndustryResponse{
@@ -312,7 +336,7 @@ func (s *SparkhireRuntimeServiceImpl) ListIndustry(ctx context.Context, req *spa
 
 // ListSchool implements the SparkhireRuntimeServiceImpl interface.
 func (s *SparkhireRuntimeServiceImpl) ListSchool(ctx context.Context, req *sparkhire_runtime.ListSchoolRequest) (resp *sparkhire_runtime.ListSchoolResponse, err error) {
-	resp, err = school.ListSchool(ctx, req)
+	resp, err = information.ListSchool(ctx, req)
 	if err != nil {
 		klog.CtxErrorf(ctx, "list school failed: %v", err)
 		resp = &sparkhire_runtime.ListSchoolResponse{
@@ -324,10 +348,22 @@ func (s *SparkhireRuntimeServiceImpl) ListSchool(ctx context.Context, req *spark
 
 // ListGeo implements the SparkhireRuntimeServiceImpl interface.
 func (s *SparkhireRuntimeServiceImpl) ListGeo(ctx context.Context, req *sparkhire_runtime.ListGeoRequest) (resp *sparkhire_runtime.ListGeoResponse, err error) {
-	resp, err = geo.ListGeo(ctx, req)
+	resp, err = information.ListGeo(ctx, req)
 	if err != nil {
 		klog.CtxErrorf(ctx, "list geo failed: %v", err)
 		resp = &sparkhire_runtime.ListGeoResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
+// ListCareer implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) ListCareer(ctx context.Context, req *sparkhire_runtime.ListCareerInfoRequest) (resp *sparkhire_runtime.ListCareerInfoResponse, err error) {
+	resp, err = information.ListCareer(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "list career failed: %v", err)
+		resp = &sparkhire_runtime.ListCareerInfoResponse{
 			BaseResp: handler.GenErrorBaseResp(err.Error()),
 		}
 	}

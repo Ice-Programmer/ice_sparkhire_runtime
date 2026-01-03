@@ -1,4 +1,4 @@
-package industry
+package information
 
 import (
 	"context"

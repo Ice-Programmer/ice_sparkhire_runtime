@@ -24,6 +24,7 @@ const (
 	IndustryListKey = ServerRedisPrefix + "industry_list"
 	SchoolListKey   = ServerRedisPrefix + "school_list"
 	GeoListKey      = ServerRedisPrefix + "geo_level"
+	CareerListKey   = ServerRedisPrefix + "career_list"
 
 	InformationListDuration = 30 * 24 * time.Hour
 )

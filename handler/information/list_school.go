@@ -1,4 +1,4 @@
-package school
+package information
 
 import (
 	"context"

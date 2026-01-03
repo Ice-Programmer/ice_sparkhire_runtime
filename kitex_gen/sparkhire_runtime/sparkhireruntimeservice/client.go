@@ -28,6 +28,8 @@ type Client interface {
 	EditEducationExp(ctx context.Context, req *sparkhire_runtime.EditEducationExpRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditEducationExpResponse, err error)
 	DeleteEducationExp(ctx context.Context, req *sparkhire_runtime.DeleteEducationExpRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.DeleteEducationExpResponse, err error)
 	GetCurrentEducationExp(ctx context.Context, req *sparkhire_runtime.GetCurrentUserEducationExpRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.GetCurrentUserEducationExpResponse, err error)
+	CreateWishCareer(ctx context.Context, req *sparkhire_runtime.CreateWishCareerRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.CreateWishCareerResponse, err error)
+	EditWishCareer(ctx context.Context, req *sparkhire_runtime.EditWishCareerRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditWishCareerResponse, err error)
 	CreateCareerExperience(ctx context.Context, req *sparkhire_runtime.CreateCareerExperienceRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.CreateCareerExperienceResponse, err error)
 	EditCareerExperience(ctx context.Context, req *sparkhire_runtime.EditCareerExperienceRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditCareerExperienceResponse, err error)
 	GetCurrentUserCareerExperience(ctx context.Context, req *sparkhire_runtime.GetCurrentUserCareerExperienceRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.GetCurrentUserCareerExperienceResponse, err error)
@@ -36,6 +38,7 @@ type Client interface {
 	ListIndustry(ctx context.Context, req *sparkhire_runtime.ListIndustryRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.ListIndustryResponse, err error)
 	ListSchool(ctx context.Context, req *sparkhire_runtime.ListSchoolRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.ListSchoolResponse, err error)
 	ListGeo(ctx context.Context, req *sparkhire_runtime.ListGeoRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.ListGeoResponse, err error)
+	ListCareer(ctx context.Context, req *sparkhire_runtime.ListCareerInfoRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.ListCareerInfoResponse, err error)
 	CreateCompany(ctx context.Context, req *sparkhire_runtime.CreateCompanyRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.CreateCompanyResponse, err error)
 	EditCompany(ctx context.Context, req *sparkhire_runtime.EditCompanyRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditCompanyResponse, err error)
 	DeleteCompany(ctx context.Context, req *sparkhire_runtime.DeleteCompanyRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.DeleteCompanyResponse, err error)
@@ -157,6 +160,16 @@ func (p *kSparkhireRuntimeServiceClient) GetCurrentEducationExp(ctx context.Cont
 	return p.kClient.GetCurrentEducationExp(ctx, req)
 }
 
+func (p *kSparkhireRuntimeServiceClient) CreateWishCareer(ctx context.Context, req *sparkhire_runtime.CreateWishCareerRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.CreateWishCareerResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.CreateWishCareer(ctx, req)
+}
+
+func (p *kSparkhireRuntimeServiceClient) EditWishCareer(ctx context.Context, req *sparkhire_runtime.EditWishCareerRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.EditWishCareerResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.EditWishCareer(ctx, req)
+}
+
 func (p *kSparkhireRuntimeServiceClient) CreateCareerExperience(ctx context.Context, req *sparkhire_runtime.CreateCareerExperienceRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.CreateCareerExperienceResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.CreateCareerExperience(ctx, req)
@@ -195,6 +208,11 @@ func (p *kSparkhireRuntimeServiceClient) ListSchool(ctx context.Context, req *sp
 func (p *kSparkhireRuntimeServiceClient) ListGeo(ctx context.Context, req *sparkhire_runtime.ListGeoRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.ListGeoResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.ListGeo(ctx, req)
+}
+
+func (p *kSparkhireRuntimeServiceClient) ListCareer(ctx context.Context, req *sparkhire_runtime.ListCareerInfoRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.ListCareerInfoResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.ListCareer(ctx, req)
 }
 
 func (p *kSparkhireRuntimeServiceClient) CreateCompany(ctx context.Context, req *sparkhire_runtime.CreateCompanyRequest, callOptions ...callopt.Option) (r *sparkhire_runtime.CreateCompanyResponse, err error) {

@@ -34,6 +34,19 @@ var (
 		JobStatus_NotInterested,
 	}
 
+	SalaryCurrencyTypeList = []SalaryCurrencyType{
+		SalaryCurrencyType_Dollar,
+		SalaryCurrencyType_CNY,
+		SalaryCurrencyType_JPY,
+	}
+
+	SalaryFrequencyTypeList = []SalaryFrequencyType{
+		SalaryFrequencyType_Monthly,
+		SalaryFrequencyType_Yearly,
+		SalaryFrequencyType_Daily,
+		SalaryFrequencyType_Hourly,
+	}
+
 	FileTypeMap = map[FileType]string{
 		FileType_CompanyAvatar: "company/avatar",
 		FileType_UserAvatar:    "user/avatar",
@@ -336,6 +349,110 @@ func (p *GeoLevel) Scan(value interface{}) (err error) {
 }
 
 func (p *GeoLevel) Value() (driver.Value, error) {
+	if p == nil {
+		return nil, nil
+	}
+	return int64(*p), nil
+}
+
+type SalaryCurrencyType int64
+
+const (
+	SalaryCurrencyType_Dollar SalaryCurrencyType = 1
+	SalaryCurrencyType_CNY    SalaryCurrencyType = 2
+	SalaryCurrencyType_JPY    SalaryCurrencyType = 3
+)
+
+func (p SalaryCurrencyType) String() string {
+	switch p {
+	case SalaryCurrencyType_Dollar:
+		return "Dollar"
+	case SalaryCurrencyType_CNY:
+		return "CNY"
+	case SalaryCurrencyType_JPY:
+		return "JPY"
+	}
+	return "<UNSET>"
+}
+
+func SalaryCurrencyTypeFromString(s string) (SalaryCurrencyType, error) {
+	switch s {
+	case "Dollar":
+		return SalaryCurrencyType_Dollar, nil
+	case "CNY":
+		return SalaryCurrencyType_CNY, nil
+	case "JPY":
+		return SalaryCurrencyType_JPY, nil
+	}
+	return SalaryCurrencyType(0), fmt.Errorf("not a valid SalaryCurrencyType string")
+}
+
+func SalaryCurrencyTypePtr(v SalaryCurrencyType) *SalaryCurrencyType { return &v }
+func (p *SalaryCurrencyType) Scan(value interface{}) (err error) {
+	var result sql.NullInt64
+	err = result.Scan(value)
+	*p = SalaryCurrencyType(result.Int64)
+	return
+}
+
+func (p *SalaryCurrencyType) Value() (driver.Value, error) {
+	if p == nil {
+		return nil, nil
+	}
+	return int64(*p), nil
+}
+
+type SalaryFrequencyType int64
+
+const (
+	SalaryFrequencyType_Monthly SalaryFrequencyType = 1
+	SalaryFrequencyType_Yearly  SalaryFrequencyType = 2
+	SalaryFrequencyType_Weekly  SalaryFrequencyType = 3
+	SalaryFrequencyType_Daily   SalaryFrequencyType = 4
+	SalaryFrequencyType_Hourly  SalaryFrequencyType = 5
+)
+
+func (p SalaryFrequencyType) String() string {
+	switch p {
+	case SalaryFrequencyType_Monthly:
+		return "Monthly"
+	case SalaryFrequencyType_Yearly:
+		return "Yearly"
+	case SalaryFrequencyType_Weekly:
+		return "Weekly"
+	case SalaryFrequencyType_Daily:
+		return "Daily"
+	case SalaryFrequencyType_Hourly:
+		return "Hourly"
+	}
+	return "<UNSET>"
+}
+
+func SalaryFrequencyTypeFromString(s string) (SalaryFrequencyType, error) {
+	switch s {
+	case "Monthly":
+		return SalaryFrequencyType_Monthly, nil
+	case "Yearly":
+		return SalaryFrequencyType_Yearly, nil
+	case "Weekly":
+		return SalaryFrequencyType_Weekly, nil
+	case "Daily":
+		return SalaryFrequencyType_Daily, nil
+	case "Hourly":
+		return SalaryFrequencyType_Hourly, nil
+	}
+	return SalaryFrequencyType(0), fmt.Errorf("not a valid SalaryFrequencyType string")
+}
+
+func SalaryFrequencyTypePtr(v SalaryFrequencyType) *SalaryFrequencyType { return &v }
+func (p *SalaryFrequencyType) Scan(value interface{}) (err error) {
+	var result sql.NullInt64
+	err = result.Scan(value)
+	*p = SalaryFrequencyType(result.Int64)
+	return
+}
+
+func (p *SalaryFrequencyType) Value() (driver.Value, error) {
 	if p == nil {
 		return nil, nil
 	}
@@ -2850,6 +2967,147 @@ var fieldIDToName_ListGeoResponse = map[int16]string{
 	255: "BaseResp",
 }
 
+type CareerInfo struct {
+	Id             int64  `thrift:"id,1" frugal:"1,default,i64" json:"id"`
+	CareerName     string `thrift:"careerName,2" frugal:"2,default,string" json:"careerName"`
+	CareerTypeName string `thrift:"careerTypeName,3" frugal:"3,default,string" json:"careerTypeName"`
+	CareerTypeId   int64  `thrift:"careerTypeId,4" frugal:"4,default,i64" json:"careerTypeId"`
+}
+
+func NewCareerInfo() *CareerInfo {
+	return &CareerInfo{}
+}
+
+func (p *CareerInfo) InitDefault() {
+}
+
+func (p *CareerInfo) GetId() (v int64) {
+	return p.Id
+}
+
+func (p *CareerInfo) GetCareerName() (v string) {
+	return p.CareerName
+}
+
+func (p *CareerInfo) GetCareerTypeName() (v string) {
+	return p.CareerTypeName
+}
+
+func (p *CareerInfo) GetCareerTypeId() (v int64) {
+	return p.CareerTypeId
+}
+func (p *CareerInfo) SetId(val int64) {
+	p.Id = val
+}
+func (p *CareerInfo) SetCareerName(val string) {
+	p.CareerName = val
+}
+func (p *CareerInfo) SetCareerTypeName(val string) {
+	p.CareerTypeName = val
+}
+func (p *CareerInfo) SetCareerTypeId(val int64) {
+	p.CareerTypeId = val
+}
+
+func (p *CareerInfo) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("CareerInfo(%+v)", *p)
+}
+
+var fieldIDToName_CareerInfo = map[int16]string{
+	1: "id",
+	2: "careerName",
+	3: "careerTypeName",
+	4: "careerTypeId",
+}
+
+type ListCareerInfoRequest struct {
+	Base *base.Base `thrift:"Base,255,required" frugal:"255,required,base.Base" json:"Base"`
+}
+
+func NewListCareerInfoRequest() *ListCareerInfoRequest {
+	return &ListCareerInfoRequest{}
+}
+
+func (p *ListCareerInfoRequest) InitDefault() {
+}
+
+var ListCareerInfoRequest_Base_DEFAULT *base.Base
+
+func (p *ListCareerInfoRequest) GetBase() (v *base.Base) {
+	if !p.IsSetBase() {
+		return ListCareerInfoRequest_Base_DEFAULT
+	}
+	return p.Base
+}
+func (p *ListCareerInfoRequest) SetBase(val *base.Base) {
+	p.Base = val
+}
+
+func (p *ListCareerInfoRequest) IsSetBase() bool {
+	return p.Base != nil
+}
+
+func (p *ListCareerInfoRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("ListCareerInfoRequest(%+v)", *p)
+}
+
+var fieldIDToName_ListCareerInfoRequest = map[int16]string{
+	255: "Base",
+}
+
+type ListCareerInfoResponse struct {
+	CareerList []*CareerInfo  `thrift:"careerList,1" frugal:"1,default,list<CareerInfo>" json:"careerList"`
+	BaseResp   *base.BaseResp `thrift:"BaseResp,255,required" frugal:"255,required,base.BaseResp" json:"BaseResp"`
+}
+
+func NewListCareerInfoResponse() *ListCareerInfoResponse {
+	return &ListCareerInfoResponse{}
+}
+
+func (p *ListCareerInfoResponse) InitDefault() {
+}
+
+func (p *ListCareerInfoResponse) GetCareerList() (v []*CareerInfo) {
+	return p.CareerList
+}
+
+var ListCareerInfoResponse_BaseResp_DEFAULT *base.BaseResp
+
+func (p *ListCareerInfoResponse) GetBaseResp() (v *base.BaseResp) {
+	if !p.IsSetBaseResp() {
+		return ListCareerInfoResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+func (p *ListCareerInfoResponse) SetCareerList(val []*CareerInfo) {
+	p.CareerList = val
+}
+func (p *ListCareerInfoResponse) SetBaseResp(val *base.BaseResp) {
+	p.BaseResp = val
+}
+
+func (p *ListCareerInfoResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *ListCareerInfoResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("ListCareerInfoResponse(%+v)", *p)
+}
+
+var fieldIDToName_ListCareerInfoResponse = map[int16]string{
+	1:   "careerList",
+	255: "BaseResp",
+}
+
 type CreateEducationExpRequest struct {
 	SchoolId  int64           `thrift:"schoolId,1,required" frugal:"1,required,i64" json:"schoolId"`
 	Status    EducationStatus `thrift:"status,2,required" frugal:"2,required,EducationStatus" json:"status"`
@@ -3369,6 +3627,293 @@ func (p *GetCurrentUserEducationExpResponse) String() string {
 
 var fieldIDToName_GetCurrentUserEducationExpResponse = map[int16]string{
 	1:   "educationExpList",
+	255: "BaseResp",
+}
+
+type CreateWishCareerRequest struct {
+	CareerId      int64               `thrift:"careerId,1,required" frugal:"1,required,i64" json:"careerId"`
+	SalaryUpper   *int32              `thrift:"salaryUpper,2,optional" frugal:"2,optional,i32" json:"salaryUpper,omitempty"`
+	SalaryLower   *int32              `thrift:"salaryLower,3,optional" frugal:"3,optional,i32" json:"salaryLower,omitempty"`
+	CurrencyType  SalaryCurrencyType  `thrift:"currencyType,4,required" frugal:"4,required,SalaryCurrencyType" json:"currencyType"`
+	FrequencyType SalaryFrequencyType `thrift:"frequencyType,5,required" frugal:"5,required,SalaryFrequencyType" json:"frequencyType"`
+	Base          *base.Base          `thrift:"Base,255,required" frugal:"255,required,base.Base" json:"Base"`
+}
+
+func NewCreateWishCareerRequest() *CreateWishCareerRequest {
+	return &CreateWishCareerRequest{}
+}
+
+func (p *CreateWishCareerRequest) InitDefault() {
+}
+
+func (p *CreateWishCareerRequest) GetCareerId() (v int64) {
+	return p.CareerId
+}
+
+var CreateWishCareerRequest_SalaryUpper_DEFAULT int32
+
+func (p *CreateWishCareerRequest) GetSalaryUpper() (v int32) {
+	if !p.IsSetSalaryUpper() {
+		return CreateWishCareerRequest_SalaryUpper_DEFAULT
+	}
+	return *p.SalaryUpper
+}
+
+var CreateWishCareerRequest_SalaryLower_DEFAULT int32
+
+func (p *CreateWishCareerRequest) GetSalaryLower() (v int32) {
+	if !p.IsSetSalaryLower() {
+		return CreateWishCareerRequest_SalaryLower_DEFAULT
+	}
+	return *p.SalaryLower
+}
+
+func (p *CreateWishCareerRequest) GetCurrencyType() (v SalaryCurrencyType) {
+	return p.CurrencyType
+}
+
+func (p *CreateWishCareerRequest) GetFrequencyType() (v SalaryFrequencyType) {
+	return p.FrequencyType
+}
+
+var CreateWishCareerRequest_Base_DEFAULT *base.Base
+
+func (p *CreateWishCareerRequest) GetBase() (v *base.Base) {
+	if !p.IsSetBase() {
+		return CreateWishCareerRequest_Base_DEFAULT
+	}
+	return p.Base
+}
+func (p *CreateWishCareerRequest) SetCareerId(val int64) {
+	p.CareerId = val
+}
+func (p *CreateWishCareerRequest) SetSalaryUpper(val *int32) {
+	p.SalaryUpper = val
+}
+func (p *CreateWishCareerRequest) SetSalaryLower(val *int32) {
+	p.SalaryLower = val
+}
+func (p *CreateWishCareerRequest) SetCurrencyType(val SalaryCurrencyType) {
+	p.CurrencyType = val
+}
+func (p *CreateWishCareerRequest) SetFrequencyType(val SalaryFrequencyType) {
+	p.FrequencyType = val
+}
+func (p *CreateWishCareerRequest) SetBase(val *base.Base) {
+	p.Base = val
+}
+
+func (p *CreateWishCareerRequest) IsSetSalaryUpper() bool {
+	return p.SalaryUpper != nil
+}
+
+func (p *CreateWishCareerRequest) IsSetSalaryLower() bool {
+	return p.SalaryLower != nil
+}
+
+func (p *CreateWishCareerRequest) IsSetBase() bool {
+	return p.Base != nil
+}
+
+func (p *CreateWishCareerRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("CreateWishCareerRequest(%+v)", *p)
+}
+
+var fieldIDToName_CreateWishCareerRequest = map[int16]string{
+	1:   "careerId",
+	2:   "salaryUpper",
+	3:   "salaryLower",
+	4:   "currencyType",
+	5:   "frequencyType",
+	255: "Base",
+}
+
+type CreateWishCareerResponse struct {
+	BaseResp *base.BaseResp `thrift:"BaseResp,255,required" frugal:"255,required,base.BaseResp" json:"BaseResp"`
+}
+
+func NewCreateWishCareerResponse() *CreateWishCareerResponse {
+	return &CreateWishCareerResponse{}
+}
+
+func (p *CreateWishCareerResponse) InitDefault() {
+}
+
+var CreateWishCareerResponse_BaseResp_DEFAULT *base.BaseResp
+
+func (p *CreateWishCareerResponse) GetBaseResp() (v *base.BaseResp) {
+	if !p.IsSetBaseResp() {
+		return CreateWishCareerResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+func (p *CreateWishCareerResponse) SetBaseResp(val *base.BaseResp) {
+	p.BaseResp = val
+}
+
+func (p *CreateWishCareerResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *CreateWishCareerResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("CreateWishCareerResponse(%+v)", *p)
+}
+
+var fieldIDToName_CreateWishCareerResponse = map[int16]string{
+	255: "BaseResp",
+}
+
+type EditWishCareerRequest struct {
+	Id            int64               `thrift:"id,1,required" frugal:"1,required,i64" json:"id"`
+	CareerId      int64               `thrift:"careerId,2,required" frugal:"2,required,i64" json:"careerId"`
+	SalaryUpper   *int32              `thrift:"salaryUpper,3,optional" frugal:"3,optional,i32" json:"salaryUpper,omitempty"`
+	SalaryLower   *int32              `thrift:"salaryLower,4,optional" frugal:"4,optional,i32" json:"salaryLower,omitempty"`
+	CurrencyType  SalaryCurrencyType  `thrift:"currencyType,5,required" frugal:"5,required,SalaryCurrencyType" json:"currencyType"`
+	FrequencyType SalaryFrequencyType `thrift:"frequencyType,6,required" frugal:"6,required,SalaryFrequencyType" json:"frequencyType"`
+	Base          *base.Base          `thrift:"Base,255,required" frugal:"255,required,base.Base" json:"Base"`
+}
+
+func NewEditWishCareerRequest() *EditWishCareerRequest {
+	return &EditWishCareerRequest{}
+}
+
+func (p *EditWishCareerRequest) InitDefault() {
+}
+
+func (p *EditWishCareerRequest) GetId() (v int64) {
+	return p.Id
+}
+
+func (p *EditWishCareerRequest) GetCareerId() (v int64) {
+	return p.CareerId
+}
+
+var EditWishCareerRequest_SalaryUpper_DEFAULT int32
+
+func (p *EditWishCareerRequest) GetSalaryUpper() (v int32) {
+	if !p.IsSetSalaryUpper() {
+		return EditWishCareerRequest_SalaryUpper_DEFAULT
+	}
+	return *p.SalaryUpper
+}
+
+var EditWishCareerRequest_SalaryLower_DEFAULT int32
+
+func (p *EditWishCareerRequest) GetSalaryLower() (v int32) {
+	if !p.IsSetSalaryLower() {
+		return EditWishCareerRequest_SalaryLower_DEFAULT
+	}
+	return *p.SalaryLower
+}
+
+func (p *EditWishCareerRequest) GetCurrencyType() (v SalaryCurrencyType) {
+	return p.CurrencyType
+}
+
+func (p *EditWishCareerRequest) GetFrequencyType() (v SalaryFrequencyType) {
+	return p.FrequencyType
+}
+
+var EditWishCareerRequest_Base_DEFAULT *base.Base
+
+func (p *EditWishCareerRequest) GetBase() (v *base.Base) {
+	if !p.IsSetBase() {
+		return EditWishCareerRequest_Base_DEFAULT
+	}
+	return p.Base
+}
+func (p *EditWishCareerRequest) SetId(val int64) {
+	p.Id = val
+}
+func (p *EditWishCareerRequest) SetCareerId(val int64) {
+	p.CareerId = val
+}
+func (p *EditWishCareerRequest) SetSalaryUpper(val *int32) {
+	p.SalaryUpper = val
+}
+func (p *EditWishCareerRequest) SetSalaryLower(val *int32) {
+	p.SalaryLower = val
+}
+func (p *EditWishCareerRequest) SetCurrencyType(val SalaryCurrencyType) {
+	p.CurrencyType = val
+}
+func (p *EditWishCareerRequest) SetFrequencyType(val SalaryFrequencyType) {
+	p.FrequencyType = val
+}
+func (p *EditWishCareerRequest) SetBase(val *base.Base) {
+	p.Base = val
+}
+
+func (p *EditWishCareerRequest) IsSetSalaryUpper() bool {
+	return p.SalaryUpper != nil
+}
+
+func (p *EditWishCareerRequest) IsSetSalaryLower() bool {
+	return p.SalaryLower != nil
+}
+
+func (p *EditWishCareerRequest) IsSetBase() bool {
+	return p.Base != nil
+}
+
+func (p *EditWishCareerRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("EditWishCareerRequest(%+v)", *p)
+}
+
+var fieldIDToName_EditWishCareerRequest = map[int16]string{
+	1:   "id",
+	2:   "careerId",
+	3:   "salaryUpper",
+	4:   "salaryLower",
+	5:   "currencyType",
+	6:   "frequencyType",
+	255: "Base",
+}
+
+type EditWishCareerResponse struct {
+	BaseResp *base.BaseResp `thrift:"BaseResp,255,required" frugal:"255,required,base.BaseResp" json:"BaseResp"`
+}
+
+func NewEditWishCareerResponse() *EditWishCareerResponse {
+	return &EditWishCareerResponse{}
+}
+
+func (p *EditWishCareerResponse) InitDefault() {
+}
+
+var EditWishCareerResponse_BaseResp_DEFAULT *base.BaseResp
+
+func (p *EditWishCareerResponse) GetBaseResp() (v *base.BaseResp) {
+	if !p.IsSetBaseResp() {
+		return EditWishCareerResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+func (p *EditWishCareerResponse) SetBaseResp(val *base.BaseResp) {
+	p.BaseResp = val
+}
+
+func (p *EditWishCareerResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *EditWishCareerResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("EditWishCareerResponse(%+v)", *p)
+}
+
+var fieldIDToName_EditWishCareerResponse = map[int16]string{
 	255: "BaseResp",
 }
 
@@ -4471,6 +5016,10 @@ type SparkhireRuntimeService interface {
 
 	GetCurrentEducationExp(ctx context.Context, req *GetCurrentUserEducationExpRequest) (r *GetCurrentUserEducationExpResponse, err error)
 
+	CreateWishCareer(ctx context.Context, req *CreateWishCareerRequest) (r *CreateWishCareerResponse, err error)
+
+	EditWishCareer(ctx context.Context, req *EditWishCareerRequest) (r *EditWishCareerResponse, err error)
+
 	CreateCareerExperience(ctx context.Context, req *CreateCareerExperienceRequest) (r *CreateCareerExperienceResponse, err error)
 
 	EditCareerExperience(ctx context.Context, req *EditCareerExperienceRequest) (r *EditCareerExperienceResponse, err error)
@@ -4486,6 +5035,8 @@ type SparkhireRuntimeService interface {
 	ListSchool(ctx context.Context, req *ListSchoolRequest) (r *ListSchoolResponse, err error)
 
 	ListGeo(ctx context.Context, req *ListGeoRequest) (r *ListGeoResponse, err error)
+
+	ListCareer(ctx context.Context, req *ListCareerInfoRequest) (r *ListCareerInfoResponse, err error)
 
 	CreateCompany(ctx context.Context, req *CreateCompanyRequest) (r *CreateCompanyResponse, err error)
 
@@ -5790,6 +6341,158 @@ var fieldIDToName_SparkhireRuntimeServiceGetCurrentEducationExpResult = map[int1
 	0: "success",
 }
 
+type SparkhireRuntimeServiceCreateWishCareerArgs struct {
+	Req *CreateWishCareerRequest `thrift:"req,1" frugal:"1,default,CreateWishCareerRequest" json:"req"`
+}
+
+func NewSparkhireRuntimeServiceCreateWishCareerArgs() *SparkhireRuntimeServiceCreateWishCareerArgs {
+	return &SparkhireRuntimeServiceCreateWishCareerArgs{}
+}
+
+func (p *SparkhireRuntimeServiceCreateWishCareerArgs) InitDefault() {
+}
+
+var SparkhireRuntimeServiceCreateWishCareerArgs_Req_DEFAULT *CreateWishCareerRequest
+
+func (p *SparkhireRuntimeServiceCreateWishCareerArgs) GetReq() (v *CreateWishCareerRequest) {
+	if !p.IsSetReq() {
+		return SparkhireRuntimeServiceCreateWishCareerArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+func (p *SparkhireRuntimeServiceCreateWishCareerArgs) SetReq(val *CreateWishCareerRequest) {
+	p.Req = val
+}
+
+func (p *SparkhireRuntimeServiceCreateWishCareerArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *SparkhireRuntimeServiceCreateWishCareerArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SparkhireRuntimeServiceCreateWishCareerArgs(%+v)", *p)
+}
+
+var fieldIDToName_SparkhireRuntimeServiceCreateWishCareerArgs = map[int16]string{
+	1: "req",
+}
+
+type SparkhireRuntimeServiceCreateWishCareerResult struct {
+	Success *CreateWishCareerResponse `thrift:"success,0,optional" frugal:"0,optional,CreateWishCareerResponse" json:"success,omitempty"`
+}
+
+func NewSparkhireRuntimeServiceCreateWishCareerResult() *SparkhireRuntimeServiceCreateWishCareerResult {
+	return &SparkhireRuntimeServiceCreateWishCareerResult{}
+}
+
+func (p *SparkhireRuntimeServiceCreateWishCareerResult) InitDefault() {
+}
+
+var SparkhireRuntimeServiceCreateWishCareerResult_Success_DEFAULT *CreateWishCareerResponse
+
+func (p *SparkhireRuntimeServiceCreateWishCareerResult) GetSuccess() (v *CreateWishCareerResponse) {
+	if !p.IsSetSuccess() {
+		return SparkhireRuntimeServiceCreateWishCareerResult_Success_DEFAULT
+	}
+	return p.Success
+}
+func (p *SparkhireRuntimeServiceCreateWishCareerResult) SetSuccess(x interface{}) {
+	p.Success = x.(*CreateWishCareerResponse)
+}
+
+func (p *SparkhireRuntimeServiceCreateWishCareerResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *SparkhireRuntimeServiceCreateWishCareerResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SparkhireRuntimeServiceCreateWishCareerResult(%+v)", *p)
+}
+
+var fieldIDToName_SparkhireRuntimeServiceCreateWishCareerResult = map[int16]string{
+	0: "success",
+}
+
+type SparkhireRuntimeServiceEditWishCareerArgs struct {
+	Req *EditWishCareerRequest `thrift:"req,1" frugal:"1,default,EditWishCareerRequest" json:"req"`
+}
+
+func NewSparkhireRuntimeServiceEditWishCareerArgs() *SparkhireRuntimeServiceEditWishCareerArgs {
+	return &SparkhireRuntimeServiceEditWishCareerArgs{}
+}
+
+func (p *SparkhireRuntimeServiceEditWishCareerArgs) InitDefault() {
+}
+
+var SparkhireRuntimeServiceEditWishCareerArgs_Req_DEFAULT *EditWishCareerRequest
+
+func (p *SparkhireRuntimeServiceEditWishCareerArgs) GetReq() (v *EditWishCareerRequest) {
+	if !p.IsSetReq() {
+		return SparkhireRuntimeServiceEditWishCareerArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+func (p *SparkhireRuntimeServiceEditWishCareerArgs) SetReq(val *EditWishCareerRequest) {
+	p.Req = val
+}
+
+func (p *SparkhireRuntimeServiceEditWishCareerArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *SparkhireRuntimeServiceEditWishCareerArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SparkhireRuntimeServiceEditWishCareerArgs(%+v)", *p)
+}
+
+var fieldIDToName_SparkhireRuntimeServiceEditWishCareerArgs = map[int16]string{
+	1: "req",
+}
+
+type SparkhireRuntimeServiceEditWishCareerResult struct {
+	Success *EditWishCareerResponse `thrift:"success,0,optional" frugal:"0,optional,EditWishCareerResponse" json:"success,omitempty"`
+}
+
+func NewSparkhireRuntimeServiceEditWishCareerResult() *SparkhireRuntimeServiceEditWishCareerResult {
+	return &SparkhireRuntimeServiceEditWishCareerResult{}
+}
+
+func (p *SparkhireRuntimeServiceEditWishCareerResult) InitDefault() {
+}
+
+var SparkhireRuntimeServiceEditWishCareerResult_Success_DEFAULT *EditWishCareerResponse
+
+func (p *SparkhireRuntimeServiceEditWishCareerResult) GetSuccess() (v *EditWishCareerResponse) {
+	if !p.IsSetSuccess() {
+		return SparkhireRuntimeServiceEditWishCareerResult_Success_DEFAULT
+	}
+	return p.Success
+}
+func (p *SparkhireRuntimeServiceEditWishCareerResult) SetSuccess(x interface{}) {
+	p.Success = x.(*EditWishCareerResponse)
+}
+
+func (p *SparkhireRuntimeServiceEditWishCareerResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *SparkhireRuntimeServiceEditWishCareerResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SparkhireRuntimeServiceEditWishCareerResult(%+v)", *p)
+}
+
+var fieldIDToName_SparkhireRuntimeServiceEditWishCareerResult = map[int16]string{
+	0: "success",
+}
+
 type SparkhireRuntimeServiceCreateCareerExperienceArgs struct {
 	Req *CreateCareerExperienceRequest `thrift:"req,1" frugal:"1,default,CreateCareerExperienceRequest" json:"req"`
 }
@@ -6395,6 +7098,82 @@ func (p *SparkhireRuntimeServiceListGeoResult) String() string {
 }
 
 var fieldIDToName_SparkhireRuntimeServiceListGeoResult = map[int16]string{
+	0: "success",
+}
+
+type SparkhireRuntimeServiceListCareerArgs struct {
+	Req *ListCareerInfoRequest `thrift:"req,1" frugal:"1,default,ListCareerInfoRequest" json:"req"`
+}
+
+func NewSparkhireRuntimeServiceListCareerArgs() *SparkhireRuntimeServiceListCareerArgs {
+	return &SparkhireRuntimeServiceListCareerArgs{}
+}
+
+func (p *SparkhireRuntimeServiceListCareerArgs) InitDefault() {
+}
+
+var SparkhireRuntimeServiceListCareerArgs_Req_DEFAULT *ListCareerInfoRequest
+
+func (p *SparkhireRuntimeServiceListCareerArgs) GetReq() (v *ListCareerInfoRequest) {
+	if !p.IsSetReq() {
+		return SparkhireRuntimeServiceListCareerArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+func (p *SparkhireRuntimeServiceListCareerArgs) SetReq(val *ListCareerInfoRequest) {
+	p.Req = val
+}
+
+func (p *SparkhireRuntimeServiceListCareerArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *SparkhireRuntimeServiceListCareerArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SparkhireRuntimeServiceListCareerArgs(%+v)", *p)
+}
+
+var fieldIDToName_SparkhireRuntimeServiceListCareerArgs = map[int16]string{
+	1: "req",
+}
+
+type SparkhireRuntimeServiceListCareerResult struct {
+	Success *ListCareerInfoResponse `thrift:"success,0,optional" frugal:"0,optional,ListCareerInfoResponse" json:"success,omitempty"`
+}
+
+func NewSparkhireRuntimeServiceListCareerResult() *SparkhireRuntimeServiceListCareerResult {
+	return &SparkhireRuntimeServiceListCareerResult{}
+}
+
+func (p *SparkhireRuntimeServiceListCareerResult) InitDefault() {
+}
+
+var SparkhireRuntimeServiceListCareerResult_Success_DEFAULT *ListCareerInfoResponse
+
+func (p *SparkhireRuntimeServiceListCareerResult) GetSuccess() (v *ListCareerInfoResponse) {
+	if !p.IsSetSuccess() {
+		return SparkhireRuntimeServiceListCareerResult_Success_DEFAULT
+	}
+	return p.Success
+}
+func (p *SparkhireRuntimeServiceListCareerResult) SetSuccess(x interface{}) {
+	p.Success = x.(*ListCareerInfoResponse)
+}
+
+func (p *SparkhireRuntimeServiceListCareerResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *SparkhireRuntimeServiceListCareerResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("SparkhireRuntimeServiceListCareerResult(%+v)", *p)
+}
+
+var fieldIDToName_SparkhireRuntimeServiceListCareerResult = map[int16]string{
 	0: "success",
 }
 

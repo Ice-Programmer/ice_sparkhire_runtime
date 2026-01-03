@@ -220,7 +220,8 @@ create table if not exists `recruitment`
     `longitude`           decimal(10, 7)                         null comment '经度',
     `salary_upper`        int                                    null comment '薪水上限',
     `salary_lower`        int                                    null comment '薪水下限',
-    `salary_type`         bigint                                 not null comment '薪水货币类型',
+    `currency_type`       int          default 1                 not null comment '薪水货币类型',
+    `frequency_type`      tinyint      default 1                 not null comment '类型',
     `status`              tinyint      default 0                 not null comment '招聘状态（0 - 招聘中 1 - 结束招聘）',
     `created_at`          datetime     default CURRENT_TIMESTAMP not null comment '创建时间',
     `updated_at`          datetime     default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
@@ -253,3 +254,42 @@ create table if not exists `company`
     `deleted_at`          datetime                                null comment '删除时间'
 ) comment '公司信息' collate = utf8mb4_unicode_ci;
 
+-- 应聘者期望岗位
+create table if not exists `candidate_wish_career`
+(
+    `id`             bigint auto_increment comment 'id' primary key,
+    `user_id`        bigint                             not null comment '用户id',
+    `career_id`      bigint   default 0                 not null comment '职业id',
+    `salary_upper`   int      default 0                 not null comment '薪水上限',
+    `salary_lower`   int      default 0                 not null comment '薪水下限',
+    `currency_type`  int      default 1                 not null comment '薪水货币类型',
+    `frequency_type` tinyint  default 1                 not null comment '类型',
+    `created_at`     datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    `updated_at`     datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    `deleted_at`     datetime                           null comment '删除时间',
+    unique key uk_user_industry_career (`user_id`, `deleted_at`),
+    index idx_user_id (`user_id`, `deleted_at`)
+) comment '应聘者期望岗位' collate = utf8mb4_unicode_ci;
+
+-- 职业表
+create table if not exists `career`
+(
+    `id`          bigint auto_increment comment 'id' primary key,
+    `career_name` varchar(256)                       not null comment '职业名称',
+    `description` varchar(1024)                      null comment '职业介绍',
+    `career_icon` varchar(256)                       null comment 'icon',
+    `career_type` int                                not null comment '职业类型',
+    `created_at`  datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    `updated_at`  datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    `deleted_at`  datetime                           null comment '删除时间'
+) comment '职业' collate = utf8mb4_unicode_ci;
+
+-- 职业类型表
+create table if not exists `career_type`
+(
+    `id`               bigint auto_increment comment 'id' primary key,
+    `career_type_name` varchar(256)                       not null comment '职业类型名称',
+    `created_at`       datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    `updated_at`       datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    `deleted_at`       datetime                           null comment '删除时间'
+) comment '职业类型表' collate = utf8mb4_unicode_ci;
