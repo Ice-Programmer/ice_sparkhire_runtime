@@ -61,7 +61,7 @@ func buildEducationExpInfoList(ctx context.Context, educationExperiences []*db.E
 
 	schoolMap := utils.ToMap(schoolList,
 		func(school *db.School) int64 { return school.Id },
-		func(school *db.School) string { return school.SchoolName },
+		func(school *db.School) *db.School { return school },
 	)
 
 	educationExpInfoList := make([]*sparkruntime.EducationExpInfo, 0, len(educationExperiences))
@@ -77,7 +77,8 @@ func buildEducationExpInfoList(ctx context.Context, educationExperiences []*db.E
 			},
 			SchoolInfo: &sparkruntime.SchoolInfo{
 				Id:         educationExperience.SchoolId,
-				SchoolName: schoolMap[educationExperience.SchoolId],
+				SchoolName: schoolMap[educationExperience.SchoolId].SchoolName,
+				SchoolIcon: schoolMap[educationExperience.SchoolId].SchoolIcon,
 			},
 		})
 	}

@@ -292,6 +292,7 @@ struct ListIndustryResponse {
 struct SchoolInfo {
 	1:  i64    id
 	2:  string schoolName
+	3:  string schoolIcon
 }
 
 struct ListSchoolRequest {
@@ -466,6 +467,15 @@ struct GetCurrentWishCareerRequest {
 struct GetCurrentWishCareerResponse {
 	1:            list<WishCareerInfo> wishCareerList
 	255: required base.BaseResp        BaseResp
+}
+
+struct DeleteWishCareerRequest {
+	1:   required i64       id
+	255: required base.Base Base
+}
+
+struct DeleteWishCareerResponse {
+	255: required base.BaseResp BaseResp
 }
 
 // =============================================== career experience ===============================================

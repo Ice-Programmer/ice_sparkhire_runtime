@@ -61,6 +61,10 @@ create table if not exists `school`
     `updated_at`  datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间'
 ) comment '学校' collate = utf8mb4_unicode_ci;
 
+alter table `school`
+    add column `school_icon` varchar(256) default '' not null comment '学校 icon' after `post_num`;
+
+
 -- 求职者表
 create table if not exists `candidate`
 (

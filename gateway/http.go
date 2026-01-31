@@ -72,9 +72,13 @@ func StartHttpServer() error {
 
 		token := ctx.Request.Header.Get(consts.AuthorizationHeader)
 		if errCode, err := CheckUserAuth(token, path); err != nil {
-			ctx.JSON(http.StatusOK, base.BaseResp{
-				StatusMessage: err.Error(),
-				StatusCode:    errCode,
+			ctx.JSON(http.StatusOK, struct {
+				BaseResp base.BaseResp `json:"BaseResp"`
+			}{
+				BaseResp: base.BaseResp{
+					StatusMessage: err.Error(),
+					StatusCode:    errCode,
+				},
 			})
 			return
 		}

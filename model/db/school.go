@@ -11,6 +11,7 @@ type School struct {
 	Id         int64     `gorm:"column:id;type:bigint;comment:id;primaryKey;not null;" json:"id"`                                    // id
 	SchoolName string    `gorm:"column:school_name;type:varchar(256);comment:学校名称;not null;" json:"school_name"`                     // 学校名称
 	PostNum    int64     `gorm:"column:post_num;type:bigint;comment:相关数量;not null;default:0;" json:"post_num"`                       // 相关数量
+	SchoolIcon string    `gorm:"column:school_icon;type:varchar(256);comment:学校icon;not null;" json:"school_icon"`                   // 学校 icon
 	CreatedAt  time.Time `gorm:"column:created_at;type:datetime;comment:创建时间;not null;default:CURRENT_TIMESTAMP;" json:"created_at"` // 创建时间
 	UpdatedAt  time.Time `gorm:"column:updated_at;type:datetime;comment:更新时间;not null;default:CURRENT_TIMESTAMP;" json:"updated_at"` // 更新时间
 }

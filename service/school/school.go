@@ -17,6 +17,7 @@ func ListSchool(ctx context.Context) ([]*sparkruntime.SchoolInfo, error) {
 		return &sparkruntime.SchoolInfo{
 			Id:         school.Id,
 			SchoolName: school.SchoolName,
+			SchoolIcon: school.SchoolIcon,
 		}
 	})
 
