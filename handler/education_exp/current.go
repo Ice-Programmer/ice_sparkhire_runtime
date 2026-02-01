@@ -80,6 +80,7 @@ func buildEducationExpInfoList(ctx context.Context, educationExperiences []*db.E
 				SchoolName: schoolMap[educationExperience.SchoolId].SchoolName,
 				SchoolIcon: schoolMap[educationExperience.SchoolId].SchoolIcon,
 			},
+			Status: sparkruntime.EducationStatus(educationExperience.EducationStatus),
 		})
 	}
 	return educationExpInfoList, nil

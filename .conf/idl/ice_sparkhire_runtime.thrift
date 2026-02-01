@@ -387,12 +387,13 @@ struct DeleteEducationExpResponse {
 }
 
 struct EducationExpInfo {
-	1:  i64        id
-	2:  SchoolInfo schoolInfo
-	3:  i32        beginYear
-	4:  i32        endYear
-	5:  MajorInfo  majorInfo
-	6:  string     activity
+	1:  i64             id
+	2:  SchoolInfo      schoolInfo
+	3:  i32             beginYear
+	4:  i32             endYear
+	5:  MajorInfo       majorInfo
+	6:  string          activity
+	7:  EducationStatus status
 }
 
 struct GetCurrentUserEducationExpRequest {
