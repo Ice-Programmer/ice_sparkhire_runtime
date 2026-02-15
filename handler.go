@@ -184,24 +184,12 @@ func (s *SparkhireRuntimeServiceImpl) UnbindTags(ctx context.Context, req *spark
 
 // =============================================== education experience ===============================================
 
-// CreateEducationExp implements the SparkhireRuntimeServiceImpl interface.
-func (s *SparkhireRuntimeServiceImpl) CreateEducationExp(ctx context.Context, req *sparkhire_runtime.CreateEducationExpRequest) (resp *sparkhire_runtime.CreateEducationExpResponse, err error) {
-	resp, err = education_exp.CreateEducationExp(ctx, req)
+// ModifyEducationExp implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) ModifyEducationExp(ctx context.Context, req *sparkhire_runtime.ModifyEducationExpRequest) (resp *sparkhire_runtime.ModifyEducationExpResponse, err error) {
+	resp, err = education_exp.ModifyEducationExp(ctx, req)
 	if err != nil {
 		klog.CtxErrorf(ctx, "create education exp failed: %v", err)
-		resp = &sparkhire_runtime.CreateEducationExpResponse{
-			BaseResp: handler.GenErrorBaseResp(err.Error()),
-		}
-	}
-	return resp, nil
-}
-
-// EditEducationExp implements the SparkhireRuntimeServiceImpl interface.
-func (s *SparkhireRuntimeServiceImpl) EditEducationExp(ctx context.Context, req *sparkhire_runtime.EditEducationExpRequest) (resp *sparkhire_runtime.EditEducationExpResponse, err error) {
-	resp, err = education_exp.EditEducationExp(ctx, req)
-	if err != nil {
-		klog.CtxErrorf(ctx, "education exp failed: %v", err)
-		resp = &sparkhire_runtime.EditEducationExpResponse{
+		resp = &sparkhire_runtime.ModifyEducationExpResponse{
 			BaseResp: handler.GenErrorBaseResp(err.Error()),
 		}
 	}

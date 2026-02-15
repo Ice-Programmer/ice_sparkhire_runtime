@@ -363,17 +363,18 @@ struct CreateEducationExpResponse {
 	255: required base.BaseResp BaseResp
 }
 
-struct EditEducationExpRequest {
-	1:   required i64       id
-	2:   required i64       schoolId
-	3:   required i32       beginYear
-	4:   required i32       endYear
-	5:   required i64       majorId
-	6:   required string    activity
-	255: required base.Base Base
+struct ModifyEducationExpRequest {
+	1:   optional i64             id
+	2:   required i64             schoolId
+	3:   required i32             beginYear
+	4:   required i32             endYear
+	5:   required i64             majorId
+	6:   required string          activity
+	7:   optional EducationStatus status
+	255: required base.Base       Base
 }
 
-struct EditEducationExpResponse {
+struct ModifyEducationExpResponse {
 	255: required base.BaseResp BaseResp
 }
 
@@ -606,6 +607,10 @@ struct DeleteCompanyResponse {
 	255: required base.BaseResp BaseResp
 }
 
+// =============================================== information ===============================================
+
+
+
 service SparkhireRuntimeService {
     PingResponse Ping(1: PingRequest req) (api.post="/api/v1/ice/sparkhire/runtime/ping", api.serializer="json")
 
@@ -628,8 +633,7 @@ service SparkhireRuntimeService {
     UnbindTagsResponse UnbindTags(1: UnbindTagsRequest req) (api.post="/api/v1/ice/sparkhire/runtime/tag/unbind", api.serializer="json")
 
     // =============================================== education experience ===============================================
-    CreateEducationExpResponse CreateEducationExp(1: CreateEducationExpRequest req) (api.post="/api/v1/ice/sparkhire/runtime/education/exp/create", api.serializer="json")
-    EditEducationExpResponse EditEducationExp(1: EditEducationExpRequest req) (api.post="/api/v1/ice/sparkhire/runtime/education/exp/edit", api.serializer="json")
+    ModifyEducationExpResponse ModifyEducationExp(1: ModifyEducationExpRequest req) (api.post="/api/v1/ice/sparkhire/runtime/education/exp/modify", api.serializer="json")
     DeleteEducationExpResponse DeleteEducationExp(1: DeleteEducationExpRequest req) (api.post="/api/v1/ice/sparkhire/runtime/education/exp/delete", api.serializer="json")
     GetCurrentUserEducationExpResponse GetCurrentEducationExp(1: GetCurrentUserEducationExpRequest req) (api.post="/api/v1/ice/sparkhire/runtime/education/exp/current", api.serializer="json")
 
