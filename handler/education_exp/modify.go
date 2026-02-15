@@ -69,6 +69,11 @@ func validateModifyEducationExp(ctx context.Context, req *sparkruntime.ModifyEdu
 			return fmt.Errorf("only can edit own education experience")
 		}
 	} else {
+		// 判断 status
+		if !utils.Contains(sparkruntime.EducationStatusList, req.GetStatus()) {
+			return fmt.Errorf("education status is empty")
+		}
+
 		// 新增逻辑
 		education, err := db.FindEducationExperienceByUserIdAndStatus(ctx, db.DB, userId, req.GetStatus())
 		if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
