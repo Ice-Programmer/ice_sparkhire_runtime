@@ -2,7 +2,9 @@ package education_exp
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"gorm.io/gorm"
 	"ice_sparkhire_runtime/handler"
 	sparkruntime "ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
 	"ice_sparkhire_runtime/model/db"
@@ -65,6 +67,15 @@ func validateModifyEducationExp(ctx context.Context, req *sparkruntime.ModifyEdu
 
 		if educationExp.UserId != userId {
 			return fmt.Errorf("only can edit own education experience")
+		}
+	} else {
+		// 新增逻辑
+		education, err := db.FindEducationExperienceByUserIdAndStatus(ctx, db.DB, userId, req.GetStatus())
+		if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+			return fmt.Errorf("education exp not found by id %v", req.GetId())
+		}
+		if education != nil {
+			return fmt.Errorf("education exp status %s has existed", req.GetStatus().String())
 		}
 	}
 
