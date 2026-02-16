@@ -19,7 +19,7 @@ func DeleteEducationExp(ctx context.Context, req *sparkruntime.DeleteEducationEx
 		return nil, err
 	}
 
-	if _, err := db.FindEducationExperienceByUserIdAndId(ctx, db.DB, req.GetId(), userId); err != nil {
+	if _, err := db.FindEducationExperienceByUserIdAndId(ctx, db.DB, userId, req.GetId()); err != nil {
 		return nil, fmt.Errorf("find EducationExperience error: %v", err)
 	}
 
