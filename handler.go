@@ -260,24 +260,12 @@ func (s *SparkhireRuntimeServiceImpl) GetCurrentWishCareer(ctx context.Context, 
 
 // =============================================== career experience ===============================================
 
-// CreateCareerExperience implements the SparkhireRuntimeServiceImpl interface.
-func (s *SparkhireRuntimeServiceImpl) CreateCareerExperience(ctx context.Context, req *sparkhire_runtime.CreateCareerExperienceRequest) (resp *sparkhire_runtime.CreateCareerExperienceResponse, err error) {
-	resp, err = career_exp.CreateCareerExperience(ctx, req)
+// ModifyCareerExperience implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) ModifyCareerExperience(ctx context.Context, req *sparkhire_runtime.ModifyCareerExperienceRequest) (resp *sparkhire_runtime.ModifyCareerExperienceResponse, err error) {
+	resp, err = career_exp.ModifyCareerExperience(ctx, req)
 	if err != nil {
-		klog.CtxErrorf(ctx, "create career experience failed: %v", err)
-		resp = &sparkhire_runtime.CreateCareerExperienceResponse{
-			BaseResp: handler.GenErrorBaseResp(err.Error()),
-		}
-	}
-	return resp, nil
-}
-
-// EditCareerExperience implements the SparkhireRuntimeServiceImpl interface.
-func (s *SparkhireRuntimeServiceImpl) EditCareerExperience(ctx context.Context, req *sparkhire_runtime.EditCareerExperienceRequest) (resp *sparkhire_runtime.EditCareerExperienceResponse, err error) {
-	resp, err = career_exp.EditCareerExperience(ctx, req)
-	if err != nil {
-		klog.CtxErrorf(ctx, "edit career experience failed: %v", err)
-		resp = &sparkhire_runtime.EditCareerExperienceResponse{
+		klog.CtxErrorf(ctx, "modify career experience failed: %v", err)
+		resp = &sparkhire_runtime.ModifyCareerExperienceResponse{
 			BaseResp: handler.GenErrorBaseResp(err.Error()),
 		}
 	}

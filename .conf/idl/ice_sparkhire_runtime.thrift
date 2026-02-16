@@ -349,20 +349,6 @@ struct ListCareerInfoResponse {
 
 // =============================================== education experience ===============================================
 
-struct CreateEducationExpRequest {
-	1:   required i64             schoolId
-	2:   required EducationStatus status
-	3:   required i32             beginYear
-	4:   required i32             endYear
-	5:   required i64             majorId
-	6:   required string          activity
-	255: required base.Base       Base
-}
-
-struct CreateEducationExpResponse {
-	255: required base.BaseResp BaseResp
-}
-
 struct ModifyEducationExpRequest {
 	1:   optional i64             id
 	2:   required i64             schoolId
@@ -482,31 +468,18 @@ struct DeleteWishCareerResponse {
 
 // =============================================== career experience ===============================================
 
-struct CreateCareerExperienceRequest {
-	1:   required string    experienceName
-	2:   required string    jobRole
-	3:   required string    description
-	4:   required i64       startTS
-	5:   required i64       endTS
+struct ModifyCareerExperienceRequest {
+	1:   optional i64       id
+	2:   required string    experienceName
+	3:   required string    jobRole
+	4:   required string    description
+	5:   required i64       startTS
+	6:   required i64       endTS
 	255: required base.Base Base
 }
 
-struct CreateCareerExperienceResponse {
-	255: required base.BaseResp BaseResp
-}
-
-struct EditCareerExperienceRequest {
-	1:   required string    experienceName
-	2:   required string    jobRole
-	3:   required string    description
-	4:   required i64       startTS
-	5:   required i64       endTS
-	6:   required i64       id
-	255: required base.Base Base
-}
-
-struct EditCareerExperienceResponse {
-	255: required base.BaseResp BaseResp
+struct ModifyCareerExperienceResponse {
+	255: optional base.BaseResp BaseResp
 }
 
 struct CareerExperienceInfo {
@@ -643,8 +616,7 @@ service SparkhireRuntimeService {
     GetCurrentWishCareerResponse GetCurrentWishCareer(1: GetCurrentWishCareerRequest req) (api.post="/api/v1/ice/sparkhire/runtime/wish/career/current", api.serializer="json")
 
     // =============================================== career experience ===============================================
-    CreateCareerExperienceResponse CreateCareerExperience(1: CreateCareerExperienceRequest req) (api.post="/api/v1/ice/sparkhire/runtime/career/exp/create", api.serializer="json")
-    EditCareerExperienceResponse EditCareerExperience(1: EditCareerExperienceRequest req) (api.post="/api/v1/ice/sparkhire/runtime/career/exp/edit", api.serializer="json")
+    ModifyCareerExperienceResponse ModifyCareerExperience(1: ModifyCareerExperienceRequest req) (api.post="/api/v1/ice/sparkhire/runtime/career/exp/modify", api.serializer="json")
     GetCurrentUserCareerExperienceResponse GetCurrentUserCareerExperience(1: GetCurrentUserCareerExperienceRequest req) (api.post="/api/v1/ice/sparkhire/runtime/career/exp/current", api.serializer="json")
     DeleteCareerExperienceResponse DeleteCareerExperience(1: DeleteCareerExperienceRequest req) (api.post="/api/v1/ice/sparkhire/runtime/career/exp/delete", api.serializer="json")
 
