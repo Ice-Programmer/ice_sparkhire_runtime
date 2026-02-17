@@ -23,7 +23,7 @@ func DeleteCareerExperience(ctx context.Context, req *sparkruntime.DeleteCareerE
 		return nil, fmt.Errorf("find CareerExperience error: %v", err)
 	}
 
-	if err = db.DeleteEducationExperience(ctx, db.DB, req.GetId()); err != nil {
+	if err = db.DeleteCareerExperienceById(ctx, db.DB, req.GetId()); err != nil {
 		return nil, err
 	}
 
