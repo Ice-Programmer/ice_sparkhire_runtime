@@ -182,6 +182,18 @@ func (s *SparkhireRuntimeServiceImpl) UnbindTags(ctx context.Context, req *spark
 	return resp, nil
 }
 
+// GetCurrentCandidateTagsRequest implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) GetCurrentCandidateTagsRequest(ctx context.Context, req *sparkhire_runtime.GetCurrentCandidateTagsRequest) (resp *sparkhire_runtime.GetCurrentCandidateTagsResponse, err error) {
+	resp, err = tag.GetCurrentCandidateTags(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "get current candidate tags failed: %v", err)
+		resp = &sparkhire_runtime.GetCurrentCandidateTagsResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
 // =============================================== education experience ===============================================
 
 // ModifyEducationExp implements the SparkhireRuntimeServiceImpl interface.

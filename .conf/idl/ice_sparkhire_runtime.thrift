@@ -254,6 +254,15 @@ struct UnbindTagsResponse {
 	255: required base.BaseResp BaseResp
 }
 
+struct GetCurrentCandidateTagsRequest {
+	255: required base.Base Base
+}
+
+struct GetCurrentCandidateTagsResponse {
+	1:            list<TagInfo> tagList
+	255: optional base.BaseResp BaseResp
+}
+
 // =============================================== information ===============================================
 
 struct MajorInfo {
@@ -604,6 +613,7 @@ service SparkhireRuntimeService {
     AddTagResponse AddTag(1: AddTagRequest req) (api.post="/api/v1/ice/sparkhire/runtime/tag/add", api.serializer="json")
     BindTagsResponse BindTags(1: BindTagsRequest req) (api.post="/api/v1/ice/sparkhire/runtime/tag/bind", api.serializer="json")
     UnbindTagsResponse UnbindTags(1: UnbindTagsRequest req) (api.post="/api/v1/ice/sparkhire/runtime/tag/unbind", api.serializer="json")
+    GetCurrentCandidateTagsResponse GetCurrentCandidateTagsRequest(1: GetCurrentCandidateTagsRequest req) (api.post="/api/v1/ice/sparkhire/runtime/tag/current", api.serializer="json")
 
     // =============================================== education experience ===============================================
     ModifyEducationExpResponse ModifyEducationExp(1: ModifyEducationExpRequest req) (api.post="/api/v1/ice/sparkhire/runtime/education/exp/modify", api.serializer="json")
