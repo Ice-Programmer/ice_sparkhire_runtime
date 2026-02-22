@@ -10,12 +10,8 @@ import (
 )
 
 func AddTag(ctx context.Context, req *sparkruntime.AddTagRequest) (*sparkruntime.AddTagResponse, error) {
-	if len(req.GetTagName()) == 0 {
-		return nil, fmt.Errorf("tag name is required")
-	}
-
-	if len(req.GetTagName()) > 20 {
-		return nil, fmt.Errorf("tag name is too long")
+	if err := validateTag(req); err != nil {
+		return nil, err
 	}
 
 	tag, err := db.FindTagByName(ctx, db.DB, req.GetTagName())
@@ -44,4 +40,16 @@ func AddTag(ctx context.Context, req *sparkruntime.AddTagRequest) (*sparkruntime
 		Id:       tagId,
 		BaseResp: handler.ConstructSuccessResp(),
 	}, nil
+}
+
+func validateTag(req *sparkruntime.AddTagRequest) error {
+	if len(req.GetTagName()) == 0 {
+		return fmt.Errorf("tag name is required")
+	}
+
+	if len(req.GetTagName()) > 20 {
+		return fmt.Errorf("tag name is too long")
+	}
+
+	return nil
 }

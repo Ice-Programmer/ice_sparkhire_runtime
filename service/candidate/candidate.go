@@ -55,12 +55,7 @@ func BindTags(ctx context.Context, objId int64, tagIdList []int64) (int, error) 
 		return 0, err
 	}
 
-	// 1. candidate is existing
-	candidate, err := db.FindCandidateById(ctx, db.DB, objId)
-	if err != nil {
-		return 0, err
-	}
-	if candidate.UserId != userId {
+	if objId != userId {
 		return 0, fmt.Errorf("only can modify own tag")
 	}
 
@@ -112,11 +107,7 @@ func UnbindTags(ctx context.Context, objId int64, tagIdList []int64) (int, error
 	}
 
 	// 1. candidate must exist
-	candidate, err := db.FindCandidateById(ctx, db.DB, objId)
-	if err != nil {
-		return 0, err
-	}
-	if candidate.UserId != userId {
+	if objId != userId {
 		return 0, fmt.Errorf("only can modify own tag")
 	}
 
