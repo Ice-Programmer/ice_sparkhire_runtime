@@ -426,19 +426,6 @@ const list<SalaryFrequencyType> SalaryFrequencyTypeList = [
     SalaryFrequencyType.Hourly,
 ]
 
-struct CreateWishCareerRequest {
-	1:   required i64                 careerId
-	2:   optional i32                 salaryUpper
-	3:   optional i32                 salaryLower
-	4:   required SalaryCurrencyType  currencyType
-	5:   required SalaryFrequencyType frequencyType
-	255: required base.Base           Base
-}
-
-struct CreateWishCareerResponse {
-	255: required base.BaseResp BaseResp
-}
-
 struct ModifyWishCareerRequest {
 	1:   optional i64                 id
 	2:   required i64                 careerId
