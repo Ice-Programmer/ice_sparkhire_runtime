@@ -419,7 +419,12 @@ enum SalaryFrequencyType {
 	Hourly  = 5
 }
 
-const list<SalaryFrequencyType> SalaryFrequencyTypeList = [SalaryFrequencyType.Monthly, SalaryFrequencyType.Yearly, SalaryFrequencyType.Daily, SalaryFrequencyType.Hourly]
+const list<SalaryFrequencyType> SalaryFrequencyTypeList = [
+    SalaryFrequencyType.Monthly,
+    SalaryFrequencyType.Yearly,
+    SalaryFrequencyType.Daily,
+    SalaryFrequencyType.Hourly,
+]
 
 struct CreateWishCareerRequest {
 	1:   required i64                 careerId
@@ -434,8 +439,8 @@ struct CreateWishCareerResponse {
 	255: required base.BaseResp BaseResp
 }
 
-struct EditWishCareerRequest {
-	1:   required i64                 id
+struct ModifyWishCareerRequest {
+	1:   optional i64                 id
 	2:   required i64                 careerId
 	3:   optional i32                 salaryUpper
 	4:   optional i32                 salaryLower
@@ -444,7 +449,7 @@ struct EditWishCareerRequest {
 	255: required base.Base           Base
 }
 
-struct EditWishCareerResponse {
+struct ModifyWishCareerResponse {
 	255: required base.BaseResp BaseResp
 }
 
@@ -621,8 +626,7 @@ service SparkhireRuntimeService {
     GetCurrentUserEducationExpResponse GetCurrentEducationExp(1: GetCurrentUserEducationExpRequest req) (api.post="/api/v1/ice/sparkhire/runtime/education/exp/current", api.serializer="json")
 
     // =============================================== wish career ===============================================
-    CreateWishCareerResponse CreateWishCareer(1: CreateWishCareerRequest req) (api.post="/api/v1/ice/sparkhire/runtime/wish/career/create", api.serializer="json")
-    EditWishCareerResponse EditWishCareer(1: EditWishCareerRequest req) (api.post="/api/v1/ice/sparkhire/runtime/wish/career/edit", api.serializer="json")
+    ModifyWishCareerResponse ModifyWishCareer(1: ModifyWishCareerRequest req) (api.post="/api/v1/ice/sparkhire/runtime/wish/career/modify", api.serializer="json")
     GetCurrentWishCareerResponse GetCurrentWishCareer(1: GetCurrentWishCareerRequest req) (api.post="/api/v1/ice/sparkhire/runtime/wish/career/current", api.serializer="json")
 
     // =============================================== career experience ===============================================

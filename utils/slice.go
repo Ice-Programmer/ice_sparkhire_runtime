@@ -8,6 +8,19 @@ func MapStructList[T any, R any](list []T, mapper func(T) R) []R {
 	return result
 }
 
+func MapStructListDistinct[T any, R comparable](list []T, mapper func(T) R) []R {
+	result := make([]R, 0, len(list))
+	seen := make(map[R]struct{}, len(list))
+	for _, v := range list {
+		mapped := mapper(v)
+		if _, ok := seen[mapped]; !ok {
+			seen[mapped] = struct{}{}
+			result = append(result, mapped)
+		}
+	}
+	return result
+}
+
 // Diff 返回 source 中有但 exclude 中没有的元素
 func Diff[T comparable](source, exclude []T) []T {
 	m := make(map[T]struct{}, len(exclude))

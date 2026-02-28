@@ -234,24 +234,12 @@ func (s *SparkhireRuntimeServiceImpl) GetCurrentEducationExp(ctx context.Context
 
 // =============================================== wish career ===============================================
 
-// CreateWishCareer implements the SparkhireRuntimeServiceImpl interface.
-func (s *SparkhireRuntimeServiceImpl) CreateWishCareer(ctx context.Context, req *sparkhire_runtime.CreateWishCareerRequest) (resp *sparkhire_runtime.CreateWishCareerResponse, err error) {
-	resp, err = wish_career.CreateWishCareer(ctx, req)
-	if err != nil {
-		klog.CtxErrorf(ctx, "create wish career failed: %v", err)
-		resp = &sparkhire_runtime.CreateWishCareerResponse{
-			BaseResp: handler.GenErrorBaseResp(err.Error()),
-		}
-	}
-	return resp, nil
-}
-
-// EditWishCareer implements the SparkhireRuntimeServiceImpl interface.
-func (s *SparkhireRuntimeServiceImpl) EditWishCareer(ctx context.Context, req *sparkhire_runtime.EditWishCareerRequest) (resp *sparkhire_runtime.EditWishCareerResponse, err error) {
-	resp, err = wish_career.EditWishCareer(ctx, req)
+// ModifyWishCareer implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) ModifyWishCareer(ctx context.Context, req *sparkhire_runtime.ModifyWishCareerRequest) (resp *sparkhire_runtime.ModifyWishCareerResponse, err error) {
+	resp, err = wish_career.ModifyWishCareer(ctx, req)
 	if err != nil {
 		klog.CtxErrorf(ctx, "edit wish career failed: %v", err)
-		resp = &sparkhire_runtime.EditWishCareerResponse{
+		resp = &sparkhire_runtime.ModifyWishCareerResponse{
 			BaseResp: handler.GenErrorBaseResp(err.Error()),
 		}
 	}

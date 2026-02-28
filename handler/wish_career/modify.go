@@ -10,8 +10,8 @@ import (
 	"ice_sparkhire_runtime/utils"
 )
 
-func EditWishCareer(ctx context.Context, req *sparkruntime.EditWishCareerRequest) (*sparkruntime.EditWishCareerResponse, error) {
-	if err := validateEditWishCareer(ctx, req); err != nil {
+func ModifyWishCareer(ctx context.Context, req *sparkruntime.ModifyWishCareerRequest) (*sparkruntime.ModifyWishCareerResponse, error) {
+	if err := validateModifyWishCareer(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -20,12 +20,12 @@ func EditWishCareer(ctx context.Context, req *sparkruntime.EditWishCareerRequest
 		return nil, err
 	}
 
-	return &sparkruntime.EditWishCareerResponse{
+	return &sparkruntime.ModifyWishCareerResponse{
 		BaseResp: handler.ConstructSuccessResp(),
 	}, nil
 }
 
-func validateEditWishCareer(ctx context.Context, req *sparkruntime.EditWishCareerRequest) error {
+func validateModifyWishCareer(ctx context.Context, req *sparkruntime.ModifyWishCareerRequest) error {
 	if req.GetId() <= 0 {
 		return fmt.Errorf("id is invalid")
 	}
@@ -41,7 +41,7 @@ func validateEditWishCareer(ctx context.Context, req *sparkruntime.EditWishCaree
 	}
 
 	if wishCareer.UserId != userId {
-		return fmt.Errorf("only can edit own wish career")
+		return fmt.Errorf("only can Modify own wish career")
 	}
 
 	if wishCareer.CareerId != req.CareerId {
@@ -73,7 +73,7 @@ func validateEditWishCareer(ctx context.Context, req *sparkruntime.EditWishCaree
 	return nil
 }
 
-func buildUpdateMap(req *sparkruntime.EditWishCareerRequest) map[string]interface{} {
+func buildUpdateMap(req *sparkruntime.ModifyWishCareerRequest) map[string]interface{} {
 	updateMap := map[string]interface{}{
 		"id":             req.Id,
 		"currency_type":  req.GetCurrencyType(),

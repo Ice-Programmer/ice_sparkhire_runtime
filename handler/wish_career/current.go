@@ -45,14 +45,31 @@ func buildWishCareerInfoList(ctx context.Context, wishCareerList []*db.Candidate
 		func(career *db.Career) *db.Career { return career },
 	)
 
+	careerTypeIdSet := utils.MapStructListDistinct(careerList, func(career *db.Career) int64 {
+		return career.CareerType
+	})
+
+	careerTypeList, err := db.FindCareerTypeByIds(ctx, db.DB, careerTypeIdSet)
+	if err != nil {
+		return nil, err
+	}
+
+	careerTypeNameMap := utils.ToMap(careerTypeList,
+		func(careerType *db.CareerType) int64 { return careerType.ID },
+		func(careerType *db.CareerType) string { return careerType.CareerTypeName },
+	)
+
 	wishCareerInfoList := make([]*sparkruntime.WishCareerInfo, 0, len(wishCareerList))
 	for _, wishCareer := range wishCareerList {
+		career := careerMap[wishCareer.CareerId]
 		wishCareerInfoList = append(wishCareerInfoList, &sparkruntime.WishCareerInfo{
 			Id: wishCareer.Id,
 			CareerInfo: &sparkruntime.CareerInfo{
-				Id:         wishCareer.CareerId,
-				CareerName: careerMap[wishCareer.CareerId].CareerName,
-				CareerIcon: careerMap[wishCareer.CareerId].CareerIcon,
+				Id:             wishCareer.CareerId,
+				CareerName:     career.CareerName,
+				CareerIcon:     career.CareerIcon,
+				CareerTypeName: utils.StringPtr(careerTypeNameMap[career.CareerType]),
+				CareerTypeId:   utils.Int64Ptr(career.CareerType),
 			},
 			SalaryLower:   wishCareer.SalaryLower,
 			SalaryUpper:   wishCareer.SalaryUpper,
