@@ -6,18 +6,31 @@ import (
 	"ice_sparkhire_runtime/handler"
 	sparkruntime "ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
 	"ice_sparkhire_runtime/model/db"
+	"ice_sparkhire_runtime/service/user"
 	"ice_sparkhire_runtime/service/wish_career"
 	"ice_sparkhire_runtime/utils"
 )
 
 func ModifyWishCareer(ctx context.Context, req *sparkruntime.ModifyWishCareerRequest) (*sparkruntime.ModifyWishCareerResponse, error) {
-	if err := validateModifyWishCareer(ctx, req); err != nil {
+	currentUser, err := user.GetCurrentUser(ctx)
+	if err != nil {
 		return nil, err
 	}
 
-	err := db.UpdateWishCareerById(ctx, db.DB, req.Id, buildUpdateMap(req))
-	if err != nil {
+	if err := validateModifyWishCareer(ctx, req, currentUser); err != nil {
 		return nil, err
+	}
+
+	if req.IsSetId() {
+		err := db.UpdateWishCareerById(ctx, db.DB, req.GetId(), buildUpdateMap(req))
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		if err := db.CreateWishCareer(ctx, db.DB, buildWishCareer(req, currentUser.Id)); err != nil {
+			return nil, err
+		}
+
 	}
 
 	return &sparkruntime.ModifyWishCareerResponse{
@@ -25,27 +38,32 @@ func ModifyWishCareer(ctx context.Context, req *sparkruntime.ModifyWishCareerReq
 	}, nil
 }
 
-func validateModifyWishCareer(ctx context.Context, req *sparkruntime.ModifyWishCareerRequest) error {
-	if req.GetId() <= 0 {
-		return fmt.Errorf("id is invalid")
-	}
+func validateModifyWishCareer(ctx context.Context, req *sparkruntime.ModifyWishCareerRequest, currentUser *db.User) error {
+	if req.IsSetId() {
+		if req.GetId() <= 0 {
+			return fmt.Errorf("id is invalid")
+		}
 
-	wishCareer, err := db.FindWishCareerById(ctx, db.DB, req.Id)
-	if err != nil {
-		return fmt.Errorf("find wish career: %w", err)
-	}
+		wishCareer, err := db.FindWishCareerById(ctx, db.DB, req.GetId())
+		if err != nil {
+			return fmt.Errorf("find wish career: %w", err)
+		}
 
-	userId, err := utils.GetCurrentUserId(ctx)
-	if err != nil {
-		return fmt.Errorf("get current user id: %w", err)
-	}
+		if wishCareer.UserId != currentUser.Id {
+			return fmt.Errorf("only can Modify own wish career")
+		}
 
-	if wishCareer.UserId != userId {
-		return fmt.Errorf("only can Modify own wish career")
-	}
+		if wishCareer.CareerId != req.CareerId {
+			if err := wish_career.EnsureWishCareerNotExists(ctx, currentUser.Id, req.CareerId); err != nil {
+				return err
+			}
+		}
+	} else {
+		if sparkruntime.UserRole(currentUser.UserRole) != sparkruntime.UserRole_Candidate {
+			return fmt.Errorf("user is not candidate")
+		}
 
-	if wishCareer.CareerId != req.CareerId {
-		if err := wish_career.EnsureWishCareerNotExists(ctx, userId, req.CareerId); err != nil {
+		if err := wish_career.EnsureWishCareerNotExists(ctx, currentUser.Id, req.CareerId); err != nil {
 			return err
 		}
 	}
@@ -80,10 +98,27 @@ func buildUpdateMap(req *sparkruntime.ModifyWishCareerRequest) map[string]interf
 		"frequency_type": req.GetFrequencyType(),
 	}
 
-	if req.IsSetSalaryLower() && req.IsSetSalaryUpper() {
+	if req.IsSetSalaryLower() {
 		updateMap["salary_lower"] = req.GetSalaryLower()
+	}
+
+	if req.IsSetSalaryUpper() {
 		updateMap["salary_upper"] = req.GetSalaryUpper()
 	}
 
 	return updateMap
+}
+
+func buildWishCareer(req *sparkruntime.ModifyWishCareerRequest, userId int64) *db.CandidateWishCareer {
+	wc := &db.CandidateWishCareer{
+		Id:            utils.GetId(),
+		UserId:        userId,
+		CareerId:      req.GetCareerId(),
+		CurrencyType:  int32(req.GetCurrencyType()),
+		FrequencyType: int8(req.GetFrequencyType()),
+	}
+
+	utils.ApplyOptionalValue(req.IsSetSalaryLower, req.GetSalaryLower, &wc.SalaryLower)
+	utils.ApplyOptionalValue(req.IsSetSalaryUpper, req.GetSalaryUpper, &wc.SalaryUpper)
+	return wc
 }
