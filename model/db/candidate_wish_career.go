@@ -82,3 +82,14 @@ func FindWishCareerByUserId(ctx context.Context, db *gorm.DB, userId int64) ([]*
 	}
 	return wishCareers, nil
 }
+
+func DeleteWishCareerById(ctx context.Context, db *gorm.DB, id int64) error {
+	err := db.WithContext(ctx).Model(&CandidateWishCareer{}).
+		Where("id = ?", id).
+		Delete(&CandidateWishCareer{}).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[DB] delete wish career by id fail, %v", err)
+		return err
+	}
+	return nil
+}

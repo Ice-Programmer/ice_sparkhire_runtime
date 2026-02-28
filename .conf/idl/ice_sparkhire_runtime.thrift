@@ -615,6 +615,7 @@ service SparkhireRuntimeService {
     // =============================================== wish career ===============================================
     ModifyWishCareerResponse ModifyWishCareer(1: ModifyWishCareerRequest req) (api.post="/api/v1/ice/sparkhire/runtime/wish/career/modify", api.serializer="json")
     GetCurrentWishCareerResponse GetCurrentWishCareer(1: GetCurrentWishCareerRequest req) (api.post="/api/v1/ice/sparkhire/runtime/wish/career/current", api.serializer="json")
+    DeleteWishCareerResponse DeleteWishCareer(1: DeleteWishCareerRequest req) (api.post="/api/v1/ice/sparkhire/runtime/wish/career/delete", api.serializer="json")
 
     // =============================================== career experience ===============================================
     ModifyCareerExperienceResponse ModifyCareerExperience(1: ModifyCareerExperienceRequest req) (api.post="/api/v1/ice/sparkhire/runtime/career/exp/modify", api.serializer="json")

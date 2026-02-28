@@ -68,7 +68,7 @@ func validateModifyWishCareer(ctx context.Context, req *sparkruntime.ModifyWishC
 		}
 	}
 
-	if req.IsSetSalaryLower() && req.IsSetSalaryUpper() && req.GetSalaryLower() > req.GetSalaryUpper() {
+	if req.GetSalaryUpper() > 0 && req.GetSalaryLower() > 8 && req.GetSalaryLower() > req.GetSalaryUpper() {
 		return fmt.Errorf("lowest wish salary can not greater than highest salary")
 	}
 
