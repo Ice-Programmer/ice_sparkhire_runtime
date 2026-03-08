@@ -582,9 +582,33 @@ struct DeleteCompanyResponse {
 	255: required base.BaseResp BaseResp
 }
 
-// =============================================== information ===============================================
+// =============================================== recruitment ===============================================
 
+enum JobType {
+	Internship = 1    // 实习
+	PartTime   = 2
+	FullTime   = 3
+}
 
+struct CreateRecruitmentRequest {
+	1:   required string              name
+	2:   required i64                 companyId
+	3:   required i64                 careerId
+	4:   required string              description
+	5:   required string              requirement
+	6:   required EducationStatus     educationStatus
+	7:   required JobType             jobType
+	8:   optional GeoModifyInfo       geoInfo
+	9:   optional i32                 salaryUpper
+	10:  optional i32                 salaryLower
+	11:  optional SalaryCurrencyType  currencyType
+	12:  optional SalaryFrequencyType frequencyType
+	255: optional base.Base           Base
+}
+
+struct CreateRecruitmentResponse {
+	255: required base.BaseResp BaseResp
+}
 
 service SparkhireRuntimeService {
     PingResponse Ping(1: PingRequest req) (api.post="/api/v1/ice/sparkhire/runtime/ping", api.serializer="json")
@@ -638,5 +662,8 @@ service SparkhireRuntimeService {
     // =============================================== biz ===============================================
     SendVerifyCodeResponse SendVerifyCode(1: SendVerifyCodeRequest req) (api.post="/api/v1/ice/sparkhire/runtime/verify/code/send", api.serializer="json")
     UploadFileResponse UploadFile(1: UploadFileRequest req) (api.post="/api/v1/ice/sparkhire/runtime/verify/file/upload", api.serializer="json")
+
+    // =============================================== recruitment ===============================================
+    CreateRecruitmentResponse CreateRecruitment(1: CreateRecruitmentRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/hr/recruiment/create", api.serializer="json")
 
 } (agw.preserve_base="true", agw.js_conv="str")

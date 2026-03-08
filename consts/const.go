@@ -17,3 +17,5 @@ const (
 	InvalidTokenErrorCode = 480
 	OperationErrorCode    = 500
 )
+
+const EnumNotFound = "<UNSET>"

@@ -11,6 +11,7 @@ import (
 	"ice_sparkhire_runtime/handler/education_exp"
 	"ice_sparkhire_runtime/handler/information"
 	"ice_sparkhire_runtime/handler/ping"
+	"ice_sparkhire_runtime/handler/recruitment"
 	"ice_sparkhire_runtime/handler/tag"
 	"ice_sparkhire_runtime/handler/user"
 	"ice_sparkhire_runtime/handler/wish_career"
@@ -428,6 +429,20 @@ func (s *SparkhireRuntimeServiceImpl) UploadFile(ctx context.Context, req *spark
 	if err != nil {
 		klog.CtxErrorf(ctx, "upload file failed: %v", err)
 		resp = &sparkhire_runtime.UploadFileResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
+// =============================================== recruitment ===============================================
+
+// CreateRecruitment implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) CreateRecruitment(ctx context.Context, req *sparkhire_runtime.CreateRecruitmentRequest) (resp *sparkhire_runtime.CreateRecruitmentResponse, err error) {
+	resp, err = recruitment.CreateRecruitment(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "create recruitment failed: %v", err)
+		resp = &sparkhire_runtime.CreateRecruitmentResponse{
 			BaseResp: handler.GenErrorBaseResp(err.Error()),
 		}
 	}
