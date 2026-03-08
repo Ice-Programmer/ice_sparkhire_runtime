@@ -30,6 +30,7 @@ func ListCareer(ctx context.Context) ([]*sparkruntime.CareerInfo, error) {
 			CareerTypeName: utils.StringPtr(careerTypeNameMap[careerDB.CareerType]),
 			CareerTypeId:   utils.Int64Ptr(careerDB.CareerType),
 			CareerIcon:     careerDB.CareerIcon,
+			Description:    careerDB.Description,
 		}
 	})
 

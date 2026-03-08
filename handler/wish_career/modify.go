@@ -96,6 +96,7 @@ func buildUpdateMap(req *sparkruntime.ModifyWishCareerRequest) map[string]interf
 		"id":             req.Id,
 		"currency_type":  req.GetCurrencyType(),
 		"frequency_type": req.GetFrequencyType(),
+		"career_id":      req.GetCareerId(),
 	}
 
 	if req.IsSetSalaryLower() {

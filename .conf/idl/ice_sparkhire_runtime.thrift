@@ -344,6 +344,7 @@ struct CareerInfo {
 	3: optional string careerTypeName
 	4: optional i64    careerTypeId
 	5:          string careerIcon
+	6:          string description
 }
 
 struct ListCareerInfoRequest {
