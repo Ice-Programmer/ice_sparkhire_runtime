@@ -49,3 +49,10 @@ func ListIndustry(ctx context.Context) ([]*sparkruntime.IndustryInfo, error) {
 
 	return industryInfoList, nil
 }
+
+func BuildIndustryDetail(industry *db.Industry) *sparkruntime.IndustryDetail {
+	return &sparkruntime.IndustryDetail{
+		Id:           industry.Id,
+		IndustryName: industry.IndustryName,
+	}
+}

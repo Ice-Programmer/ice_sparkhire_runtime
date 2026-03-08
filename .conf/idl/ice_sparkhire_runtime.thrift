@@ -582,6 +582,15 @@ struct DeleteCompanyResponse {
 	255: required base.BaseResp BaseResp
 }
 
+struct CompanyInfo {
+	1:  i64            id
+	2:  string         companyName
+	3:  string         companyLogo
+	4:  string         description
+	5:  GeoDetailInfo  geoInfo
+	6:  IndustryDetail industryInfo
+}
+
 // =============================================== recruitment ===============================================
 
 enum JobType {
@@ -590,24 +599,51 @@ enum JobType {
 	FullTime   = 3
 }
 
+struct SalaryInfo {
+	1: optional i32                 salaryUpper
+	2: optional i32                 salaryLower
+	3: optional SalaryCurrencyType  currencyType
+	4: optional SalaryFrequencyType frequencyType
+}
+
 struct CreateRecruitmentRequest {
-	1:   required string              name
-	2:   required i64                 companyId
-	3:   required i64                 careerId
-	4:   required string              description
-	5:   required string              requirement
-	6:   required EducationStatus     educationStatus
-	7:   required JobType             jobType
-	8:   optional GeoModifyInfo       geoInfo
-	9:   optional i32                 salaryUpper
-	10:  optional i32                 salaryLower
-	11:  optional SalaryCurrencyType  currencyType
-	12:  optional SalaryFrequencyType frequencyType
-	255: optional base.Base           Base
+	1:   required string          name
+	2:   required i64             companyId
+	3:   required i64             careerId
+	4:   required string          description
+	5:   required string          requirement
+	6:   required EducationStatus educationStatus
+	7:   required JobType         jobType
+	8:   optional GeoModifyInfo   geoInfo
+	9:   optional SalaryInfo      salaryInfo
+	255: optional base.Base       Base
 }
 
 struct CreateRecruitmentResponse {
 	255: required base.BaseResp BaseResp
+}
+
+struct RecruitmentInfo {
+	1:   i64             id
+	2:   string          name
+	3:   CompanyInfo     companyInfo
+	4:   CareerInfo      careerInfo
+	5:   string          description
+	6:   string          requirement
+	7:   EducationStatus educationStatus
+	8:   JobType         jobType
+	9:   GeoDetailInfo   geoInfo
+	10:  SalaryInfo      salaryInfo
+}
+
+struct FetchRecruitmentInfoRequest {
+	1:   required i64       recruitmentId
+	255: optional base.Base Base
+}
+
+struct FetchRecruitmentInfoResponse {
+	1:           RecruitmentInfo RecruitmentInfo
+	255: required base.BaseResp   BaseResp
 }
 
 service SparkhireRuntimeService {
@@ -665,5 +701,6 @@ service SparkhireRuntimeService {
 
     // =============================================== recruitment ===============================================
     CreateRecruitmentResponse CreateRecruitment(1: CreateRecruitmentRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/hr/recruiment/create", api.serializer="json")
+    FetchRecruitmentInfoResponse FetchRecruitmentInfo(1: FetchRecruitmentInfoRequest req) (api.post="/api/v1/ice/sparkhire/hr/recruiment/fetch", api.serializer="json")
 
 } (agw.preserve_base="true", agw.js_conv="str")

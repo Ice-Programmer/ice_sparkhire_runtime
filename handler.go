@@ -448,3 +448,15 @@ func (s *SparkhireRuntimeServiceImpl) CreateRecruitment(ctx context.Context, req
 	}
 	return resp, nil
 }
+
+// FetchRecruitmentInfo implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) FetchRecruitmentInfo(ctx context.Context, req *sparkhire_runtime.FetchRecruitmentInfoRequest) (resp *sparkhire_runtime.FetchRecruitmentInfoResponse, err error) {
+	resp, err = recruitment.FetchRecruitmentInfo(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "fetch recruitment failed: %v", err)
+		resp = &sparkhire_runtime.FetchRecruitmentInfoResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}

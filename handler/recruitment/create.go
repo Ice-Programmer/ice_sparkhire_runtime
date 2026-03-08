@@ -42,7 +42,7 @@ func buildRecruitment(ctx context.Context, req *sparkruntime.CreateRecruitmentRe
 	}
 
 	recruitment := &db.Recruitment{
-		Id:            utils.GetId(),
+		ID:            utils.GetId(),
 		Name:          req.Name,
 		UserId:        userId,
 		CompanyId:     req.CompanyId,
@@ -51,8 +51,6 @@ func buildRecruitment(ctx context.Context, req *sparkruntime.CreateRecruitmentRe
 		Requirement:   req.Requirement,
 		EducationType: int8(req.EducationStatus),
 		JobType:       int8(req.JobType),
-		SalaryUpper:   req.GetSalaryUpper(),
-		SalaryLower:   req.GetSalaryLower(),
 	}
 
 	if req.IsSetGeoInfo() {
@@ -66,12 +64,12 @@ func buildRecruitment(ctx context.Context, req *sparkruntime.CreateRecruitmentRe
 		recruitment.Latitude = geoInfo.Latitude
 	}
 
-	if req.IsSetCurrencyType() {
-		recruitment.CurrencyType = int32(req.GetCurrencyType())
-	}
-
-	if req.IsSetFrequencyType() {
-		recruitment.FrequencyType = int8(req.GetFrequencyType())
+	if req.IsSetSalaryInfo() {
+		salaryInfo := req.GetSalaryInfo()
+		recruitment.CurrencyType = int32(salaryInfo.GetCurrencyType())
+		recruitment.FrequencyType = int8(salaryInfo.GetFrequencyType())
+		recruitment.SalaryUpper = salaryInfo.GetSalaryUpper()
+		recruitment.SalaryLower = salaryInfo.GetSalaryLower()
 	}
 
 	return recruitment, nil
@@ -119,8 +117,8 @@ func validateCreateRecruitment(ctx context.Context, req *sparkruntime.CreateRecr
 	}
 
 	// 8. salary
-	if req.GetSalaryUpper() > 0 && req.GetSalaryLower() > 0 && req.GetSalaryLower() > req.GetSalaryUpper() {
-		return fmt.Errorf("lowest wish salary can not greater than highest salary")
+	if err := career.ValidateSalaryInfo(req.GetSalaryInfo()); err != nil {
+		return fmt.Errorf("salary info: %s", err)
 	}
 
 	return nil

@@ -86,7 +86,7 @@ func ListForthGeo(ctx context.Context, thirdGeoId int64) ([]*sparkruntime.GeoInf
 	}), nil
 }
 
-func BuildGeoDetailInfo(ctx context.Context, firstGeoLevelId, secondGeoLevelId, thirdGeoLevelId, forthGeoLevelId int64, address string) (*sparkruntime.GeoDetailInfo, error) {
+func BuildGeoDetailInfo(ctx context.Context, firstGeoLevelId, secondGeoLevelId, thirdGeoLevelId, forthGeoLevelId int64, address string, longitude, latitude float64) (*sparkruntime.GeoDetailInfo, error) {
 	firstGeo, err := db.FindFirstGeoById(ctx, db.DB, firstGeoLevelId)
 	if err != nil {
 		return nil, err
@@ -117,5 +117,7 @@ func BuildGeoDetailInfo(ctx context.Context, firstGeoLevelId, secondGeoLevelId, 
 		ForthGeoLevelId:    forthGeoLevelId,
 		ForthGeoLevelName:  utils.StringPtr(forthGeo.GeoName),
 		Address:            utils.StringPtr(address),
+		Longitude:          utils.Float64Ptr(longitude),
+		Latitude:           utils.Float64Ptr(latitude),
 	}, nil
 }

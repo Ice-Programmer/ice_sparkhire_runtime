@@ -7,7 +7,7 @@ const (
 )
 
 const (
-	TraceIDHeader       = "X-Trace-Id"
+	TraceIDHeader       = "X-Trace-ID"
 	AuthorizationHeader = "Authorization"
 )
 

@@ -11,7 +11,15 @@ import (
 )
 
 func BuildCandidateInfo(ctx context.Context, candidate *db.Candidate) (*sparkruntime.CandidateInfo, error) {
-	geoInfo, err := geo.BuildGeoDetailInfo(ctx, candidate.FirstGeoLevelId, candidate.SecondGeoLevelId, candidate.ThirdGeoLevelId, candidate.ForthGeoLevelId, candidate.Address)
+	geoInfo, err := geo.BuildGeoDetailInfo(ctx,
+		candidate.FirstGeoLevelId,
+		candidate.SecondGeoLevelId,
+		candidate.ThirdGeoLevelId,
+		candidate.ForthGeoLevelId,
+		candidate.Address,
+		candidate.Longitude,
+		candidate.Latitude,
+	)
 	if err != nil {
 		return nil, err
 	}

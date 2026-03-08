@@ -10,7 +10,7 @@ import (
 const RecruitmentTableName = "recruitment"
 
 type Recruitment struct {
-	Id               int64          `gorm:"column:id;type:bigint;comment:id;primaryKey;" json:"id"`                                             // id
+	ID               int64          `gorm:"column:id;type:bigint;comment:id;primaryKey;" json:"id"`                                             // id
 	Name             string         `gorm:"column:name;type:varchar(512);comment:岗位招聘标题;not null;" json:"name"`                                 // 岗位招聘标题
 	UserId           int64          `gorm:"column:user_id;type:bigint;comment:岗位发布者id;not null;" json:"user_id"`                                // 岗位发布者id
 	CompanyId        int64          `gorm:"column:company_id;type:bigint;comment:公司id;not null;" json:"company_id"`                             // 公司id
@@ -49,4 +49,18 @@ func CreateRecruitment(ctx context.Context, db *gorm.DB, recruitment *Recruitmen
 	}
 
 	return nil
+}
+
+func FindRecruitmentById(ctx context.Context, db *gorm.DB, id int64) (*Recruitment, error) {
+	var recruitment Recruitment
+
+	err := db.WithContext(ctx).Model(&Recruitment{}).
+		Where("id = ?", id).
+		First(&recruitment).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[db] find recruitment err: %v", err)
+		return nil, err
+	}
+
+	return &recruitment, nil
 }
