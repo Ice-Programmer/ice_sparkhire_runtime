@@ -658,15 +658,15 @@ struct RecruitmentCondition {
 
 struct QueryRecruitmentPageRequest {
 	1:   optional RecruitmentCondition condition
-	2:            i32                       pageSize
-	3:            i32                       pageNum
-	255: optional base.Base                 Base
+	2:            i32                  pageSize
+	3:            i32                  pageNum
+	255: optional base.Base            Base
 }
 
 struct QueryRecruitmentPageResponse {
 	1:            list<RecruitmentInfo> recruitmentList
-	2:            i64                       total
-	255: required base.BaseResp             BaseResp
+	2:            i64                   total
+	255: required base.BaseResp         BaseResp
 }
 
 service SparkhireRuntimeService {
