@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/gorm"
+	sparkruntime "ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
 	"time"
 )
 
@@ -63,4 +64,62 @@ func FindRecruitmentById(ctx context.Context, db *gorm.DB, id int64) (*Recruitme
 	}
 
 	return &recruitment, nil
+}
+
+func QueryRecruitmentPage(ctx context.Context, db *gorm.DB, pageSize, pageNum int32, condition *sparkruntime.RecruitmentCondition) ([]*Recruitment, int64, error) {
+	query := buildRecruitmentCondition(db, condition)
+
+	var total int64
+	if err := query.WithContext(ctx).Count(&total).Error; err != nil {
+		klog.CtxErrorf(ctx, "[db] count recruitment err: %v", err)
+		return nil, 0, err
+	}
+
+	offset := int((pageNum - 1) * pageSize)
+	var recruitmentList []*Recruitment
+	err := query.WithContext(ctx).
+		Offset(offset).
+		Limit(int(pageSize)).
+		Order("created_at DESC").
+		Find(&recruitmentList).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[db] find recruitment err: %v", err)
+		return nil, 0, err
+	}
+
+	return recruitmentList, total, nil
+}
+
+func buildRecruitmentCondition(db *gorm.DB, condition *sparkruntime.RecruitmentCondition) *gorm.DB {
+	db = db.Model(&Recruitment{})
+
+	if condition == nil {
+		return db
+	}
+
+	if condition.IsSetSalaryUpper() {
+		db = db.Where("salary_upper <= ?", condition.SalaryUpper)
+	}
+
+	if condition.IsSetSalaryLower() {
+		db = db.Where("salary_lower >= ?", condition.SalaryLower)
+	}
+
+	if condition.IsSetJobType() {
+		db = db.Where("job_type = ?", condition.JobType)
+	}
+
+	if condition.IsSetEducationStatus() {
+		db = db.Where("education_type = ?", condition.EducationStatus)
+	}
+
+	if condition.IsSetCompanyId() {
+		db = db.Where("company_id = ?", condition.CompanyId)
+	}
+
+	if condition.IsSetCareerId() {
+		db = db.Where("career_id = ?", condition.CareerId)
+	}
+
+	return db
 }

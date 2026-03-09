@@ -114,18 +114,17 @@ enum JobStatus {
 const list<JobStatus> JobStatusList = [JobStatus.Available, JobStatus.WithInMonth, JobStatus.OpenOpportunity, JobStatus.NotInterested]
 
 struct GeoDetailInfo {
-	1:  required i64    firstGeoLevelId
-	2:  required i64    secondGeoLevelId
-	3:  required i64    thirdGeoLevelId
-	4:  required i64    forthGeoLevelId
-	5:  optional string address
-	6:  optional double latitude
-	7:  optional double longitude
-
-	8:  optional string firstGeoLevelName
-	9:  optional string secondGeoLevelName
-	10: optional string thirdGeoLevelName
-	11: optional string forthGeoLevelName
+	1:   i64    firstGeoLevelId
+	2:   i64    secondGeoLevelId
+	3:   i64    thirdGeoLevelId
+	4:   i64    forthGeoLevelId
+	5:   string address
+	6:   double latitude
+	7:   double longitude
+	8:   string firstGeoLevelName
+	9:   string secondGeoLevelName
+	10:  string thirdGeoLevelName
+	11:  string forthGeoLevelName
 }
 
 struct GeoModifyInfo {
@@ -600,10 +599,10 @@ enum JobType {
 }
 
 struct SalaryInfo {
-	1: optional i32                 salaryUpper
-	2: optional i32                 salaryLower
-	3: optional SalaryCurrencyType  currencyType
-	4: optional SalaryFrequencyType frequencyType
+	1:  i32                 salaryUpper
+	2:  i32                 salaryLower
+	3:  SalaryCurrencyType  currencyType
+	4:  SalaryFrequencyType frequencyType
 }
 
 struct CreateRecruitmentRequest {
@@ -634,6 +633,7 @@ struct RecruitmentInfo {
 	8:   JobType         jobType
 	9:   GeoDetailInfo   geoInfo
 	10:  SalaryInfo      salaryInfo
+	11:  list<TagInfo>   tagInfo
 }
 
 struct FetchRecruitmentInfoRequest {
@@ -644,6 +644,29 @@ struct FetchRecruitmentInfoRequest {
 struct FetchRecruitmentInfoResponse {
 	1:           RecruitmentInfo RecruitmentInfo
 	255: required base.BaseResp   BaseResp
+}
+
+struct RecruitmentCondition {
+	1: optional JobType         jobType
+	2: optional EducationStatus educationStatus
+	3: optional i32             salaryLower
+	4: optional i32             salaryUpper
+	5: optional string          searchText
+	6: optional i64             companyId
+	7: optional i64             careerId
+}
+
+struct QueryRecruitmentPageRequest {
+	1:   optional RecruitmentCondition condition
+	2:            i32                       pageSize
+	3:            i32                       pageNum
+	255: optional base.Base                 Base
+}
+
+struct QueryRecruitmentPageResponse {
+	1:            list<RecruitmentInfo> recruitmentList
+	2:            i64                       total
+	255: required base.BaseResp             BaseResp
 }
 
 service SparkhireRuntimeService {
@@ -701,6 +724,7 @@ service SparkhireRuntimeService {
 
     // =============================================== recruitment ===============================================
     CreateRecruitmentResponse CreateRecruitment(1: CreateRecruitmentRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/hr/recruiment/create", api.serializer="json")
-    FetchRecruitmentInfoResponse FetchRecruitmentInfo(1: FetchRecruitmentInfoRequest req) (api.post="/api/v1/ice/sparkhire/hr/recruiment/fetch", api.serializer="json")
+    FetchRecruitmentInfoResponse FetchRecruitmentInfo(1: FetchRecruitmentInfoRequest req) (api.post="/api/v1/ice/sparkhire/recruiment/fetch", api.serializer="json")
+    QueryRecruitmentPageResponse QueryRecruitmentPage(1: QueryRecruitmentPageRequest req) (api.post="/api/v1/ice/sparkhire/recruiment/page", api.serializer="json")
 
 } (agw.preserve_base="true", agw.js_conv="str")

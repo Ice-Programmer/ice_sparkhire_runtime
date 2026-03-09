@@ -67,6 +67,19 @@ func FindCompanyById(ctx context.Context, db *gorm.DB, id int64) (*Company, erro
 	return &company, nil
 }
 
+func FindCompanyByIds(ctx context.Context, db *gorm.DB, ids []int64) ([]*Company, error) {
+	var companyList []*Company
+	err := db.WithContext(ctx).Model(&Company{}).
+		Where("id IN (?)", ids).
+		Find(&companyList).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[db] find companies err: %v", err)
+		return nil, err
+	}
+
+	return companyList, nil
+}
+
 func UpdateCompany(ctx context.Context, db *gorm.DB, id int64, modifyCompany *Company) error {
 	err := db.WithContext(ctx).Model(modifyCompany).
 		Where("id = ?", id).

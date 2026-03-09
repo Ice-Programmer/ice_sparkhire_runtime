@@ -460,3 +460,15 @@ func (s *SparkhireRuntimeServiceImpl) FetchRecruitmentInfo(ctx context.Context, 
 	}
 	return resp, nil
 }
+
+// QueryRecruitmentPage implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) QueryRecruitmentPage(ctx context.Context, req *sparkhire_runtime.QueryRecruitmentPageRequest) (resp *sparkhire_runtime.QueryRecruitmentPageResponse, err error) {
+	resp, err = recruitment.QueryRecruitmentPage(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "query recruitment failed: %v", err)
+		resp = &sparkhire_runtime.QueryRecruitmentPageResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}

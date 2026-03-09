@@ -39,3 +39,15 @@ func FindIndustryById(ctx context.Context, db *gorm.DB, id int64) (*Industry, er
 	}
 	return &industry, nil
 }
+
+func FindIndustryByIds(ctx context.Context, db *gorm.DB, ids []int64) ([]*Industry, error) {
+	var industryList []*Industry
+	err := db.WithContext(ctx).Model(&Industry{}).
+		Where("id IN (?)", ids).
+		Find(&industryList).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[DB] find industry by id %v error: %v", ids, err)
+		return nil, err
+	}
+	return industryList, nil
+}

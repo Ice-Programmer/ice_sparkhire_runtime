@@ -54,8 +54,6 @@ func FetchRecruitmentInfo(ctx context.Context, req *sparkruntime.FetchRecruitmen
 		return nil, err
 	}
 
-	currencyType := sparkruntime.SalaryCurrencyType(recruitment.CurrencyType)
-	frequencyType := sparkruntime.SalaryFrequencyType(recruitment.FrequencyType)
 	recruitmentInfo := &sparkruntime.RecruitmentInfo{
 		Id:          recruitment.ID,
 		Name:        recruitment.Name,
@@ -73,10 +71,10 @@ func FetchRecruitmentInfo(ctx context.Context, req *sparkruntime.FetchRecruitmen
 		JobType:         sparkruntime.JobType(recruitment.JobType),
 		GeoInfo:         geoDetailInfo,
 		SalaryInfo: &sparkruntime.SalaryInfo{
-			SalaryUpper:   utils.Int32Ptr(recruitment.SalaryUpper),
-			SalaryLower:   utils.Int32Ptr(recruitment.SalaryLower),
-			CurrencyType:  &currencyType,
-			FrequencyType: &frequencyType,
+			SalaryUpper:   recruitment.SalaryUpper,
+			SalaryLower:   recruitment.SalaryLower,
+			CurrencyType:  sparkruntime.SalaryCurrencyType(recruitment.CurrencyType),
+			FrequencyType: sparkruntime.SalaryFrequencyType(recruitment.FrequencyType),
 		},
 	}
 

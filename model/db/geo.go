@@ -138,3 +138,35 @@ func FindForthLevelById(ctx context.Context, db *gorm.DB, id int64) (*GeoForthLe
 	}
 	return geo, err
 }
+
+type GeoNameFullInfo struct {
+	FirstName  string
+	SecondName string
+	ThirdName  string
+	ForthName  string
+}
+
+func FindGeoFullInfo(ctx context.Context, db *gorm.DB, forthGeoId int64) (*GeoNameFullInfo, error) {
+	var res GeoNameFullInfo
+
+	err := db.WithContext(ctx).
+		Table("geo_forth_level f").
+		Select(`
+			fi.geo_name AS first_name,
+			s.geo_name AS second_name,
+			t.geo_name AS third_name,
+			f.geo_name AS forth_name
+		`).
+		Joins("LEFT JOIN geo_third_level t ON f.third_geo_level_id = t.id").
+		Joins("LEFT JOIN geo_second_level s ON t.second_geo_level_id = s.id").
+		Joins("LEFT JOIN geo_first_level fi ON s.first_geo_level_id = fi.id").
+		Where("f.id = ?", forthGeoId).
+		Scan(&res).Error
+
+	if err != nil {
+		klog.CtxErrorf(ctx, "[DB] find geo full info error: %v", err)
+		return nil, err
+	}
+
+	return &res, nil
+}

@@ -87,37 +87,22 @@ func ListForthGeo(ctx context.Context, thirdGeoId int64) ([]*sparkruntime.GeoInf
 }
 
 func BuildGeoDetailInfo(ctx context.Context, firstGeoLevelId, secondGeoLevelId, thirdGeoLevelId, forthGeoLevelId int64, address string, longitude, latitude float64) (*sparkruntime.GeoDetailInfo, error) {
-	firstGeo, err := db.FindFirstGeoById(ctx, db.DB, firstGeoLevelId)
-	if err != nil {
-		return nil, err
-	}
-
-	secondGeo, err := db.FindSecondGeoById(ctx, db.DB, secondGeoLevelId)
-	if err != nil {
-		return nil, err
-	}
-
-	thirdGeo, err := db.FindThirdLevelById(ctx, db.DB, thirdGeoLevelId)
-	if err != nil {
-		return nil, err
-	}
-
-	forthGeo, err := db.FindForthLevelById(ctx, db.DB, forthGeoLevelId)
+	geoFullInfo, err := db.FindGeoFullInfo(ctx, db.DB, forthGeoLevelId)
 	if err != nil {
 		return nil, err
 	}
 
 	return &sparkruntime.GeoDetailInfo{
 		FirstGeoLevelId:    firstGeoLevelId,
-		FirstGeoLevelName:  utils.StringPtr(firstGeo.GeoName),
+		FirstGeoLevelName:  geoFullInfo.FirstName,
 		SecondGeoLevelId:   secondGeoLevelId,
-		SecondGeoLevelName: utils.StringPtr(secondGeo.GeoName),
+		SecondGeoLevelName: geoFullInfo.SecondName,
 		ThirdGeoLevelId:    thirdGeoLevelId,
-		ThirdGeoLevelName:  utils.StringPtr(thirdGeo.GeoName),
+		ThirdGeoLevelName:  geoFullInfo.ThirdName,
 		ForthGeoLevelId:    forthGeoLevelId,
-		ForthGeoLevelName:  utils.StringPtr(forthGeo.GeoName),
-		Address:            utils.StringPtr(address),
-		Longitude:          utils.Float64Ptr(longitude),
-		Latitude:           utils.Float64Ptr(latitude),
+		ForthGeoLevelName:  geoFullInfo.ForthName,
+		Address:            address,
+		Longitude:          longitude,
+		Latitude:           latitude,
 	}, nil
 }

@@ -56,3 +56,17 @@ func BuildIndustryDetail(industry *db.Industry) *sparkruntime.IndustryDetail {
 		IndustryName: industry.IndustryName,
 	}
 }
+
+func BuildIndustryDetailMapByIds(ctx context.Context, industryIdList []int64) (map[int64]*sparkruntime.IndustryDetail, error) {
+	industryList, err := db.FindIndustryByIds(ctx, db.DB, industryIdList)
+	if err != nil {
+		return nil, err
+	}
+
+	industryMap := utils.ToMap(industryList,
+		func(industry *db.Industry) int64 { return industry.Id },
+		func(industry *db.Industry) *sparkruntime.IndustryDetail { return BuildIndustryDetail(industry) },
+	)
+
+	return industryMap, nil
+}
