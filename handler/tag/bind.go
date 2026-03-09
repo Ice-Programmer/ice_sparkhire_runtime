@@ -6,6 +6,7 @@ import (
 	"ice_sparkhire_runtime/handler"
 	sparkruntime "ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
 	"ice_sparkhire_runtime/service/candidate"
+	"ice_sparkhire_runtime/service/recruitment"
 )
 
 func BindTags(ctx context.Context, req *sparkruntime.BindTagsRequest) (*sparkruntime.BindTagsResponse, error) {
@@ -23,7 +24,7 @@ func BindTags(ctx context.Context, req *sparkruntime.BindTagsRequest) (*sparkrun
 	case sparkruntime.TagObjType_Candidate:
 		num, err = candidate.BindTags(ctx, req.GetObjId(), req.GetTagIdList())
 	case sparkruntime.TagObjType_Recruitment:
-		// todo 补充判断逻辑
+		num, err = recruitment.BindTags(ctx, req.GetObjId(), req.GetTagIdList())
 	default:
 		return nil, fmt.Errorf("unsupported obj type: %s", req.GetObjType())
 	}

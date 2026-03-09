@@ -24,7 +24,7 @@ func BuildCandidateInfo(ctx context.Context, candidate *db.Candidate) (*sparkrun
 		return nil, err
 	}
 
-	tagList, err := db.FindTagsByObjIdAndObjType(ctx, db.DB, candidate.Id, int32(sparkruntime.TagObjType_Candidate))
+	tagList, err := db.FindTagsByObjIdAndObjType(ctx, db.DB, candidate.Id, sparkruntime.TagObjType_Candidate)
 	if err != nil {
 		return nil, err
 	}

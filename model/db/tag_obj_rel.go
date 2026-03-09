@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/gorm"
+	sparkruntime "ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
 	"time"
 )
 
@@ -61,7 +62,7 @@ func DeleteTagRels(ctx context.Context, db *gorm.DB, tagRelIds []int64) error {
 	return nil
 }
 
-func FindTagsByObjIdAndObjType(ctx context.Context, db *gorm.DB, objId int64, objType int32) ([]*Tag, error) {
+func FindTagsByObjIdAndObjType(ctx context.Context, db *gorm.DB, objId int64, objType sparkruntime.TagObjType) ([]*Tag, error) {
 	var tags []*Tag
 
 	err := db.WithContext(ctx).

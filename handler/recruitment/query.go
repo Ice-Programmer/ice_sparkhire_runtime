@@ -69,6 +69,12 @@ func buildEvaluatePageInfo(ctx context.Context, recruitmentList []*db.Recruitmen
 			continue
 		}
 
+		tagList, err := db.FindTagsByObjIdAndObjType(ctx, db.DB, recruitment.ID, sparkruntime.TagObjType_Recruitment)
+		if err != nil {
+			klog.CtxErrorf(ctx, "find recruitment info failed, %v", err.Error())
+			continue
+		}
+
 		recruitmentInfoList = append(recruitmentInfoList, &sparkruntime.RecruitmentInfo{
 			Id:              recruitment.ID,
 			Name:            recruitment.Name,
@@ -85,7 +91,12 @@ func buildEvaluatePageInfo(ctx context.Context, recruitmentList []*db.Recruitmen
 				CurrencyType:  sparkruntime.SalaryCurrencyType(recruitment.CurrencyType),
 				FrequencyType: sparkruntime.SalaryFrequencyType(recruitment.FrequencyType),
 			},
-			TagInfo: nil,
+			TagInfo: utils.MapStructList(tagList, func(tag *db.Tag) *sparkruntime.TagInfo {
+				return &sparkruntime.TagInfo{
+					Id:      tag.Id,
+					TagName: tag.TagName,
+				}
+			}),
 		})
 	}
 

@@ -6,6 +6,7 @@ import (
 	"ice_sparkhire_runtime/handler"
 	sparkruntime "ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
 	"ice_sparkhire_runtime/service/candidate"
+	"ice_sparkhire_runtime/service/recruitment"
 )
 
 func UnbindTags(ctx context.Context, req *sparkruntime.UnbindTagsRequest) (resp *sparkruntime.UnbindTagsResponse, err error) {
@@ -22,7 +23,7 @@ func UnbindTags(ctx context.Context, req *sparkruntime.UnbindTagsRequest) (resp 
 	case sparkruntime.TagObjType_Candidate:
 		num, err = candidate.UnbindTags(ctx, req.GetObjId(), req.GetTagIdList())
 	case sparkruntime.TagObjType_Recruitment:
-		// todo 补充逻辑
+		num, err = recruitment.UnbindTags(ctx, req.GetObjId(), req.GetTagIdList())
 	default:
 		return nil, fmt.Errorf("unsupported obj type: %s", req.GetObjType())
 	}
