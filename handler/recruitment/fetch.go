@@ -3,6 +3,7 @@ package recruitment
 import (
 	"context"
 	"fmt"
+	"github.com/cloudwego/kitex/pkg/klog"
 	"ice_sparkhire_runtime/handler"
 	sparkruntime "ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
 	"ice_sparkhire_runtime/model/db"
@@ -54,6 +55,12 @@ func FetchRecruitmentInfo(ctx context.Context, req *sparkruntime.FetchRecruitmen
 		return nil, err
 	}
 
+	tagList, err := db.FindTagsByObjIdAndObjType(ctx, db.DB, recruitment.ID, sparkruntime.TagObjType_Recruitment)
+	if err != nil {
+		klog.CtxErrorf(ctx, "find recruitment info failed, %v", err.Error())
+		return nil, err
+	}
+
 	recruitmentInfo := &sparkruntime.RecruitmentInfo{
 		Id:          recruitment.ID,
 		Name:        recruitment.Name,
@@ -76,6 +83,12 @@ func FetchRecruitmentInfo(ctx context.Context, req *sparkruntime.FetchRecruitmen
 			CurrencyType:  sparkruntime.SalaryCurrencyType(recruitment.CurrencyType),
 			FrequencyType: sparkruntime.SalaryFrequencyType(recruitment.FrequencyType),
 		},
+		TagInfoList: utils.MapStructList(tagList, func(tag *db.Tag) *sparkruntime.TagInfo {
+			return &sparkruntime.TagInfo{
+				Id:      tag.Id,
+				TagName: tag.TagName,
+			}
+		}),
 	}
 
 	return &sparkruntime.FetchRecruitmentInfoResponse{

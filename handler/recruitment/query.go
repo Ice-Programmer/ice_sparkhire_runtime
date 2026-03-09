@@ -91,7 +91,7 @@ func buildEvaluatePageInfo(ctx context.Context, recruitmentList []*db.Recruitmen
 				CurrencyType:  sparkruntime.SalaryCurrencyType(recruitment.CurrencyType),
 				FrequencyType: sparkruntime.SalaryFrequencyType(recruitment.FrequencyType),
 			},
-			TagInfo: utils.MapStructList(tagList, func(tag *db.Tag) *sparkruntime.TagInfo {
+			TagInfoList: utils.MapStructList(tagList, func(tag *db.Tag) *sparkruntime.TagInfo {
 				return &sparkruntime.TagInfo{
 					Id:      tag.Id,
 					TagName: tag.TagName,

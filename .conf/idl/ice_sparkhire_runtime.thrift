@@ -633,7 +633,7 @@ struct RecruitmentInfo {
 	8:   JobType         jobType
 	9:   GeoDetailInfo   geoInfo
 	10:  SalaryInfo      salaryInfo
-	11:  list<TagInfo>   tagInfo
+	11:  list<TagInfo>   tagInfoList
 }
 
 struct FetchRecruitmentInfoRequest {
