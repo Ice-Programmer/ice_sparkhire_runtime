@@ -588,6 +588,19 @@ struct CompanyInfo {
 	4:  string         description
 	5:  GeoDetailInfo  geoInfo
 	6:  IndustryDetail industryInfo
+	7:  string         backgroundImg
+	8:  list<string>   companyImageList
+	9:  i32            favoriteCnt
+}
+
+struct FetchCompanyDetailInfoRequest {
+	1:   required i64       companyId
+	255: required base.Base Base
+}
+
+struct FetchCompanyDetailInfoResponse {
+	1:            CompanyInfo   companyInfo
+	255: required base.BaseResp BaseResp
 }
 
 // =============================================== recruitment ===============================================
@@ -717,6 +730,7 @@ service SparkhireRuntimeService {
     CreateCompanyResponse CreateCompany(1: CreateCompanyRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/hr/company/create", api.serializer="json")
     EditCompanyResponse EditCompany(1: EditCompanyRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/hr/company/edit", api.serializer="json")
     DeleteCompanyResponse DeleteCompany(1: DeleteCompanyRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/hr/company/delete", api.serializer="json")
+    FetchCompanyDetailInfoResponse FetchCompanyDetailInfo(1: FetchCompanyDetailInfoRequest req) (api.post="/api/v1/ice/sparkhire/runtime/company/info/fetch", api.serializer="json")
 
     // =============================================== biz ===============================================
     SendVerifyCodeResponse SendVerifyCode(1: SendVerifyCodeRequest req) (api.post="/api/v1/ice/sparkhire/runtime/verify/code/send", api.serializer="json")

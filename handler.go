@@ -409,6 +409,18 @@ func (s *SparkhireRuntimeServiceImpl) DeleteCompany(ctx context.Context, req *sp
 	return resp, nil
 }
 
+// FetchCompanyDetailInfo implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) FetchCompanyDetailInfo(ctx context.Context, req *sparkhire_runtime.FetchCompanyDetailInfoRequest) (resp *sparkhire_runtime.FetchCompanyDetailInfoResponse, err error) {
+	resp, err = company.FetchCompanyDetailInfo(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "fetch company detail info failed: %v", err)
+		resp = &sparkhire_runtime.FetchCompanyDetailInfoResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
 // =============================================== biz ===============================================
 
 // SendVerifyCode implements the SparkhireRuntimeServiceImpl interface.

@@ -29,12 +29,15 @@ func BuildCompanyInfo(ctx context.Context, company *db.Company) (*sparkruntime.C
 	}
 
 	return &sparkruntime.CompanyInfo{
-		Id:           company.ID,
-		CompanyName:  company.CompanyName,
-		CompanyLogo:  company.Logo,
-		Description:  company.Description,
-		GeoInfo:      geoDetailInfo,
-		IndustryInfo: industry.BuildIndustryDetail(industryDB),
+		Id:               company.ID,
+		CompanyName:      company.CompanyName,
+		CompanyLogo:      company.Logo,
+		Description:      company.Description,
+		GeoInfo:          geoDetailInfo,
+		IndustryInfo:     industry.BuildIndustryDetail(industryDB),
+		BackgroundImg:    company.BackgroundImg,
+		CompanyImageList: company.ParseImgList(ctx),
+		FavoriteCnt:      company.FavoriteCount,
 	}, nil
 }
 
