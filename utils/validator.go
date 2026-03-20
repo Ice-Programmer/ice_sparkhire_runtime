@@ -94,3 +94,12 @@ func ValidateGeoDetail(geo *sparkruntime.GeoDetailInfo) error {
 
 	return ValidateLatitudeAndLongitude(geo.GetLatitude(), geo.GetLongitude())
 }
+
+type Enum interface {
+	~int64 | ~int | ~int32
+	String() string
+}
+
+func IsValidEnum[T Enum](e T) bool {
+	return e.String() != "<UNSET>"
+}

@@ -257,6 +257,19 @@ create table if not exists `company`
     `deleted_at`          datetime                                null comment '删除时间'
 ) comment '公司信息' collate = utf8mb4_unicode_ci;
 
+create table if not exists `user_favorite`
+(
+    `id`          bigint auto_increment comment '主键 id' primary key,
+    `user_id`     bigint                                                         not null comment '用户 id',
+    `target_type` tinyint                                                        not null comment '收藏目标类型: 1-公司, 2-职位, 3-文章等',
+    `target_id`   bigint                                                         not null comment '目标 id (公司id/职位id等)',
+    `created_at`  datetime default current_timestamp                             not null comment '创建时间',
+    `updated_at`  datetime default current_timestamp on update current_timestamp not null comment '更新时间',
+    `deleted_at`  datetime                                                       null comment '删除时间',
+    unique key `uk_user_target` (`user_id`, `target_type`, `target_id`),
+    index `idx_target` (`target_type`, `target_id`)
+) comment '用户通用收藏记录表' collate = utf8mb4_unicode_ci;
+
 -- 应聘者期望岗位
 create table if not exists `candidate_wish_career`
 (

@@ -83,6 +83,18 @@ func (s *SparkhireRuntimeServiceImpl) SwitchUserRole(ctx context.Context, req *s
 	return resp, nil
 }
 
+// UserFavor implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) UserFavor(ctx context.Context, req *sparkhire_runtime.UserFavorRequest) (resp *sparkhire_runtime.UserFavorResponse, err error) {
+	resp, err = user.UserFavor(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "user favor failed: %v", err)
+		resp = &sparkhire_runtime.UserFavorResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
 // =============================================== candidate ===============================================
 
 // EditCandidateContractInfo implements the SparkhireRuntimeServiceImpl interface.

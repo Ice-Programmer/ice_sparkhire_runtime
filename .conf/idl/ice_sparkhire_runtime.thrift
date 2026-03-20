@@ -83,6 +83,20 @@ struct SwitchUserRoleResponse {
 	255: required base.BaseResp BaseResp
 }
 
+enum TargetType {
+	Recruitment = 1
+	Company     = 2
+}
+
+struct UserFavorRequest {
+	1:   required i64        targetId
+	2:   required TargetType targetType
+	255: optional base.Base  Base
+}
+
+struct UserFavorResponse {
+	255: required base.BaseResp BaseResp
+}
 
 // =============================================== Candidate ===============================================
 
@@ -690,6 +704,7 @@ service SparkhireRuntimeService {
     UserMailLoginResponse UserMailLogin(1: UserMailLoginRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/login", api.serializer="json")
     FetchCurrentUserResponse FetchCurrentUser(1: FetchCurrentUserRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/current/fetch", api.serializer="json")
     SwitchUserRoleResponse SwitchUserRole(1: SwitchUserRoleRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/role/switch", api.serializer="json")
+    UserFavorResponse UserFavor(1: UserFavorRequest req) (api.post="/api/v1/ice/sparkhire/user/favor", api.serializer="json")
 
     // =============================================== candidate ===============================================
     GetCurrentCandidateResponse GetCurrentCandidate(1: GetCurrentCandidateRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/candidate/current/get", api.serializer="json")
