@@ -606,15 +606,16 @@ struct DeleteCompanyResponse {
 }
 
 struct CompanyInfo {
-	1:  i64            id
-	2:  string         companyName
-	3:  string         companyLogo
-	4:  string         description
-	5:  GeoDetailInfo  geoInfo
-	6:  IndustryDetail industryInfo
-	7:  string         backgroundImg
-	8:  list<string>   companyImageList
-	9:  i32            favoriteCnt
+	1:   i64            id
+	2:   string         companyName
+	3:   string         companyLogo
+	4:   string         description
+	5:   GeoDetailInfo  geoInfo
+	6:   IndustryDetail industryInfo
+	7:   string         backgroundImg
+	8:   list<string>   companyImageList
+	9:   i32            favoriteCnt
+	10:  bool           hasFavor
 }
 
 struct FetchCompanyDetailInfoRequest {

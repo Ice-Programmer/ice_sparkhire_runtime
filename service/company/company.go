@@ -28,6 +28,12 @@ func BuildCompanyInfo(ctx context.Context, company *db.Company) (*sparkruntime.C
 		return nil, err
 	}
 
+	// 获取是否点赞
+	userId, err := utils.GetCurrentUserId(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return &sparkruntime.CompanyInfo{
 		Id:               company.ID,
 		CompanyName:      company.CompanyName,
@@ -38,6 +44,7 @@ func BuildCompanyInfo(ctx context.Context, company *db.Company) (*sparkruntime.C
 		BackgroundImg:    company.BackgroundImg,
 		CompanyImageList: company.ParseImgList(ctx),
 		FavoriteCnt:      company.FavoriteCount,
+		HasFavor:         db.HasFavor(ctx, db.DB, userId, company.ID, sparkruntime.TargetType_Company),
 	}, nil
 }
 

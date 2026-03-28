@@ -67,3 +67,19 @@ func DeleteUserFavor(ctx context.Context, db *gorm.DB, id int64) error {
 	}
 	return nil
 }
+
+func HasFavor(ctx context.Context, db *gorm.DB, userId int64, targetId int64, targetType sparkruntime.TargetType) bool {
+	var exists int
+	err := db.WithContext(ctx).Model(&UserFavorite{}).
+		Select("1").
+		Where("user_id = ?", userId).
+		Where("target_id = ?", targetId).
+		Where("target_type = ?", targetType).
+		Limit(1).Scan(&exists).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[UserFavorDB] has favorite err: %v", err)
+		return false
+	}
+
+	return exists == 1
+}
