@@ -95,6 +95,18 @@ func (s *SparkhireRuntimeServiceImpl) UserFavor(ctx context.Context, req *sparkh
 	return resp, nil
 }
 
+// UserCancelFavor implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) UserCancelFavor(ctx context.Context, req *sparkhire_runtime.UserCancelFavorRequest) (resp *sparkhire_runtime.UserCancelFavorResponse, err error) {
+	resp, err = user.UserCancelFavor(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "user cancel favor failed: %v", err)
+		resp = &sparkhire_runtime.UserCancelFavorResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
 // =============================================== candidate ===============================================
 
 // EditCandidateContractInfo implements the SparkhireRuntimeServiceImpl interface.

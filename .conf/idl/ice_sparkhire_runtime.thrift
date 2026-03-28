@@ -98,6 +98,16 @@ struct UserFavorResponse {
 	255: required base.BaseResp BaseResp
 }
 
+struct UserCancelFavorRequest {
+	1:   required i64        targetId
+	2:   required TargetType targetType
+	255: optional base.Base  Base
+}
+
+struct UserCancelFavorResponse {
+	255: required base.BaseResp BaseResp
+}
+
 // =============================================== Candidate ===============================================
 
 enum EducationStatus {
@@ -705,6 +715,7 @@ service SparkhireRuntimeService {
     FetchCurrentUserResponse FetchCurrentUser(1: FetchCurrentUserRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/current/fetch", api.serializer="json")
     SwitchUserRoleResponse SwitchUserRole(1: SwitchUserRoleRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/role/switch", api.serializer="json")
     UserFavorResponse UserFavor(1: UserFavorRequest req) (api.post="/api/v1/ice/sparkhire/user/favor", api.serializer="json")
+    UserCancelFavorResponse UserCancelFavor(1: UserCancelFavorRequest req) (api.post="/api/v1/ice/sparkhire/user/favor/cancel", api.serializer="json")
 
     // =============================================== candidate ===============================================
     GetCurrentCandidateResponse GetCurrentCandidate(1: GetCurrentCandidateRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/candidate/current/get", api.serializer="json")

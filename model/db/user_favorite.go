@@ -28,8 +28,7 @@ func FindUserFavorByTargetIdAndUserId(ctx context.Context, db *gorm.DB, userId, 
 	err := db.WithContext(ctx).Model(&UserFavorite{}).
 		Where("user_id = ?", userId).
 		Where("target_id = ?", targetId).
-		Where("target_type = ?", targetType).
-		Find(&userFavorite).Error
+		First(&userFavorite).Error
 	if err != nil {
 		klog.CtxErrorf(ctx, "[UserFavorDB] find user favorite err: %v", err)
 		return nil, err
@@ -53,6 +52,17 @@ func UpsertUserFavor(ctx context.Context, db *gorm.DB, userFavor *UserFavorite) 
 
 	if err != nil {
 		klog.CtxErrorf(ctx, "[UserFavorDB] create userFavor error: %v", err)
+		return err
+	}
+	return nil
+}
+
+func DeleteUserFavor(ctx context.Context, db *gorm.DB, id int64) error {
+	err := db.WithContext(ctx).Model(&UserFavorite{}).
+		Where("id = ?", id).
+		Delete(&UserFavorite{}).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[UserFavorDB] delete userFavorite error: %v", err)
 		return err
 	}
 	return nil
