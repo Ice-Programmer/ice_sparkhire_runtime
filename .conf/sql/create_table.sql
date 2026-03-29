@@ -266,7 +266,7 @@ create table if not exists `user_favorite`
     `created_at`  datetime default current_timestamp                             not null comment '创建时间',
     `updated_at`  datetime default current_timestamp on update current_timestamp not null comment '更新时间',
     `deleted_at`  datetime                                                       null comment '删除时间',
-    unique key `uk_user_target` (`user_id`, `target_type`, `target_id`),
+    unique key `uk_user_target` (`user_id`, `target_type`, `target_id`, `deleted_at`),
     index `idx_target` (`target_type`, `target_id`)
 ) comment '用户通用收藏记录表' collate = utf8mb4_unicode_ci;
 

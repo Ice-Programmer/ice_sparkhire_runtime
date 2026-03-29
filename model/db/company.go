@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 	"github.com/bytedance/sonic"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/gorm"
@@ -120,5 +121,26 @@ func DeleteCompany(ctx context.Context, db *gorm.DB, id int64) error {
 		klog.CtxErrorf(ctx, "[db] delete company err: %v", err)
 		return err
 	}
+	return nil
+}
+
+func UpdateCompanyFavorCnt(ctx context.Context, db *gorm.DB, companyId int64, delta int) error {
+	db = db.WithContext(ctx).Model(&Company{}).Where("id = ?", companyId)
+
+	if delta < 0 {
+		db = db.Where("favorite_count > 0")
+	}
+
+	result := db.UpdateColumn("favorite_count", gorm.Expr("favorite_count + ?", delta))
+	if result.Error != nil {
+		klog.CtxErrorf(ctx, "[db] update favorite count err: %v", result.Error)
+		return result.Error
+	}
+
+	if result.RowsAffected == 0 {
+		klog.CtxErrorf(ctx, "[db] update favorite count err: %v", result.Error)
+		return fmt.Errorf("company not found or invalid operation")
+	}
+
 	return nil
 }

@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 	"fmt"
+	"gorm.io/gorm"
 	"ice_sparkhire_runtime/handler"
 	sparkruntime "ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
 	"ice_sparkhire_runtime/model/db"
@@ -18,33 +19,43 @@ func UserFavor(ctx context.Context, req *sparkruntime.UserFavorRequest) (*sparkr
 		return nil, fmt.Errorf("target type is invalid")
 	}
 
-	// target is exist
-	var err error
-	switch req.GetTargetType() {
-	case sparkruntime.TargetType_Recruitment:
-		_, err = db.FindRecruitmentById(ctx, db.DB, req.GetTargetId())
-	case sparkruntime.TargetType_Company:
-		_, err = db.FindCompanyById(ctx, db.DB, req.GetTargetId())
-	}
-	if err != nil {
-		return nil, fmt.Errorf("find %s error", req.GetTargetType().String())
-	}
-
 	// fetch current user
 	userId, err := utils.GetCurrentUserId(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("get current user id error: %w", err)
 	}
 
-	// upsert favor record (里面处理了冲突)
-	err = db.UpsertUserFavor(ctx, db.DB, &db.UserFavorite{
-		Id:         utils.GetId(),
-		UserId:     userId,
-		TargetType: int8(req.GetTargetType()),
-		TargetId:   req.GetTargetId(),
+	err = db.DB.Transaction(func(tx *gorm.DB) (err error) {
+		// 1. 判断是否已经点赞
+		hasFavor := db.HasFavor(ctx, tx, userId, req.TargetId, req.TargetType)
+		if hasFavor {
+			return fmt.Errorf("duplicate favor operation")
+		}
+
+		// 2. create user favor
+		if err := db.CreateUserFavor(ctx, tx, &db.UserFavorite{
+			UserId:     userId,
+			TargetId:   req.TargetId,
+			TargetType: int8(req.TargetType),
+		}); err != nil {
+			return err
+		}
+
+		// 3. 计数 +1
+		switch req.TargetType {
+		case sparkruntime.TargetType_Recruitment:
+			// todo
+		case sparkruntime.TargetType_Company:
+			err = db.UpdateCompanyFavorCnt(ctx, tx, req.TargetId, +1)
+		}
+		if err != nil {
+			return fmt.Errorf("find %s error", req.GetTargetType().String())
+		}
+
+		return nil
 	})
 	if err != nil {
-		return nil, fmt.Errorf("favor %s error: %w", req.GetTargetType().String(), err)
+		return nil, err
 	}
 
 	return &sparkruntime.UserFavorResponse{

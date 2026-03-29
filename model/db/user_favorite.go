@@ -2,9 +2,9 @@ package db
 
 import (
 	"context"
+	"fmt"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
 	sparkruntime "ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
 	"time"
 )
@@ -23,33 +23,9 @@ func (UserFavorite) TableName() string {
 	return "user_favorite"
 }
 
-func FindUserFavorByTargetIdAndUserId(ctx context.Context, db *gorm.DB, userId, targetId int64, targetType sparkruntime.TargetType) (*UserFavorite, error) {
-	var userFavorite UserFavorite
+func CreateUserFavor(ctx context.Context, db *gorm.DB, userFavor *UserFavorite) error {
 	err := db.WithContext(ctx).Model(&UserFavorite{}).
-		Where("user_id = ?", userId).
-		Where("target_id = ?", targetId).
-		First(&userFavorite).Error
-	if err != nil {
-		klog.CtxErrorf(ctx, "[UserFavorDB] find user favorite err: %v", err)
-		return nil, err
-	}
-
-	return &userFavorite, nil
-}
-
-func UpsertUserFavor(ctx context.Context, db *gorm.DB, userFavor *UserFavorite) error {
-	err := db.WithContext(ctx).Clauses(clause.OnConflict{
-		Columns: []clause.Column{
-			{Name: "user_id"},
-			{Name: "target_type"},
-			{Name: "target_id"},
-		},
-		DoUpdates: clause.Assignments(map[string]interface{}{
-			"deleted_at": nil,
-			"updated_at": gorm.Expr("CURRENT_TIMESTAMP"),
-		}),
-	}).Create(userFavor).Error
-
+		Create(userFavor).Error
 	if err != nil {
 		klog.CtxErrorf(ctx, "[UserFavorDB] create userFavor error: %v", err)
 		return err
@@ -57,14 +33,21 @@ func UpsertUserFavor(ctx context.Context, db *gorm.DB, userFavor *UserFavorite) 
 	return nil
 }
 
-func DeleteUserFavor(ctx context.Context, db *gorm.DB, id int64) error {
-	err := db.WithContext(ctx).Model(&UserFavorite{}).
-		Where("id = ?", id).
-		Delete(&UserFavorite{}).Error
-	if err != nil {
+func DeleteUserFavor(ctx context.Context, db *gorm.DB, userId, targetId int64, targetType sparkruntime.TargetType) error {
+	result := db.WithContext(ctx).Model(&UserFavorite{}).
+		Where("target_id = ?", targetId).
+		Where("target_type = ?", targetType).
+		Where("user_id = ?", userId).
+		Delete(&UserFavorite{})
+	if err := result.Error; err != nil {
 		klog.CtxErrorf(ctx, "[UserFavorDB] delete userFavorite error: %v", err)
 		return err
 	}
+
+	if result.RowsAffected == 0 {
+		return fmt.Errorf("favorite record is not exist")
+	}
+
 	return nil
 }
 
