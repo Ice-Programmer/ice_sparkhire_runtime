@@ -309,3 +309,22 @@ create table if not exists `career_type`
     `updated_at`       datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     `deleted_at`       datetime                           null comment '删除时间'
 ) comment '职业类型表' collate = utf8mb4_unicode_ci;
+
+-- 公司评价表
+create table if not exists `company_comment`
+(
+    `id`             bigint auto_increment comment 'id' primary key,
+    `company_id`     bigint                             not null comment '公司 id',
+    `user_id`        bigint                             not null comment '用户 id',
+    `content`        text                               null comment '评论内容',
+    `root_id`        bigint   default 0                 not null comment '所属根评论 id，0 表示自身为根',
+    `parent_id`      bigint   default 0                 not null comment '被回复帖子，0 为根节点',
+    `reply_user_id`  bigint   default 0                 not null comment '被回复用户 id',
+    `reply_count`    int      default 0                 not null comment '若是根评论，记录其子评论总数',
+    `favorite_count` int      default 0                 not null comment '点赞数量',
+    `created_at`     datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    `updated_at`     datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    `deleted_at`     datetime                           null comment '删除时间',
+    index idx_company_root (company_id, root_id, created_at, deleted_at),
+    index idx_root_id (root_id, deleted_at)
+) comment '公司评价表' collate = utf8mb4_unicode_ci;

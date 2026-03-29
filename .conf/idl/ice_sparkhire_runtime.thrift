@@ -628,6 +628,17 @@ struct FetchCompanyDetailInfoResponse {
 	255: required base.BaseResp BaseResp
 }
 
+struct PublishCompanyCommentRequest {
+	1:   required i64       companyId
+	2:   required string    content
+	3:   optional i64       parentId
+	255: required base.Base Base
+}
+
+struct PublishCompanyCommentResponse {
+	255: required base.BaseResp BaseResp
+}
+
 // =============================================== recruitment ===============================================
 
 enum JobType {
@@ -758,6 +769,7 @@ service SparkhireRuntimeService {
     EditCompanyResponse EditCompany(1: EditCompanyRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/hr/company/edit", api.serializer="json")
     DeleteCompanyResponse DeleteCompany(1: DeleteCompanyRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/hr/company/delete", api.serializer="json")
     FetchCompanyDetailInfoResponse FetchCompanyDetailInfo(1: FetchCompanyDetailInfoRequest req) (api.post="/api/v1/ice/sparkhire/runtime/company/info/fetch", api.serializer="json")
+    PublishCompanyCommentResponse PublishCompanyComment(1: PublishCompanyCommentRequest req) (api.post="/api/v1/ice/sparkhire/runtime/company/comment/publish", api.serializer="json")
 
     // =============================================== biz ===============================================
     SendVerifyCodeResponse SendVerifyCode(1: SendVerifyCodeRequest req) (api.post="/api/v1/ice/sparkhire/runtime/verify/code/send", api.serializer="json")
