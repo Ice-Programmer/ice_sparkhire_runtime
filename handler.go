@@ -457,6 +457,18 @@ func (s *SparkhireRuntimeServiceImpl) PublishCompanyComment(ctx context.Context,
 	return resp, nil
 }
 
+// QueryCommentPage implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) QueryCommentPage(ctx context.Context, req *sparkhire_runtime.QueryCompanyCommentPageRequest) (resp *sparkhire_runtime.QueryCompanyCommentPageResponse, err error) {
+	resp, err = company.QueryCompanyCommentPage(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "query company comment failed: %v", err)
+		resp = &sparkhire_runtime.QueryCompanyCommentPageResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
 // =============================================== biz ===============================================
 
 // SendVerifyCode implements the SparkhireRuntimeServiceImpl interface.

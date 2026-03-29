@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/gorm"
+	sparkruntime "ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
 	"time"
 )
 
@@ -56,4 +57,56 @@ func IncrCompanyCommentReplyCount(ctx context.Context, db *gorm.DB, id int64) er
 	}
 
 	return nil
+}
+
+func QueryRootCompanyCommentPage(ctx context.Context, db *gorm.DB, pageSize, pageNum int32, condition *sparkruntime.CompanyCommentCondition) ([]*CompanyComment, int64, error) {
+	query := buildCompanyCommentCondition(db, condition)
+
+	var total int64
+	if err := query.WithContext(ctx).Count(&total).Error; err != nil {
+		klog.Errorf("[CompanyComment] Query total error: %v", err)
+		return nil, 0, err
+	}
+
+	offset := int((pageNum - 1) * pageSize)
+	var commentList []*CompanyComment
+	err := query.WithContext(ctx).
+		Offset(offset).
+		Limit(int(pageSize)).
+		Order("reply_count DESC").
+		Find(&commentList).Error
+	if err != nil {
+		klog.Errorf("[CompanyComment] Find by root_id error: %v", err)
+		return nil, 0, err
+	}
+
+	return commentList, total, nil
+}
+
+func buildCompanyCommentCondition(db *gorm.DB, condition *sparkruntime.CompanyCommentCondition) *gorm.DB {
+	db = db.Model(&CompanyComment{})
+
+	if condition == nil {
+		return db.Where("root_id = 0")
+	}
+
+	if condition.IsSetCompanyId() {
+		db = db.Where("company_id = ?", condition.CompanyId)
+	}
+
+	if condition.IsSetUserId() {
+		db = db.Where("user_id = ?", condition.UserId)
+	}
+
+	if condition.IsSetId() {
+		db = db.Where("id = ?", condition.Id)
+	}
+
+	if condition.IsSetRootId() {
+		db = db.Where("root_id = ?", condition.RootId)
+	} else {
+		db = db.Where("root_id = 0")
+	}
+
+	return db
 }

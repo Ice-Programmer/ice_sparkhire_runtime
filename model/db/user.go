@@ -85,3 +85,14 @@ func UpdateUserById(ctx context.Context, db *gorm.DB, id int64, updateMap map[st
 	}
 	return nil
 }
+
+func FindUserByIds(ctx context.Context, db *gorm.DB, ids []int64) ([]*User, error) {
+	var users []*User
+	err := db.WithContext(ctx).Model(&User{}).
+		Where("id IN (?)", ids).Find(&users).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[DB] find users %v error: %v", ids, err)
+		return nil, err
+	}
+	return users, nil
+}

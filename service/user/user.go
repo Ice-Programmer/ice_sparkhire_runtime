@@ -75,6 +75,20 @@ func BuildUserBasicInfo(user *db.User) *sparkruntime.UserBasicInfo {
 	}
 }
 
+func BuildUserBasicInfoMap(ctx context.Context, userIdList []int64) (map[int64]*sparkruntime.UserBasicInfo, error) {
+	userList, err := db.FindUserByIds(ctx, db.DB, userIdList)
+	if err != nil {
+		return nil, err
+	}
+
+	userMap := utils.ToMap(userList,
+		func(user *db.User) int64 { return user.Id },
+		func(user *db.User) *sparkruntime.UserBasicInfo { return BuildUserBasicInfo(user) },
+	)
+
+	return userMap, nil
+}
+
 func GenerateUniqueUsername() string {
 	name := consts.DefaultUserList[rand.Intn(len(consts.DefaultUserList))]
 	timestamp := time.Now().UnixMilli() % 1_000_000
