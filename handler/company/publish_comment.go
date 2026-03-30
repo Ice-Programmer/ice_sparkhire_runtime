@@ -38,8 +38,8 @@ func PublishCompanyComment(ctx context.Context, req *sparkruntime.PublishCompany
 				return err
 			}
 
-			// update reply num
-			if err := db.IncrCompanyCommentReplyCount(ctx, tx, comment.RootId); err != nil {
+			// incr reply num
+			if err := db.UpdateCompanyCommentReplyCount(ctx, tx, comment.RootId, +1); err != nil {
 				return err
 			}
 		}

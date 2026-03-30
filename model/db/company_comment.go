@@ -47,15 +47,25 @@ func FindCompanyCommentById(ctx context.Context, db *gorm.DB, id int64) (*Compan
 	return &comment, nil
 }
 
-func IncrCompanyCommentReplyCount(ctx context.Context, db *gorm.DB, id int64) error {
+func UpdateCompanyCommentReplyCount(ctx context.Context, db *gorm.DB, id int64, delta int) error {
 	err := db.WithContext(ctx).Model(&CompanyComment{}).
 		Where("id = ?", id).
-		Update("reply_count", gorm.Expr("reply_count + ?", 1)).Error
+		Update("reply_count", gorm.Expr("reply_count + ?", delta)).Error
 	if err != nil {
 		klog.Errorf("[CompanyComment] Incr comment reply count error: %v", err)
 		return err
 	}
 
+	return nil
+}
+
+func DeleteCompanyCommentById(ctx context.Context, db *gorm.DB, id int64) error {
+	err := db.WithContext(ctx).Model(&CompanyComment{}).
+		Where("id = ?", id).Delete(&CompanyComment{}).Error
+	if err != nil {
+		klog.Errorf("[CompanyComment] Delete comment error: %v", err)
+		return err
+	}
 	return nil
 }
 

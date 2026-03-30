@@ -469,6 +469,18 @@ func (s *SparkhireRuntimeServiceImpl) QueryCommentPage(ctx context.Context, req 
 	return resp, nil
 }
 
+// DeleteCompanyComment implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) DeleteCompanyComment(ctx context.Context, req *sparkhire_runtime.DeleteCompanyCommentRequest) (resp *sparkhire_runtime.DeleteCompanyCommentResponse, err error) {
+	resp, err = company.DeleteCompanyComment(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "delete company comment failed: %v", err)
+		resp = &sparkhire_runtime.DeleteCompanyCommentResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
 // =============================================== biz ===============================================
 
 // SendVerifyCode implements the SparkhireRuntimeServiceImpl interface.

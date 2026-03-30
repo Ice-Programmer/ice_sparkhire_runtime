@@ -654,21 +654,31 @@ struct QueryCompanyCommentPageRequest {
 }
 
 struct CommentInfo {
-	1:  required i64               id
-	2:  required string            content
-	3:  optional i64               parentId
-	4:  optional i64               rootId
-	5:  required i32               favoriteCnt
-	6:  required i32               replyId
-	7:  required UserBasicInfo     creatorInfo
-	8:  optional UserBasicInfo     replyUserInfo
-	9:  required i64               createdAt
+	1:  required i64           id
+	2:  required string        content
+	3:  optional i64           parentId
+	4:  optional i64           rootId
+	5:  required i32           favoriteCnt
+	6:  optional i32           replyId
+	7:  required UserBasicInfo creatorInfo
+	8:  optional UserBasicInfo replyUserInfo
+	9:  required i64           createdAt
+	10: optional i64           replyNum
 }
 
 struct QueryCompanyCommentPageResponse {
 	1:            list<CommentInfo> commentInfoList
 	2:            i64               total
 	255: required base.BaseResp     BaseResp
+}
+
+struct DeleteCompanyCommentRequest {
+	1:   required i64       id
+	255: required base.Base Base
+}
+
+struct DeleteCompanyCommentResponse {
+	255: required base.BaseResp BaseResp
 }
 
 // =============================================== recruitment ===============================================
@@ -803,6 +813,7 @@ service SparkhireRuntimeService {
     FetchCompanyDetailInfoResponse FetchCompanyDetailInfo(1: FetchCompanyDetailInfoRequest req) (api.post="/api/v1/ice/sparkhire/runtime/company/info/fetch", api.serializer="json")
     PublishCompanyCommentResponse PublishCompanyComment(1: PublishCompanyCommentRequest req) (api.post="/api/v1/ice/sparkhire/runtime/company/comment/publish", api.serializer="json")
     QueryCompanyCommentPageResponse QueryCommentPage(1: QueryCompanyCommentPageRequest req) (api.post="/api/v1/ice/sparkhire/runtime/company/comment/page", api.serializer="json")
+    DeleteCompanyCommentResponse DeleteCompanyComment(1: DeleteCompanyCommentRequest req) (api.post="/api/v1/ice/sparkhire/runtime/company/comment/delete", api.serializer="json")
 
     // =============================================== biz ===============================================
     SendVerifyCodeResponse SendVerifyCode(1: SendVerifyCodeRequest req) (api.post="/api/v1/ice/sparkhire/runtime/verify/code/send", api.serializer="json")
