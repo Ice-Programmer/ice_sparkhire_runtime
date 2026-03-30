@@ -328,3 +328,69 @@ create table if not exists `company_comment`
     index idx_company_root (company_id, root_id, created_at, deleted_at),
     index idx_root_id (root_id, deleted_at)
 ) comment '公司评价表' collate = utf8mb4_unicode_ci;
+
+-- 公司福利分类
+create table if not exists `company_benefit_category`
+(
+    `id`         bigint auto_increment comment 'id' primary key,
+    `company_id` bigint       not null comment '公司 id',
+    `title`      varchar(128) not null comment '福利分组标题',
+    `subtitle`   varchar(255)          default null comment '分组说明',
+    `sort`       int          not null default 0 comment '排序，越小越靠前',
+    `status`     tinyint      not null default 1 comment '状态：1正常，-1禁用',
+    `created_at` datetime              default CURRENT_TIMESTAMP not null comment '创建时间',
+    `updated_at` datetime              default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    `deleted_at` datetime     null comment '删除时间',
+    key `idx_company_sort` (`company_id`, `sort`),
+    key `idx_company_status` (`company_id`, `status`)
+) comment '公司福利分类表' collate = utf8mb4_unicode_ci;
+
+-- 公司福利细则
+create table if not exists `company_benefit_item`
+(
+    `id`          bigint auto_increment comment 'id' primary key,
+    `category_id` bigint       not null comment '福利分组id',
+    `title`       varchar(128) not null comment '福利条目标题',
+    `content`     varchar(512)          default null comment '福利条目描述',
+    `sort`        int          not null default 0 comment '排序，越小越靠前',
+    `status`      tinyint      not null default 1 comment '状态：1正常，-1禁用',
+    `created_at`  datetime              default CURRENT_TIMESTAMP not null comment '创建时间',
+    `updated_at`  datetime              default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    `deleted_at`  datetime     null comment '删除时间',
+    key `idx_category_sort` (`category_id`, `sort`),
+    key `idx_category_status` (`category_id`, `status`)
+) comment '公司福利细则表' collate = utf8mb4_unicode_ci;
+
+INSERT INTO `company_benefit_category`
+(`id`, `company_id`, `title`, `subtitle`, `sort`, `status`, `deleted_at`)
+VALUES
+    (1, 1001, '员工持股与股权激励', '共享公司成长红利', 1, 1, NULL),
+    (2, 1001, '弹性工作与健康保障', '关注员工身心健康', 2, 1, NULL),
+    (3, 1001, '薪酬与奖金激励', '多维度激励体系', 3, 1, NULL),
+    (4, 1001, '成长与学习发展', '持续提升职业能力', 4, 1, NULL);
+
+INSERT INTO `company_benefit_item`
+(`id`, `category_id`, `title`, `content`, `sort`, `status`, `deleted_at`)
+VALUES
+
+-- 员工持股与股权激励
+(1, 1, '股票期权', '核心员工可获得股票期权激励', 1, 1, NULL),
+(2, 1, '员工持股计划', '参与公司长期发展收益', 2, 1, NULL),
+(3, 1, '限制性股票', '达成目标后解锁股份', 3, 1, NULL),
+
+-- 弹性工作与健康保障
+(4, 2, '弹性工作制', '支持远程办公与弹性打卡', 1, 1, NULL),
+(5, 2, '年度体检', '每年提供一次全面体检', 2, 1, NULL),
+(6, 2, '补充医疗保险', '覆盖更高比例医疗费用', 3, 1, NULL),
+(7, 2, '心理咨询服务', '提供专业心理健康支持', 4, 1, NULL),
+
+-- 薪酬与奖金激励
+(8, 3, '年终奖金', '根据绩效发放年终奖励', 1, 1, NULL),
+(9, 3, '项目奖金', '项目完成后额外奖励', 2, 1, NULL),
+(10, 3, '绩效奖金', '按季度评估发放', 3, 1, NULL),
+
+-- 成长与学习发展
+(11, 4, '培训补贴', '支持技术/管理培训', 1, 1, NULL),
+(12, 4, '学习基金', '每年固定学习预算', 2, 1, NULL),
+(13, 4, '技术分享会', '内部技术交流机制', 3, 1, NULL),
+(14, 4, '晋升通道', '清晰职业发展路径', 4, 1, NULL);

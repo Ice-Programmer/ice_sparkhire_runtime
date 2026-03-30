@@ -681,6 +681,29 @@ struct DeleteCompanyCommentResponse {
 	255: required base.BaseResp BaseResp
 }
 
+struct FetchCompanyBenefitsRequest {
+	1:   required i64       companyId
+	255: required base.Base Base
+}
+
+struct FetchCompanyBenefitsResponse {
+	1:            list<BenefitInfo> benefitList
+	255: required base.BaseResp     BaseResp
+}
+
+struct BenefitDetail {
+	1: required i64    id
+	2: required string title
+	3: required string content
+}
+
+struct BenefitInfo {
+	1: required i64                 id
+	2: required string              title
+	3: required string              subTitle
+	4: required list<BenefitDetail> itemList
+}
+
 // =============================================== recruitment ===============================================
 
 enum JobType {
@@ -814,6 +837,7 @@ service SparkhireRuntimeService {
     PublishCompanyCommentResponse PublishCompanyComment(1: PublishCompanyCommentRequest req) (api.post="/api/v1/ice/sparkhire/runtime/company/comment/publish", api.serializer="json")
     QueryCompanyCommentPageResponse QueryCommentPage(1: QueryCompanyCommentPageRequest req) (api.post="/api/v1/ice/sparkhire/runtime/company/comment/page", api.serializer="json")
     DeleteCompanyCommentResponse DeleteCompanyComment(1: DeleteCompanyCommentRequest req) (api.post="/api/v1/ice/sparkhire/runtime/company/comment/delete", api.serializer="json")
+    FetchCompanyBenefitsResponse FetchCompanyBenefits(1: FetchCompanyBenefitsRequest req) (api.post="/api/v1/ice/sparkhire/runtime/company/benefit/fetch", api.serializer="json")
 
     // =============================================== biz ===============================================
     SendVerifyCodeResponse SendVerifyCode(1: SendVerifyCodeRequest req) (api.post="/api/v1/ice/sparkhire/runtime/verify/code/send", api.serializer="json")

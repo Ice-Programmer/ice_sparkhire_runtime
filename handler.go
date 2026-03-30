@@ -481,6 +481,18 @@ func (s *SparkhireRuntimeServiceImpl) DeleteCompanyComment(ctx context.Context, 
 	return resp, nil
 }
 
+// FetchCompanyBenefits implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) FetchCompanyBenefits(ctx context.Context, req *sparkhire_runtime.FetchCompanyBenefitsRequest) (resp *sparkhire_runtime.FetchCompanyBenefitsResponse, err error) {
+	resp, err = company.FetchCompanyBenefits(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "fetch company benefits failed: %v", err)
+		resp = &sparkhire_runtime.FetchCompanyBenefitsResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
 // =============================================== biz ===============================================
 
 // SendVerifyCode implements the SparkhireRuntimeServiceImpl interface.
