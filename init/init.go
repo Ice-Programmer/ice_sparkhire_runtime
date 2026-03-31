@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"ice_sparkhire_runtime/model/db"
+	"ice_sparkhire_runtime/model/neo4j"
 	"ice_sparkhire_runtime/service/mail"
 	"ice_sparkhire_runtime/service/redis"
 	"ice_sparkhire_runtime/service/tos"
@@ -50,6 +51,14 @@ func Init(ctx context.Context) error {
 		panic(err)
 	}
 	klog.CtxInfof(ctx, "init tos successfully!")
+
+	// init neo4j
+	klog.CtxInfof(ctx, "start init neo4j")
+	if err := neo4j.InitNeo4j(ctx); err != nil {
+		klog.CtxErrorf(ctx, "init neo4j err: %v", err)
+		panic(err)
+	}
+	klog.CtxInfof(ctx, "init neo4j successfully!")
 
 	return nil
 }

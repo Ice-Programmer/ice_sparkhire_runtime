@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 	"ice_sparkhire_runtime/utils"
 	"time"
 )
@@ -55,6 +56,21 @@ func AddTag(ctx context.Context, db *gorm.DB, tag *Tag) (int64, error) {
 		return 0, err
 	}
 	return tag.Id, nil
+}
+
+func BatchAddTag(ctx context.Context, db *gorm.DB, tags []*Tag) (int32, error) {
+	result := db.WithContext(ctx).Model(&Tag{}).Clauses(clause.OnConflict{
+		Columns: []clause.Column{
+			{Name: "tag_name"},
+		},
+		DoNothing: true,
+	}).Create(tags)
+	if err := result.Error; err != nil {
+		klog.CtxErrorf(ctx, "[DB] add tag error: %v", err)
+		return 0, err
+	}
+
+	return int32(result.RowsAffected), nil
 }
 
 func FindTagByName(ctx context.Context, db *gorm.DB, name string) (*Tag, error) {

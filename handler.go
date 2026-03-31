@@ -220,6 +220,18 @@ func (s *SparkhireRuntimeServiceImpl) GetCurrentCandidateTagsRequest(ctx context
 	return resp, nil
 }
 
+// BatchCreateTag implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) BatchCreateTag(ctx context.Context, req *sparkhire_runtime.BatchCreateTagRequest) (resp *sparkhire_runtime.BatchCreateTagResponse, err error) {
+	resp, err = tag.BatchCreateTag(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "batch create tag failed: %v", err)
+		resp = &sparkhire_runtime.BatchCreateTagResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
 // =============================================== education experience ===============================================
 
 // ModifyEducationExp implements the SparkhireRuntimeServiceImpl interface.
