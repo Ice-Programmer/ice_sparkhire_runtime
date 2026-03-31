@@ -10,6 +10,7 @@ import (
 	"ice_sparkhire_runtime/handler/company"
 	"ice_sparkhire_runtime/handler/education_exp"
 	"ice_sparkhire_runtime/handler/information"
+	"ice_sparkhire_runtime/handler/interview"
 	"ice_sparkhire_runtime/handler/ping"
 	"ice_sparkhire_runtime/handler/recruitment"
 	"ice_sparkhire_runtime/handler/tag"
@@ -551,6 +552,20 @@ func (s *SparkhireRuntimeServiceImpl) QueryRecruitmentPage(ctx context.Context, 
 	if err != nil {
 		klog.CtxErrorf(ctx, "query recruitment failed: %v", err)
 		resp = &sparkhire_runtime.QueryRecruitmentPageResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
+// =============================================== interview ===============================================
+
+// FetchCurrentUserInterview implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) FetchCurrentUserInterview(ctx context.Context, req *sparkhire_runtime.FetchCurrentUserInterviewRequest) (resp *sparkhire_runtime.FetchCurrentUserInterviewResponse, err error) {
+	resp, err = interview.FetchCurrentUserInterview(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "fetch current user interview failed: %v", err)
+		resp = &sparkhire_runtime.FetchCurrentUserInterviewResponse{
 			BaseResp: handler.GenErrorBaseResp(err.Error()),
 		}
 	}

@@ -361,36 +361,23 @@ create table if not exists `company_benefit_item`
     key `idx_category_status` (`category_id`, `status`)
 ) comment '公司福利细则表' collate = utf8mb4_unicode_ci;
 
-INSERT INTO `company_benefit_category`
-(`id`, `company_id`, `title`, `subtitle`, `sort`, `status`, `deleted_at`)
-VALUES
-    (1, 1001, '员工持股与股权激励', '共享公司成长红利', 1, 1, NULL),
-    (2, 1001, '弹性工作与健康保障', '关注员工身心健康', 2, 1, NULL),
-    (3, 1001, '薪酬与奖金激励', '多维度激励体系', 3, 1, NULL),
-    (4, 1001, '成长与学习发展', '持续提升职业能力', 4, 1, NULL);
-
-INSERT INTO `company_benefit_item`
-(`id`, `category_id`, `title`, `content`, `sort`, `status`, `deleted_at`)
-VALUES
-
--- 员工持股与股权激励
-(1, 1, '股票期权', '核心员工可获得股票期权激励', 1, 1, NULL),
-(2, 1, '员工持股计划', '参与公司长期发展收益', 2, 1, NULL),
-(3, 1, '限制性股票', '达成目标后解锁股份', 3, 1, NULL),
-
--- 弹性工作与健康保障
-(4, 2, '弹性工作制', '支持远程办公与弹性打卡', 1, 1, NULL),
-(5, 2, '年度体检', '每年提供一次全面体检', 2, 1, NULL),
-(6, 2, '补充医疗保险', '覆盖更高比例医疗费用', 3, 1, NULL),
-(7, 2, '心理咨询服务', '提供专业心理健康支持', 4, 1, NULL),
-
--- 薪酬与奖金激励
-(8, 3, '年终奖金', '根据绩效发放年终奖励', 1, 1, NULL),
-(9, 3, '项目奖金', '项目完成后额外奖励', 2, 1, NULL),
-(10, 3, '绩效奖金', '按季度评估发放', 3, 1, NULL),
-
--- 成长与学习发展
-(11, 4, '培训补贴', '支持技术/管理培训', 1, 1, NULL),
-(12, 4, '学习基金', '每年固定学习预算', 2, 1, NULL),
-(13, 4, '技术分享会', '内部技术交流机制', 3, 1, NULL),
-(14, 4, '晋升通道', '清晰职业发展路径', 4, 1, NULL);
+-- 面试计划表
+create table if not exists `interview_schedule`
+(
+    `id`                 bigint auto_increment comment 'id' primary key,
+    `candidate_id`       bigint                             not null comment '用户 id',
+    `creator_id`         bigint                             not null comment '创建 id',
+    `recruitment_id`     bigint                             not null comment '招聘 id',
+    `company_id`         bigint                             not null comment '公司 id',
+    `interview_ts`       bigint                             not null comment '面试开始时间',
+    `interview_date`     varchar(64)                        not null comment '面试时间 yyyy-MM-dd',
+    `interview_duration` int                                not null comment '面试时间（分钟）',
+    `interview_type`     tinyint  default 1                 not null comment '面试类型：1-视频面试, 2-线下面试, 3-电话面试',
+    `interview_link`     varchar(512)                       null comment '面试会议链接',
+    `status`             tinyint  default 1                 not null comment '状态：1-未开始, 2-进行中, 3-已结束/历史, 4-已取消',
+    `created_at`         datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    `updated_at`         datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    `deleted_at`         datetime                           null comment '删除时间',
+    key `idx_candidate_id_interview_date` (`candidate_id`, `interview_date`),
+    key `idx_recruitment_id` (`recruitment_id`)
+) comment '面试计划表' collate = utf8mb4_unicode_ci;

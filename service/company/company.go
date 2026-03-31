@@ -49,7 +49,7 @@ func BuildCompanyInfo(ctx context.Context, company *db.Company) (*sparkruntime.C
 }
 
 func BuildCompanyInfoMapByIds(ctx context.Context, companyIds []int64) (map[int64]*sparkruntime.CompanyInfo, error) {
-	companyList, err := db.FindCompanyByIds(ctx, db.DB, companyIds)
+	companyList, err := db.ListCompanyByIds(ctx, db.DB, companyIds)
 	if err != nil {
 		return nil, err
 	}

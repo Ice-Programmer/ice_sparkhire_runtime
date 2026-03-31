@@ -66,6 +66,17 @@ func FindRecruitmentById(ctx context.Context, db *gorm.DB, id int64) (*Recruitme
 	return &recruitment, nil
 }
 
+func ListRecruitmentByIds(ctx context.Context, db *gorm.DB, ids []int64) ([]*Recruitment, error) {
+	var recruitments []*Recruitment
+	err := db.WithContext(ctx).Model(&Recruitment{}).
+		Where("id IN (?)", ids).Find(&recruitments).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[db] find recruitments err: %v", err)
+		return nil, err
+	}
+	return recruitments, nil
+}
+
 func QueryRecruitmentPage(ctx context.Context, db *gorm.DB, pageSize, pageNum int32, condition *sparkruntime.RecruitmentCondition) ([]*Recruitment, int64, error) {
 	query := buildRecruitmentCondition(db, condition)
 

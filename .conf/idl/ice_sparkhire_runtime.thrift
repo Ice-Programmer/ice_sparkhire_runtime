@@ -783,6 +783,47 @@ struct QueryRecruitmentPageResponse {
 	255: required base.BaseResp         BaseResp
 }
 
+// =============================================== interview ===============================================
+
+enum InterviewType {
+	Video  = 1
+	Onsite = 2
+	Phone  = 3
+}
+
+enum InterviewStatus {
+	Pending  = 1
+	Process  = 2
+	Finished = 3
+	Cancel   = 4
+}
+
+struct FetchCurrentUserInterviewRequest {
+	255: optional base.Base Base
+}
+
+struct InterviewInfo {
+	1:  required i64             id
+	2:  required UserBasicInfo   candidateInfo
+	3:  required UserBasicInfo   creatorInfo
+	4:  required string          recruitmentName
+	5:  required string          companyName
+	6:  required string          companyLink
+	7:  required i64             interviewTs
+	8:  required InterviewType   type
+	9:  required InterviewStatus status
+	10: required i32             duration
+	11: required string          interviewLink
+	12: required i64             companyId
+	13: required i64             recruitmentId
+	14: required string          interviewDate
+}
+
+struct FetchCurrentUserInterviewResponse {
+	1:            list<InterviewInfo> interviewList
+	255: required base.BaseResp       BaseResp
+}
+
 service SparkhireRuntimeService {
     PingResponse Ping(1: PingRequest req) (api.post="/api/v1/ice/sparkhire/runtime/ping", api.serializer="json")
 
@@ -847,5 +888,9 @@ service SparkhireRuntimeService {
     CreateRecruitmentResponse CreateRecruitment(1: CreateRecruitmentRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/hr/recruiment/create", api.serializer="json")
     FetchRecruitmentInfoResponse FetchRecruitmentInfo(1: FetchRecruitmentInfoRequest req) (api.post="/api/v1/ice/sparkhire/recruiment/fetch", api.serializer="json")
     QueryRecruitmentPageResponse QueryRecruitmentPage(1: QueryRecruitmentPageRequest req) (api.post="/api/v1/ice/sparkhire/recruiment/page", api.serializer="json")
+
+    // =============================================== interview ===============================================
+    FetchCurrentUserInterviewResponse FetchCurrentUserInterview(1: FetchCurrentUserInterviewRequest req) (api.post="/api/v1/ice/sparkhire/interview/current/fetch", api.serializer="json")
+
 
 } (agw.preserve_base="true", agw.js_conv="str")

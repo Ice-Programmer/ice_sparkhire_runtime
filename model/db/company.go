@@ -77,7 +77,7 @@ func FindCompanyById(ctx context.Context, db *gorm.DB, id int64) (*Company, erro
 	return &company, nil
 }
 
-func FindCompanyByIds(ctx context.Context, db *gorm.DB, ids []int64) ([]*Company, error) {
+func ListCompanyByIds(ctx context.Context, db *gorm.DB, ids []int64) ([]*Company, error) {
 	var companyList []*Company
 	err := db.WithContext(ctx).Model(&Company{}).
 		Where("id IN (?)", ids).
