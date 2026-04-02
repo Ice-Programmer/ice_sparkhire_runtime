@@ -9,6 +9,7 @@ import (
 	"ice_sparkhire_runtime/handler/career_exp"
 	"ice_sparkhire_runtime/handler/company"
 	"ice_sparkhire_runtime/handler/education_exp"
+	"ice_sparkhire_runtime/handler/graph"
 	"ice_sparkhire_runtime/handler/information"
 	"ice_sparkhire_runtime/handler/interview"
 	"ice_sparkhire_runtime/handler/ping"
@@ -578,6 +579,20 @@ func (s *SparkhireRuntimeServiceImpl) FetchCurrentUserInterview(ctx context.Cont
 	if err != nil {
 		klog.CtxErrorf(ctx, "fetch current user interview failed: %v", err)
 		resp = &sparkhire_runtime.FetchCurrentUserInterviewResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
+// =============================================== graph analysis ===============================================
+
+// FetchCareerRelativeSkillTags implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) FetchCareerRelativeSkillTags(ctx context.Context, req *sparkhire_runtime.FetchCareerRelativeSkillTagsRequest) (resp *sparkhire_runtime.FetchCareerRelativeSkillTagsResponse, err error) {
+	resp, err = graph.FetchCareerRelativeSkillTags(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "fetch career relative skill tags failed: %v", err)
+		resp = &sparkhire_runtime.FetchCareerRelativeSkillTagsResponse{
 			BaseResp: handler.GenErrorBaseResp(err.Error()),
 		}
 	}

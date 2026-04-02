@@ -57,3 +57,39 @@ func BatchBindCareerToTags(ctx context.Context, careerName string, tagNames []st
 	)
 	return err
 }
+
+func FindCareerRelativeTags(ctx context.Context, careerId int64) ([]*TagNode, error) {
+	query := fmt.Sprintf(`
+		MATCH (c:Career {id: 1})-[:%s]->(t:Tag)
+		RETURN t.tag_name AS tagName, t.id AS id
+	`, CareerToTagRelation)
+
+	params := map[string]any{
+		"career_id": careerId,
+	}
+
+	result, err := neo4j.ExecuteQuery(ctx, driver,
+		query,
+		params,
+		neo4j.EagerResultTransformer,
+		neo4j.ExecuteQueryWithDatabase(Neo4jDatabase),
+	)
+
+	if err != nil {
+		klog.CtxErrorf(ctx, "[Relationship][FindCareerRelativeTags] error: %v", err)
+		return nil, err
+	}
+
+	tagNodeList := make([]*TagNode, 0)
+	for _, record := range result.Records {
+		tagName, _ := record.Get("tagName")
+		tagId, _ := record.Get("id")
+
+		tagNodeList = append(tagNodeList, &TagNode{
+			TagName: tagName.(string),
+			ID:      tagId.(int64),
+		})
+	}
+
+	return tagNodeList, nil
+}

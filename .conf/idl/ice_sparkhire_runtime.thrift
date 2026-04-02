@@ -834,6 +834,18 @@ struct FetchCurrentUserInterviewResponse {
 	255: required base.BaseResp       BaseResp
 }
 
+// =============================================== graph analysis ===============================================
+
+struct FetchCareerRelativeSkillTagsRequest {
+	1:   required i64       careerId
+	255: optional base.Base Base
+}
+
+struct FetchCareerRelativeSkillTagsResponse {
+	1:            list<TagInfo> tagList
+	255: required base.BaseResp BaseResp
+}
+
 service SparkhireRuntimeService {
     PingResponse Ping(1: PingRequest req) (api.post="/api/v1/ice/sparkhire/runtime/ping", api.serializer="json")
 
@@ -903,5 +915,7 @@ service SparkhireRuntimeService {
     // =============================================== interview ===============================================
     FetchCurrentUserInterviewResponse FetchCurrentUserInterview(1: FetchCurrentUserInterviewRequest req) (api.post="/api/v1/ice/sparkhire/interview/current/fetch", api.serializer="json")
 
+    // =============================================== graph analysis ===============================================
+    FetchCareerRelativeSkillTagsResponse FetchCareerRelativeSkillTags(1: FetchCareerRelativeSkillTagsRequest req) (api.post="/api/v1/ice/sparkhire/graph/analysis/career/skills/fetch", api.serializer="json")
 
 } (agw.preserve_base="true", agw.js_conv="str")
