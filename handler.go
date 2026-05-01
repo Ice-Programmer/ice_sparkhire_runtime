@@ -613,3 +613,15 @@ func (s *SparkhireRuntimeServiceImpl) CreateForumPost(ctx context.Context, req *
 	}
 	return resp, nil
 }
+
+// FetchForumPost implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) FetchForumPost(ctx context.Context, req *sparkhire_runtime.FetchForumPostRequest) (resp *sparkhire_runtime.FetchForumPostResponse, err error) {
+	resp, err = post.FetchForumPost(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "fetch forum post failed: %v", err)
+		resp = &sparkhire_runtime.FetchForumPostResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}

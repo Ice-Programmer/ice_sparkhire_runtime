@@ -64,6 +64,15 @@ func BuildEmptyUser(ctx context.Context, email string) (*db.User, error) {
 	}, nil
 }
 
+func GetUserBasicInfo(ctx context.Context, userId int64) (*sparkruntime.UserBasicInfo, error) {
+	user, err := db.FindUserById(ctx, db.DB, userId)
+	if err != nil {
+		return nil, err
+	}
+
+	return BuildUserBasicInfo(user), nil
+}
+
 func BuildUserBasicInfo(user *db.User) *sparkruntime.UserBasicInfo {
 	return &sparkruntime.UserBasicInfo{
 		Id:         user.Id,

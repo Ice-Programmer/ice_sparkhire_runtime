@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/gorm"
 	"time"
@@ -31,5 +32,28 @@ func CreateForumPost(ctx context.Context, db *gorm.DB, forumPost *ForumPost) err
 		return err
 	}
 
+	return nil
+}
+
+func FetchForumPost(ctx context.Context, db *gorm.DB, id int64) (*ForumPost, error) {
+	var forumPost ForumPost
+	err := db.WithContext(ctx).Model(&ForumPost{}).
+		Where("id = ?", id).
+		First(&forumPost).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[ForumPost DB] fetch post err: %+v", err)
+		return nil, fmt.Errorf("fetch post err: %+v", err)
+	}
+	return &forumPost, nil
+}
+
+func IncrForumPostViewCount(ctx context.Context, db *gorm.DB, postId int64) error {
+	err := db.WithContext(ctx).Model(&ForumPost{}).
+		Where("id = ?", postId).
+		Update("view_count", gorm.Expr("view_count + ?", 1)).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[ForumPost DB] update view_count err: %+v", err)
+		return fmt.Errorf("update view_count err: %+v", err)
+	}
 	return nil
 }

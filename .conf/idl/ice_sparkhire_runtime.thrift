@@ -858,6 +858,40 @@ struct CreateForumPostResponse {
 	255: required base.BaseResp BaseResp
 }
 
+enum ForumStatus {
+	Normal    = 1
+	Reviewing = 2
+	Block     = 3
+}
+
+enum ForumType {
+	Normal    = 1
+	Pinned    = 2
+	Highlight = 3
+}
+
+struct ForumPostInfo {
+	1:  required i64           id
+	2:  required string        title
+	3:  required string        content
+	4:  required i32           favouriteCount
+	5:  required i64           viewCount
+	6:  required ForumStatus   status
+	7:  required ForumType     type
+	8:  required i64           createdAt
+	10: required UserBasicInfo creatorInfo
+}
+
+struct FetchForumPostRequest {
+	1:   required i64       id
+	255: optional base.Base Base
+}
+
+struct FetchForumPostResponse {
+	1:   optional ForumPostInfo postInfo
+	255: required base.BaseResp BaseResp
+}
+
 service SparkhireRuntimeService {
     PingResponse Ping(1: PingRequest req) (api.post="/api/v1/ice/sparkhire/runtime/ping", api.serializer="json")
 
@@ -932,5 +966,6 @@ service SparkhireRuntimeService {
 
     // =============================================== forum ===============================================
     CreateForumPostResponse CreateForumPost(1: CreateForumPostRequest req) (api.post="/api/v1/ice/sparkhire/forum/post/create", api.serializer="json")
+    FetchForumPostResponse FetchForumPost(1: FetchForumPostRequest req) (api.post="/api/v1/ice/sparkhire/forum/post/fetch", api.serializer="json")
 
 } (agw.preserve_base="true", agw.js_conv="str")
