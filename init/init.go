@@ -56,7 +56,7 @@ func Init(ctx context.Context) error {
 	klog.CtxInfof(ctx, "start init neo4j")
 	if err := neo4j.InitNeo4j(ctx); err != nil {
 		klog.CtxErrorf(ctx, "init neo4j err: %v", err)
-		panic(err)
+		//panic(err)
 	}
 	klog.CtxInfof(ctx, "init neo4j successfully!")
 

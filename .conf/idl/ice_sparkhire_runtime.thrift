@@ -846,6 +846,18 @@ struct FetchCareerRelativeSkillTagsResponse {
 	255: required base.BaseResp BaseResp
 }
 
+// =============================================== forum ===============================================
+
+struct CreateForumPostRequest {
+	1:   required string    title
+	2:   optional string    content
+	255: optional base.Base Base
+}
+
+struct CreateForumPostResponse {
+	255: required base.BaseResp BaseResp
+}
+
 service SparkhireRuntimeService {
     PingResponse Ping(1: PingRequest req) (api.post="/api/v1/ice/sparkhire/runtime/ping", api.serializer="json")
 
@@ -917,5 +929,8 @@ service SparkhireRuntimeService {
 
     // =============================================== graph analysis ===============================================
     FetchCareerRelativeSkillTagsResponse FetchCareerRelativeSkillTags(1: FetchCareerRelativeSkillTagsRequest req) (api.post="/api/v1/ice/sparkhire/graph/analysis/career/skills/fetch", api.serializer="json")
+
+    // =============================================== forum ===============================================
+    CreateForumPostResponse CreateForumPost(1: CreateForumPostRequest req) (api.post="/api/v1/ice/sparkhire/forum/post/create", api.serializer="json")
 
 } (agw.preserve_base="true", agw.js_conv="str")

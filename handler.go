@@ -9,6 +9,7 @@ import (
 	"ice_sparkhire_runtime/handler/career_exp"
 	"ice_sparkhire_runtime/handler/company"
 	"ice_sparkhire_runtime/handler/education_exp"
+	"ice_sparkhire_runtime/handler/forum/post"
 	"ice_sparkhire_runtime/handler/graph"
 	"ice_sparkhire_runtime/handler/information"
 	"ice_sparkhire_runtime/handler/interview"
@@ -593,6 +594,20 @@ func (s *SparkhireRuntimeServiceImpl) FetchCareerRelativeSkillTags(ctx context.C
 	if err != nil {
 		klog.CtxErrorf(ctx, "fetch career relative skill tags failed: %v", err)
 		resp = &sparkhire_runtime.FetchCareerRelativeSkillTagsResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
+// =============================================== forum ===============================================
+
+// CreateForumPost implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) CreateForumPost(ctx context.Context, req *sparkhire_runtime.CreateForumPostRequest) (resp *sparkhire_runtime.CreateForumPostResponse, err error) {
+	resp, err = post.CreateForumPost(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "create forum post failed: %v", err)
+		resp = &sparkhire_runtime.CreateForumPostResponse{
 			BaseResp: handler.GenErrorBaseResp(err.Error()),
 		}
 	}

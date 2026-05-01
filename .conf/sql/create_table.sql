@@ -381,3 +381,21 @@ create table if not exists `interview_schedule`
     key `idx_candidate_id_interview_date` (`candidate_id`, `interview_date`),
     key `idx_recruitment_id` (`recruitment_id`)
 ) comment '面试计划表' collate = utf8mb4_unicode_ci;
+
+-- 社区帖子表
+create table if not exists `forum_post`
+(
+    `id`             bigint auto_increment comment 'id' primary key,
+    `user_id`        bigint                             not null comment '创建用户 id',
+    `title`          varchar(256)                       not null comment '帖子标题',
+    `content`        text                               null comment '内容',
+    `favorite_count` int      default 0                 not null comment '收藏次数',
+    `view_count`     bigint   default 0                 not null comment '浏览次数',
+    `status`         tinyint  default 1                 not null comment '状态：1-正常 2-审核中 3-屏蔽',
+    `type`           tinyint  default 1                 not null comment '帖子类型：1-普通 2-置顶 3-精华',
+    `created_at`     datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    `updated_at`     datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    `deleted_at`     datetime                           null comment '删除时间',
+    key `idx_user_id` (`user_id`),
+    KEY `idx_status_created` (`status`, `created_at`)
+) comment '社区帖子表' collate = utf8mb4_unicode_ci;
