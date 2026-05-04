@@ -858,13 +858,13 @@ struct CreateForumPostResponse {
 	255: required base.BaseResp BaseResp
 }
 
-enum ForumStatus {
+enum PostStatus {
 	Normal    = 1
 	Reviewing = 2
 	Block     = 3
 }
 
-enum ForumType {
+enum PostType {
 	Normal    = 1
 	Pinned    = 2
 	Highlight = 3
@@ -876,8 +876,8 @@ struct ForumPostInfo {
 	3:  required string        content
 	4:  required i32           favouriteCount
 	5:  required i64           viewCount
-	6:  required ForumStatus   status
-	7:  required ForumType     type
+	6:  required PostStatus    status
+	7:  required PostType      type
 	8:  required i64           createdAt
 	10: required UserBasicInfo creatorInfo
 }
@@ -890,6 +890,23 @@ struct FetchForumPostRequest {
 struct FetchForumPostResponse {
 	1:   optional ForumPostInfo postInfo
 	255: required base.BaseResp BaseResp
+}
+
+struct ForumPostCondition {
+	1: optional string searchText
+}
+
+struct QueryForumPostPageRequest {
+	1:   optional ForumPostCondition condition
+	2:   required i32                pageSize
+	3:   required i32                pageNum
+	255: optional base.Base          Base
+}
+
+struct QueryForumPostPageResponse {
+	1:            list<ForumPostInfo> postList
+	2:            i64                 total
+	255: required base.BaseResp       BaseResp
 }
 
 service SparkhireRuntimeService {
@@ -967,5 +984,6 @@ service SparkhireRuntimeService {
     // =============================================== forum ===============================================
     CreateForumPostResponse CreateForumPost(1: CreateForumPostRequest req) (api.post="/api/v1/ice/sparkhire/forum/post/create", api.serializer="json")
     FetchForumPostResponse FetchForumPost(1: FetchForumPostRequest req) (api.post="/api/v1/ice/sparkhire/forum/post/fetch", api.serializer="json")
+    QueryForumPostPageResponse QueryForumPostPage(1: QueryForumPostPageRequest req) (api.post="/api/v1/ice/sparkhire/forum/post/page", api.serializer="json")
 
 } (agw.preserve_base="true", agw.js_conv="str")

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/gorm"
+	sparkruntime "ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
 	"time"
 )
 
@@ -56,4 +57,42 @@ func IncrForumPostViewCount(ctx context.Context, db *gorm.DB, postId int64) erro
 		return fmt.Errorf("update view_count err: %+v", err)
 	}
 	return nil
+}
+
+func QueryForumPostPage(ctx context.Context, db *gorm.DB, pageSize, pageNum int32, condition *sparkruntime.ForumPostCondition) ([]*ForumPost, int64, error) {
+	query := buildForumPostCondition(db, condition)
+
+	var total int64
+	if err := query.WithContext(ctx).Count(&total).Error; err != nil {
+		klog.CtxErrorf(ctx, "[ForumPost DB] query err: %+v", err)
+		return nil, 0, err
+	}
+
+	offset := int((pageNum - 1) * pageSize)
+	var postList []*ForumPost
+	err := query.WithContext(ctx).
+		Offset(offset).
+		Limit(int(pageSize)).
+		Order("created_at DESC").
+		Find(&postList).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[ForumPost DB] query err: %+v", err)
+		return nil, 0, err
+	}
+	return postList, total, nil
+}
+
+func buildForumPostCondition(db *gorm.DB, condition *sparkruntime.ForumPostCondition) *gorm.DB {
+	db = db.Model(&ForumPost{})
+
+	if condition == nil {
+		return db
+	}
+
+	if condition.IsSetSearchText() {
+		db = db.Where("title LIKE ?", condition.SearchText).
+			Or("content LIKE ? ", condition.SearchText)
+	}
+
+	return db
 }

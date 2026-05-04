@@ -84,7 +84,7 @@ func BuildUserBasicInfo(user *db.User) *sparkruntime.UserBasicInfo {
 	}
 }
 
-func BuildUserBasicInfoMap(ctx context.Context, userIdList []int64) (map[int64]*sparkruntime.UserBasicInfo, error) {
+func GetUserBasicInfoMap(ctx context.Context, userIdList []int64) (map[int64]*sparkruntime.UserBasicInfo, error) {
 	userList, err := db.FindUserByIds(ctx, db.DB, userIdList)
 	if err != nil {
 		return nil, err

@@ -20,8 +20,8 @@ func BuildForumPostInfo(ctx context.Context, post *db.ForumPost) (*sparkruntime.
 		Content:        post.Content,
 		FavouriteCount: post.FavoriteCount,
 		ViewCount:      post.ViewCount,
-		Status:         sparkruntime.ForumStatus(post.Status),
-		Type:           sparkruntime.ForumType(post.Type),
+		Status:         sparkruntime.PostStatus(post.Status),
+		Type:           sparkruntime.PostType(post.Type),
 		CreatedAt:      post.CreatedAt.Unix(),
 		CreatorInfo:    creatorInfo,
 	}, nil

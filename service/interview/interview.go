@@ -18,7 +18,7 @@ func BuildInterviewInfoList(ctx context.Context, interviewList []*db.InterviewSc
 	for _, interview := range interviewList {
 		userIds = append(userIds, interview.CandidateId, interview.CreatorId)
 	}
-	userBasicInfoMap, err := user.BuildUserBasicInfoMap(ctx, userIds)
+	userBasicInfoMap, err := user.GetUserBasicInfoMap(ctx, userIds)
 	if err != nil {
 		return nil, err
 	}

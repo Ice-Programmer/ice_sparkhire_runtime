@@ -36,7 +36,7 @@ func BuildCommentInfoList(ctx context.Context, commentList []*db.CompanyComment)
 		return comment.UserId
 	})
 
-	userMap, err := user.BuildUserBasicInfoMap(ctx, userIds)
+	userMap, err := user.GetUserBasicInfoMap(ctx, userIds)
 	if err != nil {
 		return nil, err
 	}

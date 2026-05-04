@@ -625,3 +625,15 @@ func (s *SparkhireRuntimeServiceImpl) FetchForumPost(ctx context.Context, req *s
 	}
 	return resp, nil
 }
+
+// QueryForumPostPage implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) QueryForumPostPage(ctx context.Context, req *sparkhire_runtime.QueryForumPostPageRequest) (resp *sparkhire_runtime.QueryForumPostPageResponse, err error) {
+	resp, err = post.QueryForumPostPage(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "query forum post page failed: %v", err)
+		resp = &sparkhire_runtime.QueryForumPostPageResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
