@@ -218,6 +218,15 @@ struct EditCandidateBasicInfoResponse {
 	255: required base.BaseResp BaseResp
 }
 
+struct SmartOptimizeCandidateResumeRequest {
+	255: required base.Base Base
+}
+
+struct SmartOptimizeCandidateResumeResponse {
+	1:   optional string        content
+	255: required base.BaseResp BaseResp
+}
+
 // =============================================== tag ===============================================
 
 struct TagInfo {
