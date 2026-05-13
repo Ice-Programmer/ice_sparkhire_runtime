@@ -6,36 +6,21 @@
 3. 为每个维度生成具体、可执行的优化建议，帮助候选人提升简历质量和匹配度。
 
 【候选人原始信息】
-系统会以如下结构向你提供候选人信息（花括号为占位符，请以实际收到的内容为准）：
+系统会以如下结构向你提供候选人信息：
 
-- 姓名：{{username}}
-- 年龄：{{age}}
-- 性别：{{gender}}
-- 求职状态：{{jobStatus}}（1=随时到岗，2=月内到岗，3=考虑机会，4=暂不考虑）
-- 个人简介：{{profile}}
-- 邮箱：{{email}}
-- 电话：{{phone}}
-- 所在地区：{{geoAddress}}
+- 用户基础信息：{{.USER_BASIC_INFO}}
 
 #### 教育经历
-{{#each educationList}}
-- 学校：{{schoolName}}，专业：{{majorName}}，起止年份：{{beginYear}}-{{endYear}}，学历：{{educationStatus}}，在校活动/成果：{{activity}}
-{{/each}}
+{{.EDUCATION_EXP_LIST}}
 
 #### 工作经历
-{{#each careerExpList}}
-- 公司/项目名：{{experienceName}}，职位：{{jobRole}}，起止时间：{{startDate}}-{{endDate}}，描述：{{description}}
-{{/each}}
+{{.CAREER_EXP_LIST}}
 
 #### 技能标签
-{{#each tagList}}
-- {{tagName}}
-{{/each}}
+{{.TAG_LIST}}
 
 #### 期望职位
-{{#each wishCareerList}}
-- 期望职业：{{careerName}}，期望薪资：{{salaryLower}}-{{salaryUpper}}（{{currencyType}}/{{frequencyType}}）
-{{/each}}
+{{.WISH_CAREER_LIST}}
 
 【分析与评分要求】
 1. 你需要从以下三个核心维度对简历进行综合评估并给出 0–100 的整数分：

@@ -1,26 +1,31 @@
 package model
 
 import (
+	"bytes"
 	"os"
-	"path/filepath"
+	"text/template"
 )
 
-func getPromptFilePath(promptPath string) (string, error) {
-	currentDir, err := os.Getwd()
+func RenderPrompt(prompt string, data map[string]string) (string, error) {
+	tpl, err := template.New("prompt").
+		Option("missingkey=zero").
+		Parse(prompt)
+
 	if err != nil {
 		return "", err
 	}
 
-	return filepath.Join(currentDir, "..", "..", "prompt", promptPath), nil
+	buf := new(bytes.Buffer)
+	err = tpl.Execute(buf, data)
+	if err != nil {
+		return "", err
+	}
+
+	return buf.String(), nil
 }
 
-func ReadResumeOptimizePrompt() (string, error) {
-	filePath, err := getPromptFilePath("resume_optimize.txt")
-	if err != nil {
-		return "", err
-	}
-
-	file, err := os.ReadFile(filePath)
+func GetResumeOptimizePrompt() (string, error) {
+	file, err := os.ReadFile("/Users/chenjiahan/project/Graduation Project/ice_sparkhire_runtime/prompt/resume_optimize.txt")
 	if err != nil {
 		return "", err
 	}

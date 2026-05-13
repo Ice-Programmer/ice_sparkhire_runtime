@@ -218,13 +218,33 @@ struct EditCandidateBasicInfoResponse {
 	255: required base.BaseResp BaseResp
 }
 
+struct OptimizeResumeResult {
+	1: required double                           score
+	2: required string                           comparisonText
+	3: optional list<OptimizeResumeOverviewItem> overviewItems
+	4: optional list<OptimizeResumeSuggestion>   suggestions
+}
+
+struct OptimizeResumeOverviewItem {
+	1: required string category
+	2: required string count
+	3: required double progress
+}
+
+struct OptimizeResumeSuggestion {
+	1: required string category
+	2: required string title
+	3: required string description
+	4: required string tag
+}
+
 struct SmartOptimizeCandidateResumeRequest {
 	255: required base.Base Base
 }
 
 struct SmartOptimizeCandidateResumeResponse {
-	1:   optional string        content
-	255: required base.BaseResp BaseResp
+	1:   optional OptimizeResumeResult optimizeResumeResult
+	255: required base.BaseResp        BaseResp
 }
 
 // =============================================== tag ===============================================
@@ -934,6 +954,7 @@ service SparkhireRuntimeService {
     EditCandidateContractInfoResponse EditCandidateContractInfo(1: EditCandidateContractInfoRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/candidate/contract/edit", api.serializer="json")
     EditCandidateProfileResponse EditCandidateProfile(1: EditCandidateProfileRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/candidate/profile/edit", api.serializer="json")
     EditCandidateBasicInfoResponse EditCandidateBasicInfo(1: EditCandidateBasicInfoRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/candidate/basic/edit", api.serializer="json")
+    SmartOptimizeCandidateResumeResponse SmartOptimizeCandidateResume(1: SmartOptimizeCandidateResumeRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/candidate/resume/optimize", api.serializer="json")
 
     // =============================================== tag ===============================================
     QueryTagResponse QueryTag(1: QueryTagRequest req) (api.post="/api/v1/ice/sparkhire/runtime/tag/query", api.serializer="json")

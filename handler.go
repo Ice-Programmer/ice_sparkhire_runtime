@@ -160,6 +160,18 @@ func (s *SparkhireRuntimeServiceImpl) EditCandidateBasicInfo(ctx context.Context
 	return resp, nil
 }
 
+// SmartOptimizeCandidateResume implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) SmartOptimizeCandidateResume(ctx context.Context, req *sparkhire_runtime.SmartOptimizeCandidateResumeRequest) (resp *sparkhire_runtime.SmartOptimizeCandidateResumeResponse, err error) {
+	resp, err = candidate.SmartOptimizeCandidateResume(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "smart optimize candidate resume failed: %v", err)
+		resp = &sparkhire_runtime.SmartOptimizeCandidateResumeResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
 // =============================================== tag ===============================================
 
 // QueryTag implements the SparkhireRuntimeServiceImpl interface.
