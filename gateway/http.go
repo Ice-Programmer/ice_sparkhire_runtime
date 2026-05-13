@@ -1,6 +1,7 @@
 package gateway
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"github.com/cloudwego/hertz/pkg/app"
@@ -105,7 +106,10 @@ func StartHttpServer() error {
 		// 设置请求体数据
 		httpReq.Body = make(map[string]interface{})
 		if len(ctx.Request.Body()) > 0 {
-			if err := json.Unmarshal(ctx.Request.Body(), &httpReq.Body); err != nil {
+			decoder := json.NewDecoder(bytes.NewReader(ctx.Request.Body()))
+			decoder.UseNumber()
+
+			if err := decoder.Decode(&httpReq.Body); err != nil {
 				log.Printf("Failed to unmarshal request body: %v", err)
 				ctx.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid JSON body"})
 				return
