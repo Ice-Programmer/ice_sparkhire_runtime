@@ -822,6 +822,27 @@ struct QueryRecruitmentPageResponse {
 	255: required base.BaseResp         BaseResp
 }
 
+// 当前推进状态：1-已投递/新投递, 2-简历筛选中, 3-约面/面试中, 4-待发Offer, 5-已发Offer, 6-已录用/入职, 7-不合适/淘汰, 8-求职者放弃
+enum RecruitmentApplyStatus {
+    APPLIED          = 1   // 已投递/新投递
+    RESUME_SCREENING = 2   // 简历筛选中
+    INTERVIEWING     = 3   // 约面/面试中
+    OFFER_PENDING    = 4   // 待发Offer
+    OFFER_ISSUED     = 5   // 已发Offer
+    ONBOARDED        = 6   // 已录用/入职
+    REJECTED         = 7   // 不合适/淘汰
+    WITHDRAWN        = 8   // 求职者放弃
+}
+
+struct ApplyRecruitmentRequest {
+	1:   required i64       recruitmentId
+	255: optional base.Base Base
+}
+
+struct ApplyRecruitmentResponse {
+	255: required base.BaseResp BaseResp
+}
+
 // =============================================== interview ===============================================
 
 enum InterviewType {
@@ -1004,6 +1025,7 @@ service SparkhireRuntimeService {
     CreateRecruitmentResponse CreateRecruitment(1: CreateRecruitmentRequest req) (api.post="/api/v1/ice/sparkhire/runtime/user/hr/recruiment/create", api.serializer="json")
     FetchRecruitmentInfoResponse FetchRecruitmentInfo(1: FetchRecruitmentInfoRequest req) (api.post="/api/v1/ice/sparkhire/recruiment/fetch", api.serializer="json")
     QueryRecruitmentPageResponse QueryRecruitmentPage(1: QueryRecruitmentPageRequest req) (api.post="/api/v1/ice/sparkhire/recruiment/page", api.serializer="json")
+    ApplyRecruitmentResponse ApplyRecruitment(1: ApplyRecruitmentRequest req) (api.post="/api/v1/ice/sparkhire/recruiment/apply", api.serializer="json")
 
     // =============================================== interview ===============================================
     FetchCurrentUserInterviewResponse FetchCurrentUserInterview(1: FetchCurrentUserInterviewRequest req) (api.post="/api/v1/ice/sparkhire/interview/current/fetch", api.serializer="json")

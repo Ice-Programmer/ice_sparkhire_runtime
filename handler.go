@@ -584,6 +584,18 @@ func (s *SparkhireRuntimeServiceImpl) QueryRecruitmentPage(ctx context.Context, 
 	return resp, nil
 }
 
+// ApplyRecruitment implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) ApplyRecruitment(ctx context.Context, req *sparkhire_runtime.ApplyRecruitmentRequest) (resp *sparkhire_runtime.ApplyRecruitmentResponse, err error) {
+	resp, err = recruitment.ApplyRecruitment(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "apply recruitment failed: %v", err)
+		resp = &sparkhire_runtime.ApplyRecruitmentResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
 // =============================================== interview ===============================================
 
 // FetchCurrentUserInterview implements the SparkhireRuntimeServiceImpl interface.

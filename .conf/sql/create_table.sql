@@ -233,6 +233,37 @@ create table if not exists `recruitment`
     index idx_companyId (`company_id`, `deleted_at`)
 ) comment '招聘信息' collate = utf8mb4_unicode_ci;
 
+-- 职位申请与进度主表
+create table if not exists `recruitment_application`
+(
+    `id`             bigint auto_increment comment 'id' primary key,
+    `user_id`        bigint                             not null comment '用户 id',
+    `recruitment_id` bigint                             not null comment '招聘岗位 id',
+    `company_id`     bigint                             not null comment '公司 id (对应 company 表 id)',
+    `status`         tinyint  default 1                 not null comment '当前推进状态：1-已投递/新投递, 2-简历筛选中, 3-约面/面试中, 4-待发Offer, 5-已发Offer, 6-已录用/入职, 7-不合适/淘汰, 8-求职者放弃',
+    `remark`         varchar(512)                       null comment '最新进度备注（如淘汰原因、面试评语摘要）',
+    `created_at`     datetime default CURRENT_TIMESTAMP not null comment '投递时间/创建时间',
+    `updated_at`     datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    `deleted_at`     datetime                           null comment '删除时间',
+    unique key `uk_candidate_recruitment` (`user_id`, `recruitment_id`, `deleted_at`),
+    key `idx_recruitment_status` (`recruitment_id`, `status`),
+    key `idx_company_id` (`company_id`),
+    key `idx_candidate_id` (`user_id`)
+) comment '职位申请与进度主表' collate = utf8mb4_unicode_ci;
+
+-- 职位进度流转历史表
+create table if not exists `recruitment_application_log`
+(
+    `id`             bigint auto_increment comment 'id' primary key,
+    `application_id` bigint                             not null comment '职位申请 id (对应 job_application 表 id)',
+    `from_status`    tinyint  default 0                 not null comment '变更前状态(0表示初始投递)',
+    `to_status`      tinyint                            not null comment '变更后状态',
+    `operator_id`    bigint                             not null comment '操作人 id (对应 user 表 id，可以是 HR 或系统或求职者自己)',
+    `remark`         varchar(1024)                      null comment '阶段操作备注/评语/原因',
+    `created_at`     datetime default CURRENT_TIMESTAMP not null comment '操作时间',
+    key `idx_application_id` (`application_id`)
+) comment '职位进度流转历史表' collate = utf8mb4_unicode_ci;
+
 -- 公司信息表
 create table if not exists `company`
 (
