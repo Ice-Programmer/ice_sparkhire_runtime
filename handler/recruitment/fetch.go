@@ -61,6 +61,17 @@ func FetchRecruitmentInfo(ctx context.Context, req *sparkruntime.FetchRecruitmen
 		return nil, err
 	}
 
+	userId, err := utils.GetCurrentUserId(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	// 6. exist recruitment applied
+	hasApplied, err := db.ExistRecruitmentCandidateApplication(ctx, db.DB, userId, req.RecruitmentId)
+	if err != nil {
+		return nil, err
+	}
+
 	recruitmentInfo := &sparkruntime.RecruitmentInfo{
 		Id:          recruitment.ID,
 		Name:        recruitment.Name,
@@ -89,6 +100,7 @@ func FetchRecruitmentInfo(ctx context.Context, req *sparkruntime.FetchRecruitmen
 				TagName: tag.TagName,
 			}
 		}),
+		HasApplied: hasApplied,
 	}
 
 	return &sparkruntime.FetchRecruitmentInfoResponse{

@@ -45,3 +45,16 @@ func CreateRecruitmentApplication(ctx context.Context, db *gorm.DB, application 
 	}
 	return nil
 }
+
+func FindRecruitmentApplicationByRecruitmentId(ctx context.Context, db *gorm.DB, recruitmentId int64) (*RecruitmentApplication, error) {
+	var recruitmentApplication RecruitmentApplication
+	err := db.WithContext(ctx).Model(RecruitmentApplication{}).
+		Where("recruitment_id = ?", recruitmentId).
+		First(&recruitmentApplication).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[RecruitmentApplicationDB] find recruitment application error: %v", err)
+		return nil, err
+	}
+
+	return &recruitmentApplication, nil
+}

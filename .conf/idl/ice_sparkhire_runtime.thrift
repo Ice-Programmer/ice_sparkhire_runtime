@@ -787,6 +787,7 @@ struct RecruitmentInfo {
 	9:   GeoDetailInfo   geoInfo
 	10:  SalaryInfo      salaryInfo
 	11:  list<TagInfo>   tagInfoList
+	12:  bool            hasApplied
 }
 
 struct FetchRecruitmentInfoRequest {
