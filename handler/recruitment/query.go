@@ -53,6 +53,12 @@ func buildEvaluatePageInfo(ctx context.Context, recruitmentList []*db.Recruitmen
 		return nil, err
 	}
 
+	// has applied
+	applyMap, err := buildRecruitmentApplyMap(ctx, recruitmentList)
+	if err != nil {
+		return nil, err
+	}
+
 	recruitmentInfoList := make([]*sparkruntime.RecruitmentInfo, 0, len(recruitmentList))
 	for _, recruitment := range recruitmentList {
 		geoInfo, err := geo.BuildGeoDetailInfo(ctx,
@@ -97,8 +103,37 @@ func buildEvaluatePageInfo(ctx context.Context, recruitmentList []*db.Recruitmen
 					TagName: tag.TagName,
 				}
 			}),
+			HasApplied: applyMap[recruitment.ID],
 		})
 	}
 
 	return recruitmentInfoList, nil
+}
+
+func buildRecruitmentApplyMap(ctx context.Context, recruitmentList []*db.Recruitment) (map[int64]bool, error) {
+	userId, err := utils.GetCurrentUserId(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	recruitmentIds := utils.MapStructList(recruitmentList, func(recruitment *db.Recruitment) int64 {
+		return recruitment.ID
+	})
+
+	recruitmentApplyList, err := db.ListRecruitmentApplicationByUserIdAndRecruitmentIds(ctx, db.DB, userId, recruitmentIds)
+	if err != nil {
+		return nil, err
+	}
+
+	hasAppliedMap := make(map[int64]bool)
+
+	for _, recruitmentId := range recruitmentIds {
+		hasAppliedMap[recruitmentId] = false
+	}
+
+	for _, recruitmentApply := range recruitmentApplyList {
+		hasAppliedMap[recruitmentApply.RecruitmentId] = true
+	}
+
+	return hasAppliedMap, nil
 }

@@ -58,3 +58,16 @@ func FindRecruitmentApplicationByRecruitmentId(ctx context.Context, db *gorm.DB,
 
 	return &recruitmentApplication, nil
 }
+
+func ListRecruitmentApplicationByUserIdAndRecruitmentIds(ctx context.Context, db *gorm.DB, userId int64, recruitmentIds []int64) ([]*RecruitmentApplication, error) {
+	var recruitmentApplicationList []*RecruitmentApplication
+	err := db.WithContext(ctx).Model(RecruitmentApplication{}).
+		Where("user_id = ?", userId).
+		Where("recruitment_id IN (?)", recruitmentIds).
+		Find(&recruitmentApplicationList).Error
+	if err != nil {
+		klog.CtxErrorf(ctx, "[RecruitmentApplicationDB] list recruitment application error: %v", err)
+		return nil, err
+	}
+	return recruitmentApplicationList, nil
+}
