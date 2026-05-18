@@ -7,7 +7,12 @@ import (
 	"github.com/bytedance/sonic"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/elastic/go-elasticsearch/v9/esutil"
+	"github.com/elastic/go-elasticsearch/v9/typedapi/core/search"
+	"github.com/elastic/go-elasticsearch/v9/typedapi/types"
+	"github.com/elastic/go-elasticsearch/v9/typedapi/types/enums/sortorder"
+	sparkruntime "ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
 	"ice_sparkhire_runtime/model/db"
+	"ice_sparkhire_runtime/utils"
 	"strconv"
 	"time"
 )
@@ -172,4 +177,116 @@ func SyncAllRecruitmentToES(ctx context.Context) error {
 		totalSynced += len(recruitments)
 	}
 	return nil
+}
+
+func SearchRecruitmentDoc(ctx context.Context, pageSize, pageNum int32, condition *sparkruntime.RecruitmentCondition) ([]*RecruitmentDoc, int64, error) {
+	mustQueries, filterQueries, err := buildRecruitmentSearchParam(condition)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	from := int((pageNum - 1) * pageSize)
+
+	res, err := elasticClient.Search().
+		Index(RecruitmentIndexName).
+		Request(&search.Request{
+			From: utils.IntPtr(from),
+			Size: utils.IntPtr(int(pageSize)),
+			Query: &types.Query{
+				Bool: &types.BoolQuery{
+					Must:   mustQueries,
+					Filter: filterQueries,
+				},
+			},
+			Sort: []types.SortCombinations{
+				types.SortOptions{
+					SortOptions: map[string]types.FieldSort{
+						"created_at": {Order: &sortorder.Desc},
+					},
+				},
+			},
+		}).
+		Do(ctx)
+
+	if err != nil {
+		return nil, 0, fmt.Errorf("es search failed: %w", err)
+	}
+
+	recruitmentDocList := make([]*RecruitmentDoc, 0, len(res.Hits.Hits))
+	for _, hit := range res.Hits.Hits {
+		var doc RecruitmentDoc
+		if err := sonic.Unmarshal(hit.Source_, &doc); err != nil {
+			return nil, 0, err
+		}
+		recruitmentDocList = append(recruitmentDocList, &doc)
+	}
+
+	return recruitmentDocList, res.Hits.Total.Value, nil
+}
+
+func buildRecruitmentSearchParam(condition *sparkruntime.RecruitmentCondition) (mustQueries []types.Query, filterQueries []types.Query, err error) {
+	if condition == nil {
+		return mustQueries, filterQueries, nil
+	}
+
+	// 关键词检索
+	if condition.IsSetSearchText() && len(condition.GetSearchText()) > 0 {
+		mustQueries = append(mustQueries, types.Query{
+			MultiMatch: &types.MultiMatchQuery{
+				Query:  condition.GetSearchText(),
+				Fields: []string{"name^2", "description", "requirement"},
+			},
+		})
+	}
+
+	// 过滤公司 id
+	if condition.IsSetCompanyId() {
+		filterQueries = append(filterQueries, types.Query{
+			Term: map[string]types.TermQuery{
+				"company_id": {Value: condition.GetCompanyId()},
+			},
+		})
+	}
+
+	// 过滤 job type
+	if condition.IsSetCareerId() {
+		filterQueries = append(filterQueries, types.Query{
+			Term: map[string]types.TermQuery{
+				"career_id": {Value: condition.GetCareerId()},
+			},
+		})
+	}
+
+	// 过滤 salary upper
+	if condition.IsSetSalaryLower() {
+		filterQueries = append(filterQueries, types.Query{
+			Range: map[string]types.RangeQuery{
+				"salary_upper": types.LongNumberRangeQuery{
+					Lte: utils.Int64Ptr(int64(condition.GetSalaryUpper())),
+				},
+			},
+		})
+	}
+
+	// 过滤 salary lower
+	if condition.IsSetSalaryLower() {
+		filterQueries = append(filterQueries, types.Query{
+			Range: map[string]types.RangeQuery{
+				"salary_lower": types.LongNumberRangeQuery{
+					Gte: utils.Int64Ptr(int64(condition.GetSalaryLower())),
+				},
+			},
+		})
+	}
+
+	// 过滤 education status
+	if condition.IsSetEducationStatus() {
+		filterQueries = append(filterQueries, types.Query{
+			Term: map[string]types.TermQuery{
+				"education_type": {Value: condition.GetEducationStatus()},
+			},
+		})
+	}
+
+	return mustQueries, filterQueries, nil
 }

@@ -26,3 +26,10 @@ func InitElasticSearchClient() error {
 
 	return nil
 }
+
+func ValidClient() bool {
+	if elasticClient == nil {
+		return false
+	}
+	return true
+}
