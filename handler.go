@@ -596,6 +596,18 @@ func (s *SparkhireRuntimeServiceImpl) ApplyRecruitment(ctx context.Context, req 
 	return resp, nil
 }
 
+// SyncAllRecruitmentToEs implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) SyncAllRecruitmentToEs(ctx context.Context, req *sparkhire_runtime.SyncAllRecruitmentToEsRequest) (resp *sparkhire_runtime.SyncAllRecruitmentToRsResponse, err error) {
+	resp, err = recruitment.SyncAllRecruitmentToEs(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "sync all recruitment failed: %v", err)
+		resp = &sparkhire_runtime.SyncAllRecruitmentToRsResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
 // =============================================== interview ===============================================
 
 // FetchCurrentUserInterview implements the SparkhireRuntimeServiceImpl interface.

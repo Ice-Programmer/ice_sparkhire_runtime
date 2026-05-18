@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"ice_sparkhire_runtime/model/db"
+	"ice_sparkhire_runtime/model/elasticsearch"
 	"ice_sparkhire_runtime/model/neo4j"
 	"ice_sparkhire_runtime/service/mail"
 	"ice_sparkhire_runtime/service/redis"
@@ -59,6 +60,13 @@ func Init(ctx context.Context) error {
 		//panic(err)
 	}
 	klog.CtxInfof(ctx, "init neo4j successfully!")
+
+	klog.CtxInfof(ctx, "start init redis")
+	if err := elasticsearch.InitElasticSearchClient(); err != nil {
+		klog.CtxErrorf(ctx, "init elastic client err: %v", err)
+	} else {
+		klog.CtxInfof(ctx, "init elastic client successfully!")
+	}
 
 	return nil
 }

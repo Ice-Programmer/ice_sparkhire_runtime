@@ -134,3 +134,21 @@ func buildRecruitmentCondition(db *gorm.DB, condition *sparkruntime.RecruitmentC
 
 	return db
 }
+
+func FindRecruitmentBatchByCursor(ctx context.Context, db *gorm.DB, lastId int64, batchSize int) ([]*Recruitment, error) {
+	var recruitments []*Recruitment
+
+	err := db.WithContext(ctx).
+		Model(&Recruitment{}).
+		Where("id > ?", lastId).
+		Order("id ASC").
+		Limit(batchSize).
+		Find(&recruitments).Error
+
+	if err != nil {
+		klog.CtxErrorf(ctx, "[db] find recruitment batch by cursor err: %v, lastId: %d, batchSize: %d", err, lastId, batchSize)
+		return nil, err
+	}
+
+	return recruitments, nil
+}
