@@ -446,10 +446,10 @@ create table if not exists `user_search_history`
 create table if not exists `chat_session`
 (
     `id`                bigint primary key auto_increment comment '会话id',
-    `session_no`        varchar(64) not null unique comment '会话唯一编号',
-    `recruitment_id`    bigint      not null comment '岗位id',
-    `candidate_user_id` bigint      not null comment '求职者id',
-    `hr_user_id`        bigint      not null comment 'hr用户id',
+    `recruitment_id`    bigint   not null comment '岗位id',
+    `company_id`        bigint   not null comment '公司id',
+    `candidate_user_id` bigint   not null comment '求职者id',
+    `hr_user_id`        bigint   not null comment 'hr用户id',
     `last_message_id`   bigint       default null comment '最后一条消息id',
     `last_message`      varchar(500) default null comment '最后消息内容',
     `last_message_type` tinyint      default 1 comment '最后消息类型',
@@ -459,7 +459,7 @@ create table if not exists `chat_session`
     `status`            tinyint      default 1 comment '状态 1正常 2已结束 3已屏蔽',
     `create_time`       datetime     default current_timestamp,
     `update_time`       datetime     default current_timestamp on update current_timestamp,
-    `deleted_at`        datetime    null comment '删除时间',
+    `deleted_at`        datetime null comment '删除时间',
     index idx_candidate (`candidate_user_id`),
     index idx_hr (`hr_user_id`),
     index idx_recruitment (`recruitment_id`),
@@ -471,7 +471,6 @@ create table if not exists `chat_session`
 create table if not exists `chat_message`
 (
     `id`            bigint primary key auto_increment comment '消息id',
-    `session_id`    bigint   not null comment '会话id',
     `sender_id`     bigint   not null comment '发送者id',
     `receiver_id`   bigint   not null comment '接收者id',
     `sender_type`   tinyint  not null comment '发送者类型 1候选人 2hr',
@@ -482,7 +481,6 @@ create table if not exists `chat_message`
     `send_status`   tinyint  not null default 1 comment '1发送中 2发送成功 3发送失败',
     `create_time`   datetime not null default current_timestamp,
     `deleted_at`    datetime null comment '删除时间',
-    index idx_session (`session_id`),
     index idx_sender (`sender_id`),
     index idx_receiver (`receiver_id`),
     index idx_create_time (`create_time`)

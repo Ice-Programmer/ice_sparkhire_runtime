@@ -1013,6 +1013,65 @@ struct ListCurrentUserSearchHistoryL20Response {
 	255: required base.BaseResp         BaseResp
 }
 
+// =============================================== chat ===============================================
+
+enum MessageType {
+	Text        = 1
+	Image       = 2
+	File        = 3
+	Resume      = 4
+	Recruitment = 5
+	Interview   = 6
+	System      = 7
+}
+
+enum SenderType {
+	Candidate = 1
+	HR        = 2
+}
+
+struct ChatSessionInfo {
+	1: required i64           id
+	2: required i64           companyId
+	3: required string        companyName
+	4: required string        recruitmentName
+	5: required i64           recruitmentId
+	6: required UserBasicInfo receiverInfo
+	7: required i64           latestMessageCreatedAt
+	8: required i32           unreadNum
+	9: required string        lastMessage
+}
+
+struct ListCurrentUserChatSessionRequest {
+	255: optional base.Base Base
+}
+
+struct ListCurrentUserChatSessionResponse {
+	1:   optional list<ChatSessionInfo> sessionList
+	255: required base.BaseResp         BaseResp
+}
+
+struct ChatMessageInfo {
+	1: required i64           id
+	2: required string        content
+	3: required UserBasicInfo senderInfo
+	4: required MessageType   messageType
+	5: required bool          isRead
+	7: required i64           createdAt
+}
+
+struct QueryCurrentUserChatMessageRequest {
+	1:   required i32       pageSize
+	2:   required i32       pageNum
+	255: optional base.Base Base
+}
+
+struct QueryCurrentUserChatMessageResponse {
+	1:   optional list<ChatMessageInfo> messageList
+	2:   optional i64                   total
+	255: required base.BaseResp         BaseResp
+}
+
 service SparkhireRuntimeService {
     PingResponse Ping(1: PingRequest req) (api.post="/api/v1/ice/sparkhire/runtime/ping", api.serializer="json")
 
@@ -1096,5 +1155,9 @@ service SparkhireRuntimeService {
 
     // =============================================== user history ===============================================
     ListCurrentUserSearchHistoryL20Response ListCurrentUserSearchHistoryL20(1: ListCurrentUserSearchHistoryL20Request req) (api.post="/api/v1/ice/sparkhire/user/history/list/l20", api.serializer="json")
+
+    // =============================================== chat ===============================================
+    ListCurrentUserChatSessionResponse ListCurrentUserChatSession(1: ListCurrentUserChatSessionRequest req) (api.post="/api/v1/ice/sparkhire/user/chat/list", api.serializer="json")
+    QueryCurrentUserChatMessageResponse QueryCurrentUserChatMessage(1: QueryCurrentUserChatMessageRequest req) (api.post="/api/v1/ice/sparkhire/user/chat/message/query", api.serializer="json")
 
 } (agw.preserve_base="true", agw.js_conv="str")

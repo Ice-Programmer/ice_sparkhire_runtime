@@ -7,6 +7,7 @@ import (
 	"ice_sparkhire_runtime/handler/biz"
 	"ice_sparkhire_runtime/handler/candidate"
 	"ice_sparkhire_runtime/handler/career_exp"
+	"ice_sparkhire_runtime/handler/chat"
 	"ice_sparkhire_runtime/handler/company"
 	"ice_sparkhire_runtime/handler/education_exp"
 	"ice_sparkhire_runtime/handler/forum/post"
@@ -699,4 +700,24 @@ func (s *SparkhireRuntimeServiceImpl) ListCurrentUserSearchHistoryL20(ctx contex
 		}
 	}
 	return resp, nil
+}
+
+// =============================================== chat ===============================================
+
+// ListCurrentUserChatSession implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) ListCurrentUserChatSession(ctx context.Context, req *sparkhire_runtime.ListCurrentUserChatSessionRequest) (resp *sparkhire_runtime.ListCurrentUserChatSessionResponse, err error) {
+	resp, err = chat.ListCurrentUserChatSession(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "list current user chat session failed: %v", err)
+		resp = &sparkhire_runtime.ListCurrentUserChatSessionResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
+// QueryCurrentUserChatMessage implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) QueryCurrentUserChatMessage(ctx context.Context, req *sparkhire_runtime.QueryCurrentUserChatMessageRequest) (resp *sparkhire_runtime.QueryCurrentUserChatMessageResponse, err error) {
+	// TODO: Your code here...
+	return
 }
