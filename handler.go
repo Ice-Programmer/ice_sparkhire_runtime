@@ -7,7 +7,8 @@ import (
 	"ice_sparkhire_runtime/handler/biz"
 	"ice_sparkhire_runtime/handler/candidate"
 	"ice_sparkhire_runtime/handler/career_exp"
-	"ice_sparkhire_runtime/handler/chat"
+	"ice_sparkhire_runtime/handler/chat/message"
+	"ice_sparkhire_runtime/handler/chat/session"
 	"ice_sparkhire_runtime/handler/company"
 	"ice_sparkhire_runtime/handler/education_exp"
 	"ice_sparkhire_runtime/handler/forum/post"
@@ -706,7 +707,7 @@ func (s *SparkhireRuntimeServiceImpl) ListCurrentUserSearchHistoryL20(ctx contex
 
 // ListCurrentUserChatSession implements the SparkhireRuntimeServiceImpl interface.
 func (s *SparkhireRuntimeServiceImpl) ListCurrentUserChatSession(ctx context.Context, req *sparkhire_runtime.ListCurrentUserChatSessionRequest) (resp *sparkhire_runtime.ListCurrentUserChatSessionResponse, err error) {
-	resp, err = chat.ListCurrentUserChatSession(ctx, req)
+	resp, err = session.ListCurrentUserChatSession(ctx, req)
 	if err != nil {
 		klog.CtxErrorf(ctx, "list current user chat session failed: %v", err)
 		resp = &sparkhire_runtime.ListCurrentUserChatSessionResponse{
@@ -716,8 +717,14 @@ func (s *SparkhireRuntimeServiceImpl) ListCurrentUserChatSession(ctx context.Con
 	return resp, nil
 }
 
-// QueryCurrentUserChatMessage implements the SparkhireRuntimeServiceImpl interface.
-func (s *SparkhireRuntimeServiceImpl) QueryCurrentUserChatMessage(ctx context.Context, req *sparkhire_runtime.QueryCurrentUserChatMessageRequest) (resp *sparkhire_runtime.QueryCurrentUserChatMessageResponse, err error) {
-	// TODO: Your code here...
-	return
+// QueryChatMessage implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) QueryChatMessage(ctx context.Context, req *sparkhire_runtime.QueryChatMessageRequest) (resp *sparkhire_runtime.QueryChatMessageResponse, err error) {
+	resp, err = message.QueryChatMessage(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "query message failed: %v", err)
+		resp = &sparkhire_runtime.QueryChatMessageResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
 }

@@ -1060,13 +1060,14 @@ struct ChatMessageInfo {
 	7: required i64           createdAt
 }
 
-struct QueryCurrentUserChatMessageRequest {
+struct QueryChatMessageRequest {
 	1:   required i32       pageSize
 	2:   required i32       pageNum
+	3:   required i64       sessionId
 	255: optional base.Base Base
 }
 
-struct QueryCurrentUserChatMessageResponse {
+struct QueryChatMessageResponse {
 	1:   optional list<ChatMessageInfo> messageList
 	2:   optional i64                   total
 	255: required base.BaseResp         BaseResp
@@ -1158,6 +1159,6 @@ service SparkhireRuntimeService {
 
     // =============================================== chat ===============================================
     ListCurrentUserChatSessionResponse ListCurrentUserChatSession(1: ListCurrentUserChatSessionRequest req) (api.post="/api/v1/ice/sparkhire/user/chat/list", api.serializer="json")
-    QueryCurrentUserChatMessageResponse QueryCurrentUserChatMessage(1: QueryCurrentUserChatMessageRequest req) (api.post="/api/v1/ice/sparkhire/user/chat/message/query", api.serializer="json")
+    QueryChatMessageResponse QueryChatMessage(1: QueryChatMessageRequest req) (api.post="/api/v1/ice/sparkhire/user/chat/message/query", api.serializer="json")
 
 } (agw.preserve_base="true", agw.js_conv="str")
