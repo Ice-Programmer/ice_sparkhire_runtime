@@ -32,3 +32,11 @@ func GetResumeOptimizePrompt() (string, error) {
 
 	return string(file), nil
 }
+
+func GetRecommendRecruitmentPrompt() (string, error) {
+	file, err := os.ReadFile("/Users/chenjiahan/project/Graduation Project/ice_sparkhire_runtime/prompt/recommend_recruitment.txt")
+	if err != nil {
+		return "", err
+	}
+	return string(file), nil
+}

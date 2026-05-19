@@ -441,3 +441,61 @@ create table if not exists `user_search_history`
     `created_at`     datetime default CURRENT_TIMESTAMP not null comment '创建时间',
     `deleted_at`     datetime                           null comment '删除时间'
 ) comment '用户搜索记录表' collate = utf8mb4_unicode_ci;
+
+-- Chat 会话表
+create table if not exists `chat_session`
+(
+    `id`                bigint primary key auto_increment comment '会话id',
+    `session_no`        varchar(64) not null unique comment '会话唯一编号',
+    `recruitment_id`    bigint      not null comment '岗位id',
+    `candidate_user_id` bigint      not null comment '求职者id',
+    `hr_user_id`        bigint      not null comment 'hr用户id',
+    `last_message_id`   bigint       default null comment '最后一条消息id',
+    `last_message`      varchar(500) default null comment '最后消息内容',
+    `last_message_type` tinyint      default 1 comment '最后消息类型',
+    `last_message_time` datetime     default null comment '最后消息时间',
+    `candidate_unread`  int          default 0 comment '求职者未读数',
+    `hr_unread`         int          default 0 comment 'hr未读数',
+    `status`            tinyint      default 1 comment '状态 1正常 2已结束 3已屏蔽',
+    `create_time`       datetime     default current_timestamp,
+    `update_time`       datetime     default current_timestamp on update current_timestamp,
+    `deleted_at`        datetime    null comment '删除时间',
+    index idx_candidate (`candidate_user_id`),
+    index idx_hr (`hr_user_id`),
+    index idx_recruitment (`recruitment_id`),
+    index idx_last_time (`last_message_time`)
+) comment 'Chat 会话表' collate = utf8mb4_unicode_ci;
+
+
+-- Chat 消息表
+create table if not exists `chat_message`
+(
+    `id`            bigint primary key auto_increment comment '消息id',
+    `session_id`    bigint   not null comment '会话id',
+    `sender_id`     bigint   not null comment '发送者id',
+    `receiver_id`   bigint   not null comment '接收者id',
+    `sender_type`   tinyint  not null comment '发送者类型 1候选人 2hr',
+    `message_type`  tinyint  not null default 1 comment '1文本 2图片 3文件 4简历 5岗位卡片 6面试邀请 7系统消息',
+    `content`       text     null comment '消息内容',
+    `is_read`       tinyint  not null default 0 comment '是否已读',
+    `revoke_status` tinyint  not null default 0 comment '撤回状态',
+    `send_status`   tinyint  not null default 1 comment '1发送中 2发送成功 3发送失败',
+    `create_time`   datetime not null default current_timestamp,
+    `deleted_at`    datetime null comment '删除时间',
+    index idx_session (`session_id`),
+    index idx_sender (`sender_id`),
+    index idx_receiver (`receiver_id`),
+    index idx_create_time (`create_time`)
+) comment 'chat 消息表' collate = utf8mb4_unicode_ci;
+
+
+-- 消息已读记录表
+create table `chat_message_read`
+(
+    `id`         bigint primary key auto_increment,
+    `message_id` bigint not null comment '消息id',
+    `user_id`    bigint not null comment '用户id',
+    `read_time`  datetime default current_timestamp,
+    unique key uk_message_user (`message_id`, `user_id`),
+    index idx_user (`user_id`)
+) comment '消息已读记录表' collate = utf8mb4_unicode_ci;

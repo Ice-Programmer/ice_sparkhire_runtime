@@ -18,3 +18,15 @@ func SetPageDefault(pageSize, pageNum int32) (size int32, num int32) {
 	}
 	return pageSize, pageNum
 }
+
+func GetPageOffset(pageNum, pageSize int32) int {
+	if pageNum <= 0 {
+		pageNum = 1
+	}
+
+	if pageSize < 1 {
+		pageSize = DefaultPageSize
+	}
+
+	return (int(pageNum) - 1) * int(pageSize)
+}

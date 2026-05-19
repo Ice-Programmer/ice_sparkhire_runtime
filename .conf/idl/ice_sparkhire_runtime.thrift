@@ -852,6 +852,28 @@ struct SyncAllRecruitmentToRsResponse {
 	255: required base.BaseResp BaseResp
 }
 
+struct RecruitmentRecommendation {
+	1: required i64          id
+	2: required i8           rank
+	3: required string       title
+	4: required string       reason
+	5: required i32          matchScore
+	6: required list<string> tags
+}
+
+struct SmartRecommendRecruitmentRequest {
+	255: optional base.Base Base
+}
+
+struct RecommendRecruitmentResult {
+	1: required list<RecruitmentRecommendation> recommendations
+}
+
+struct SmartRecommendRecruitmentResponse {
+	1:   optional RecommendRecruitmentResult recommendRecruitmentResult
+	255: required base.BaseResp              BaseResp
+}
+
 // =============================================== interview ===============================================
 
 enum InterviewType {
@@ -1059,6 +1081,7 @@ service SparkhireRuntimeService {
     QueryRecruitmentPageResponse QueryRecruitmentPage(1: QueryRecruitmentPageRequest req) (api.post="/api/v1/ice/sparkhire/recruiment/page", api.serializer="json")
     ApplyRecruitmentResponse ApplyRecruitment(1: ApplyRecruitmentRequest req) (api.post="/api/v1/ice/sparkhire/recruiment/apply", api.serializer="json")
     SyncAllRecruitmentToRsResponse SyncAllRecruitmentToEs(1: SyncAllRecruitmentToEsRequest req) (api.post="/api/v1/ice/sparkhire/recruiment/sync/es", api.serializer="json")
+    SmartRecommendRecruitmentResponse SmartRecommendRecruitment(1: SmartRecommendRecruitmentRequest req) (api.post="/api/v1/ice/sparkhire/recruiment/smart/recommend", api.serializer="json")
 
     // =============================================== interview ===============================================
     FetchCurrentUserInterviewResponse FetchCurrentUserInterview(1: FetchCurrentUserInterviewRequest req) (api.post="/api/v1/ice/sparkhire/interview/current/fetch", api.serializer="json")

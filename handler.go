@@ -609,6 +609,18 @@ func (s *SparkhireRuntimeServiceImpl) SyncAllRecruitmentToEs(ctx context.Context
 	return resp, nil
 }
 
+// SmartRecommendRecruitment implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) SmartRecommendRecruitment(ctx context.Context, req *sparkhire_runtime.SmartRecommendRecruitmentRequest) (resp *sparkhire_runtime.SmartRecommendRecruitmentResponse, err error) {
+	resp, err = recruitment.SmartRecommendRecruitment(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "smart recruitment failed: %v", err)
+		resp = &sparkhire_runtime.SmartRecommendRecruitmentResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
 // =============================================== interview ===============================================
 
 // FetchCurrentUserInterview implements the SparkhireRuntimeServiceImpl interface.

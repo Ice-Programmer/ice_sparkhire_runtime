@@ -7,6 +7,7 @@ import (
 	"ice_sparkhire_runtime/model/elasticsearch"
 	"ice_sparkhire_runtime/model/neo4j"
 	"ice_sparkhire_runtime/service/mail"
+	"ice_sparkhire_runtime/service/milvus"
 	"ice_sparkhire_runtime/service/redis"
 	"ice_sparkhire_runtime/service/tos"
 	"ice_sparkhire_runtime/utils"
@@ -61,11 +62,18 @@ func Init(ctx context.Context) error {
 	}
 	klog.CtxInfof(ctx, "init neo4j successfully!")
 
-	klog.CtxInfof(ctx, "start init redis")
+	klog.CtxInfof(ctx, "start init elasticsearch")
 	if err := elasticsearch.InitElasticSearchClient(); err != nil {
 		klog.CtxErrorf(ctx, "init elastic client err: %v", err)
 	} else {
 		klog.CtxInfof(ctx, "init elastic client successfully!")
+	}
+
+	klog.CtxInfof(ctx, "start init milvus")
+	if err := milvus.InitMilvusClient(ctx); err != nil {
+		klog.CtxErrorf(ctx, "init milvus err: %v", err)
+	} else {
+		klog.CtxInfof(ctx, "init milvus successfully!")
 	}
 
 	return nil
