@@ -968,6 +968,29 @@ struct QueryForumPostPageResponse {
 	255: required base.BaseResp       BaseResp
 }
 
+// =============================================== user history ===============================================
+
+enum UserHistoryType {
+	Recruitment = 1
+	Post        = 2
+}
+
+struct UserHistoryInfo {
+	1: required i64    id
+	2: required string content
+	3: required i64    createdAt
+}
+
+struct ListCurrentUserSearchHistoryL20Request {
+	1:   required UserHistoryType type
+	255: optional base.Base       Base
+}
+
+struct ListCurrentUserSearchHistoryL20Response {
+	1:   optional list<UserHistoryInfo> historyList
+	255: required base.BaseResp         BaseResp
+}
+
 service SparkhireRuntimeService {
     PingResponse Ping(1: PingRequest req) (api.post="/api/v1/ice/sparkhire/runtime/ping", api.serializer="json")
 
@@ -1047,5 +1070,8 @@ service SparkhireRuntimeService {
     CreateForumPostResponse CreateForumPost(1: CreateForumPostRequest req) (api.post="/api/v1/ice/sparkhire/forum/post/create", api.serializer="json")
     FetchForumPostResponse FetchForumPost(1: FetchForumPostRequest req) (api.post="/api/v1/ice/sparkhire/forum/post/fetch", api.serializer="json")
     QueryForumPostPageResponse QueryForumPostPage(1: QueryForumPostPageRequest req) (api.post="/api/v1/ice/sparkhire/forum/post/page", api.serializer="json")
+
+    // =============================================== user history ===============================================
+    ListCurrentUserSearchHistoryL20Response ListCurrentUserSearchHistoryL20(1: ListCurrentUserSearchHistoryL20Request req) (api.post="/api/v1/ice/sparkhire/user/history/list/l20", api.serializer="json")
 
 } (agw.preserve_base="true", agw.js_conv="str")

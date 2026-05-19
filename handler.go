@@ -11,6 +11,7 @@ import (
 	"ice_sparkhire_runtime/handler/education_exp"
 	"ice_sparkhire_runtime/handler/forum/post"
 	"ice_sparkhire_runtime/handler/graph"
+	"ice_sparkhire_runtime/handler/history"
 	"ice_sparkhire_runtime/handler/information"
 	"ice_sparkhire_runtime/handler/interview"
 	"ice_sparkhire_runtime/handler/ping"
@@ -668,6 +669,20 @@ func (s *SparkhireRuntimeServiceImpl) QueryForumPostPage(ctx context.Context, re
 	if err != nil {
 		klog.CtxErrorf(ctx, "query forum post page failed: %v", err)
 		resp = &sparkhire_runtime.QueryForumPostPageResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}
+
+// =============================================== user history ===============================================
+
+// ListCurrentUserSearchHistoryL20 implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) ListCurrentUserSearchHistoryL20(ctx context.Context, req *sparkhire_runtime.ListCurrentUserSearchHistoryL20Request) (resp *sparkhire_runtime.ListCurrentUserSearchHistoryL20Response, err error) {
+	resp, err = history.ListCurrentUserSearchHistoryL20(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "list current user search history failed: %v", err)
+		resp = &sparkhire_runtime.ListCurrentUserSearchHistoryL20Response{
 			BaseResp: handler.GenErrorBaseResp(err.Error()),
 		}
 	}

@@ -430,3 +430,14 @@ create table if not exists `forum_post`
     key `idx_user_id` (`user_id`),
     KEY `idx_status_created` (`status`, `created_at`)
 ) comment '社区帖子表' collate = utf8mb4_unicode_ci;
+
+-- 用户搜索记录表
+create table if not exists `user_search_history`
+(
+    `id`             bigint auto_increment comment 'id' primary key,
+    `user_id`        bigint                             not null comment '创建用户 id',
+    `search_content` varchar(256)                       not null comment '搜索内容',
+    `type`           tinyint  default 1                 not null comment '搜索类型 1-recruitment 2-post',
+    `created_at`     datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    `deleted_at`     datetime                           null comment '删除时间'
+) comment '用户搜索记录表' collate = utf8mb4_unicode_ci;
