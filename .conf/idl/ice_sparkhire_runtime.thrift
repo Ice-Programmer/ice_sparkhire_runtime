@@ -1073,6 +1073,16 @@ struct QueryChatMessageResponse {
 	255: required base.BaseResp         BaseResp
 }
 
+struct CreateChatMessageRequest {
+	1:   required string    content
+	2:   required i64       sessionId
+	255: optional base.Base Base
+}
+
+struct CreateChatMessageResponse {
+	255: required base.BaseResp BaseResp
+}
+
 service SparkhireRuntimeService {
     PingResponse Ping(1: PingRequest req) (api.post="/api/v1/ice/sparkhire/runtime/ping", api.serializer="json")
 
@@ -1160,5 +1170,6 @@ service SparkhireRuntimeService {
     // =============================================== chat ===============================================
     ListCurrentUserChatSessionResponse ListCurrentUserChatSession(1: ListCurrentUserChatSessionRequest req) (api.post="/api/v1/ice/sparkhire/user/chat/list", api.serializer="json")
     QueryChatMessageResponse QueryChatMessage(1: QueryChatMessageRequest req) (api.post="/api/v1/ice/sparkhire/user/chat/message/query", api.serializer="json")
+    CreateChatMessageResponse CreateChatMessage(1: CreateChatMessageRequest req) (api.post="/api/v1/ice/sparkhire/user/chat/message/create", api.serializer="json")
 
 } (agw.preserve_base="true", agw.js_conv="str")

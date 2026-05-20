@@ -47,3 +47,10 @@ func QueryChatMessagePage(ctx context.Context, db *gorm.DB, pageSize, pageNum in
 
 	return messageList, total, nil
 }
+
+func CreateChatMessage(ctx context.Context, db *gorm.DB, chatMessage *ChatMessage) error {
+	if err := db.WithContext(ctx).Model(&ChatMessage{}).Create(chatMessage).Error; err != nil {
+		return err
+	}
+	return nil
+}

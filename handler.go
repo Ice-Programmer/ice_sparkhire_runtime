@@ -728,3 +728,15 @@ func (s *SparkhireRuntimeServiceImpl) QueryChatMessage(ctx context.Context, req 
 	}
 	return resp, nil
 }
+
+// CreateChatMessage implements the SparkhireRuntimeServiceImpl interface.
+func (s *SparkhireRuntimeServiceImpl) CreateChatMessage(ctx context.Context, req *sparkhire_runtime.CreateChatMessageRequest) (resp *sparkhire_runtime.CreateChatMessageResponse, err error) {
+	resp, err = message.CreateChatMessage(ctx, req)
+	if err != nil {
+		klog.CtxErrorf(ctx, "create message failed: %v", err)
+		resp = &sparkhire_runtime.CreateChatMessageResponse{
+			BaseResp: handler.GenErrorBaseResp(err.Error()),
+		}
+	}
+	return resp, nil
+}

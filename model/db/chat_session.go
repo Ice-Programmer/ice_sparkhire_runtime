@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"gorm.io/gorm"
+	"ice_sparkhire_runtime/kitex_gen/sparkhire_runtime"
 	"time"
 )
 
@@ -37,4 +38,28 @@ func ListChatSessionByCandidateId(ctx context.Context, db *gorm.DB, candidateId 
 		return nil, err
 	}
 	return sessionList, nil
+}
+
+func FindChatSessionById(ctx context.Context, db *gorm.DB, id int64) (*ChatSession, error) {
+	var session ChatSession
+	err := db.WithContext(ctx).
+		Model(&ChatSession{}).
+		Where("id = ?", id).
+		First(&session).Error
+	if err != nil {
+		return nil, err
+	}
+	return &session, nil
+}
+
+func EditChatSessionLastMessage(ctx context.Context, db *gorm.DB, sessionId int64, content string) error {
+	err := db.WithContext(ctx).Model(&ChatSession{}).
+		Where("id = ?", sessionId).
+		Update("last_message", content).
+		Update("last_message_time", time.Now()).
+		Update("last_message_type", sparkhire_runtime.MessageType_Text).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }
